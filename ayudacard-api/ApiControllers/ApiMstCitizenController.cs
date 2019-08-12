@@ -472,8 +472,8 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
-        [HttpPut, Route("delete/{id}")]
-        public HttpResponseMessage DeleteCitizen(String id, Entities.MstCitizen objCitizen)
+        [HttpDelete, Route("delete/{id}")]
+        public HttpResponseMessage DeleteCitizen(String id)
         {
             try
             {
