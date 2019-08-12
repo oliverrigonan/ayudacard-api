@@ -125,7 +125,7 @@ namespace ayudacard_api.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -258,9 +258,9 @@ namespace ayudacard_api.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -328,7 +328,7 @@ namespace ayudacard_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = null };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -336,6 +336,19 @@ namespace ayudacard_api.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
+
+            Data.MstUser newUser = new Data.MstUser()
+            {
+                AspNetUserId = user.Id,
+                Username = model.UserName,
+                Password = model.Password,
+                Fullname = model.FullName
+            };
+
+            db.MstUsers.InsertOnSubmit(newUser);
+            db.SubmitChanges();
 
             return Ok();
         }
@@ -368,7 +381,7 @@ namespace ayudacard_api.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ayudacard" Class="ayudacarddbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=ayudacard;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AspNetRoles" Member="AspNetRoles">
+    <Type Name="AspNetRole">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="AspNetRole_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstUser" Member="MstUsers">
+    <Type Name="MstUser">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstCitizen" />
+      <Association Name="MstUser_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstCitizen" />
+      <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserClaims" Member="AspNetUserClaims">
+    <Type Name="AspNetUserClaim">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="ClaimType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClaimValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUser" ThisKey="UserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserLogins" Member="AspNetUserLogins">
+    <Type Name="AspNetUserLogin">
+      <Column Name="LoginProvider" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProviderKey" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="AspNetUser_AspNetUserLogin" Member="AspNetUser" ThisKey="UserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserRoles" Member="AspNetUserRoles">
+    <Type Name="AspNetUserRole">
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="AspNetRole_AspNetUserRole" Member="AspNetRole" ThisKey="RoleId" OtherKey="Id" Type="AspNetRole" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="AspNetUser_AspNetUserRole" Member="AspNetUser" ThisKey="UserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUsers" Member="AspNetUsers">
+    <Type Name="AspNetUser">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SecurityStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumberConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TwoFactorEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LockoutEndDateUtc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LockoutEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AccessFailedCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="AspNetUser_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="AspNetUserId" Type="MstUser" />
+      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUserClaims" ThisKey="Id" OtherKey="UserId" Type="AspNetUserClaim" />
+      <Association Name="AspNetUser_AspNetUserLogin" Member="AspNetUserLogins" ThisKey="Id" OtherKey="UserId" Type="AspNetUserLogin" />
+      <Association Name="AspNetUser_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="UserId" Type="AspNetUserRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstBarangay" Member="MstBarangays">
+    <Type Name="MstBarangay">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Barangay" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="BarangayChairman" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstBarangay_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialBarangayId" Type="MstCitizen" />
+      <Association Name="MstBarangay_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="PermanentBarangayId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstBloodType" Member="MstBloodTypes">
+    <Type Name="MstBloodType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BloodType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="MstBloodType_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="BloodTypeId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizen" Member="MstCitizens">
+    <Type Name="MstCitizen">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Firstname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Middlename" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Extensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PlaceOfBirth" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="SexId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CivilStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Height" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Weight" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="BloodTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GSISNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="HDMFNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="PhilHealthNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="SSSNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TINNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="AgencyEmployeeNumber" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="CitizenshipId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TypeOfCitizenshipId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DualCitizenshipCountry" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="ResidentialNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialStreet" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialVillage" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialBarangayId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialCityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ResidentialZipCode" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentStreet" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentVillage" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentBarangayId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentCityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PermanentZipCode" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TelephoneNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="MobileNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="OccupationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EmployerName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployerTelephoneNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="SpouseSurname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SpouseFirstname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SpouseMiddlename" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SpouseExtensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SpouseOccupationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SpouseEmployerName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="SpouseEmployerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="FatherSurname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FatherFirstname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FatherMiddlename" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FatherExtensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MotherSurname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MotherFirstname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MotherMiddlename" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MotherExtensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PictureURL" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="CitizenStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensCard" />
+      <Association Name="MstCitizen_MstCitizensChildren" Member="MstCitizensChildrens" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensChildren" />
+      <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizensEducations" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensEducation" />
+      <Association Name="MstBarangay_MstCitizen" Member="MstBarangay" ThisKey="ResidentialBarangayId" OtherKey="Id" Type="MstBarangay" IsForeignKey="true" />
+      <Association Name="MstBarangay_MstCitizen1" Member="MstBarangay1" ThisKey="PermanentBarangayId" OtherKey="Id" Type="MstBarangay" IsForeignKey="true" />
+      <Association Name="MstBloodType_MstCitizen" Member="MstBloodType" ThisKey="BloodTypeId" OtherKey="Id" Type="MstBloodType" IsForeignKey="true" />
+      <Association Name="MstUser_MstCitizen" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstCitizen1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstCitizenship_MstCitizen" Member="MstCitizenship" ThisKey="CitizenshipId" OtherKey="Id" Type="MstCitizenship" IsForeignKey="true" />
+      <Association Name="MstCitizensStatus_MstCitizen" Member="MstCitizensStatus" ThisKey="CitizenStatusId" OtherKey="Id" Type="MstCitizensStatus" IsForeignKey="true" />
+      <Association Name="MstCity_MstCitizen" Member="MstCity" ThisKey="ResidentialCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
+      <Association Name="MstCity_MstCitizen1" Member="MstCity1" ThisKey="PermanentCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
+      <Association Name="MstCivilStatus_MstCitizen" Member="MstCivilStatus" ThisKey="CivilStatusId" OtherKey="Id" Type="MstCivilStatus" IsForeignKey="true" />
+      <Association Name="MstOccupation_MstCitizen" Member="MstOccupation" ThisKey="OccupationId" OtherKey="Id" Type="MstOccupation" IsForeignKey="true" />
+      <Association Name="MstOccupation_MstCitizen1" Member="MstOccupation1" ThisKey="SpouseOccupationId" OtherKey="Id" Type="MstOccupation" IsForeignKey="true" />
+      <Association Name="MstProvince_MstCitizen" Member="MstProvince" ThisKey="ResidentialProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />
+      <Association Name="MstProvince_MstCitizen1" Member="MstProvince1" ThisKey="PermanentProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />
+      <Association Name="MstSex_MstCitizen" Member="MstSex" ThisKey="SexId" OtherKey="Id" Type="MstSex" IsForeignKey="true" />
+      <Association Name="MstTypeOfCitizenship_MstCitizen" Member="MstTypeOfCitizenship" ThisKey="TypeOfCitizenshipId" OtherKey="Id" Type="MstTypeOfCitizenship" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensCard" Member="MstCitizensCards">
+    <Type Name="MstCitizensCard">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TotalBalance" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="CardStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+      <Association Name="MstCitizensCardStatus_MstCitizensCard" Member="MstCitizensCardStatus" ThisKey="CardStatusId" OtherKey="Id" Type="MstCitizensCardStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensCardStatus" Member="MstCitizensCardStatus">
+    <Type Name="MstCitizensCardStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CardStatus" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizensCardStatus_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="CardStatusId" Type="MstCitizensCard" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensChildren" Member="MstCitizensChildrens">
+    <Type Name="MstCitizensChildren">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizen_MstCitizensChildren" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensEducation" Member="MstCitizensEducations">
+    <Type Name="MstCitizensEducation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EducationLevelId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NameOfSchool" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Degree" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="PeriodFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PeriodTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UnitsEarned" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="YearGraduated" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+      <Association Name="MstCitizensEducationLevel_MstCitizensEducation" Member="MstCitizensEducationLevel" ThisKey="EducationLevelId" OtherKey="Id" Type="MstCitizensEducationLevel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensEducationLevel" Member="MstCitizensEducationLevels">
+    <Type Name="MstCitizensEducationLevel">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EducationLevel" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizensEducationLevel_MstCitizensEducation" Member="MstCitizensEducations" ThisKey="Id" OtherKey="EducationLevelId" Type="MstCitizensEducation" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizenship" Member="MstCitizenships">
+    <Type Name="MstCitizenship">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Citizenship" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizenship_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CitizenshipId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCitizensStatus" Member="MstCitizensStatus">
+    <Type Name="MstCitizensStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CitizenStatus" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizensStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CitizenStatusId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCity" Member="MstCities">
+    <Type Name="MstCity">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="City" Type="System.String" DbType="NChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstCity_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialCityId" Type="MstCitizen" />
+      <Association Name="MstCity_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="PermanentCityId" Type="MstCitizen" />
+      <Association Name="MstProvince_MstCity" Member="MstProvince" ThisKey="ProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCivilStatus" Member="MstCivilStatus">
+    <Type Name="MstCivilStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CivilStatus" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCivilStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CivilStatusId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstCountry" Member="MstCountries">
+    <Type Name="MstCountry">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstCountry_MstRegion" Member="MstRegions" ThisKey="Id" OtherKey="CountryId" Type="MstRegion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstOccupation" Member="MstOccupations">
+    <Type Name="MstOccupation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Occupation" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstOccupation_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="OccupationId" Type="MstCitizen" />
+      <Association Name="MstOccupation_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="SpouseOccupationId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstProvince" Member="MstProvinces">
+    <Type Name="MstProvince">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Province" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstProvince_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialProvinceId" Type="MstCitizen" />
+      <Association Name="MstProvince_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="PermanentProvinceId" Type="MstCitizen" />
+      <Association Name="MstProvince_MstCity" Member="MstCities" ThisKey="Id" OtherKey="ProvinceId" Type="MstCity" />
+      <Association Name="MstRegion_MstProvince" Member="MstRegion" ThisKey="RegionId" OtherKey="Id" Type="MstRegion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstRegion" Member="MstRegions">
+    <Type Name="MstRegion">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Region" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CountryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstRegion_MstProvince" Member="MstProvinces" ThisKey="Id" OtherKey="RegionId" Type="MstProvince" />
+      <Association Name="MstCountry_MstRegion" Member="MstCountry" ThisKey="CountryId" OtherKey="Id" Type="MstCountry" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstSex" Member="MstSexes">
+    <Type Name="MstSex">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Sex" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="MstSex_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="SexId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstTypeOfCitizenship" Member="MstTypeOfCitizenships">
+    <Type Name="MstTypeOfCitizenship">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeOfCitizenship" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstTypeOfCitizenship_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="TypeOfCitizenshipId" Type="MstCitizen" />
+    </Type>
+  </Table>
+</Database>
