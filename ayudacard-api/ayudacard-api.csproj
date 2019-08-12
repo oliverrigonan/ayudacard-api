@@ -256,6 +256,7 @@
     <Compile Include="Entities\MstCitizenship.cs" />
     <Compile Include="Entities\MstCity.cs" />
     <Compile Include="Entities\MstCivilStatus.cs" />
+    <Compile Include="Entities\MstOccupation.cs" />
     <Compile Include="Entities\MstProvince.cs" />
     <Compile Include="Entities\MstRegion.cs" />
     <Compile Include="Entities\MstSex.cs" />
