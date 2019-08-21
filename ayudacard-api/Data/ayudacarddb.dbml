@@ -101,7 +101,7 @@
       <Column Name="TINNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="AgencyEmployeeNumber" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
       <Column Name="CitizenshipId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TypeOfCitizenshipId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TypeOfCitizenshipId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DualCitizenshipCountry" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
       <Column Name="ResidentialNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="ResidentialStreet" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />

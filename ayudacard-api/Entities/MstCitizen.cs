@@ -30,7 +30,7 @@ namespace ayudacard_api.Entities
         public String AgencyEmployeeNumber { get; set; }
         public Int32 CitizenshipId { get; set; }
         public String Citizenship { get; set; }
-        public Int32 TypeOfCitizenshipId { get; set; }
+        public Int32? TypeOfCitizenshipId { get; set; }
         public String TypeOfCitizenship { get; set; }
         public String DualCitizenshipCountry { get; set; }
         public String ResidentialNumber { get; set; }

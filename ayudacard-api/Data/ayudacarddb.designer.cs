@@ -1952,7 +1952,7 @@ namespace ayudacard_api.Data
 		
 		private int _CitizenshipId;
 		
-		private int _TypeOfCitizenshipId;
+		private System.Nullable<int> _TypeOfCitizenshipId;
 		
 		private string _DualCitizenshipCountry;
 		
@@ -2120,7 +2120,7 @@ namespace ayudacard_api.Data
     partial void OnAgencyEmployeeNumberChanged();
     partial void OnCitizenshipIdChanging(int value);
     partial void OnCitizenshipIdChanged();
-    partial void OnTypeOfCitizenshipIdChanging(int value);
+    partial void OnTypeOfCitizenshipIdChanging(System.Nullable<int> value);
     partial void OnTypeOfCitizenshipIdChanged();
     partial void OnDualCitizenshipCountryChanging(string value);
     partial void OnDualCitizenshipCountryChanged();
@@ -2630,8 +2630,8 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeOfCitizenshipId", DbType="Int NOT NULL")]
-		public int TypeOfCitizenshipId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeOfCitizenshipId", DbType="Int")]
+		public System.Nullable<int> TypeOfCitizenshipId
 		{
 			get
 			{
@@ -4134,7 +4134,7 @@ namespace ayudacard_api.Data
 					}
 					else
 					{
-						this._TypeOfCitizenshipId = default(int);
+						this._TypeOfCitizenshipId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("MstTypeOfCitizenship");
 				}

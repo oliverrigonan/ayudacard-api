@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
+    <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -249,6 +250,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ayudacarddb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizenStatus.cs" />
     <Compile Include="Entities\MstBarangay.cs" />
     <Compile Include="Entities\MstBloodType.cs" />
@@ -310,6 +312,8 @@
       <LastGenOutput>ayudacarddb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\ayudacard-api - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ayudacard-api - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -43,7 +43,7 @@ namespace ayudacard_api.ApiControllers
                                CitizenshipId = d.CitizenshipId,
                                Citizenship = d.MstCitizenship.Citizenship,
                                TypeOfCitizenshipId = d.TypeOfCitizenshipId,
-                               TypeOfCitizenship = d.MstTypeOfCitizenship.TypeOfCitizenship,
+                               TypeOfCitizenship = d.TypeOfCitizenshipId != null ? d.MstTypeOfCitizenship.TypeOfCitizenship : "",
                                DualCitizenshipCountry = d.DualCitizenshipCountry,
                                ResidentialNumber = d.ResidentialNumber,
                                ResidentialStreet = d.ResidentialStreet,
@@ -277,10 +277,13 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
 
-                var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
-                if (!typeOfCitizenship.Any())
+                if (objCitizen.TypeOfCitizenshipId != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
+                    var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
+                    if (!typeOfCitizenship.Any())
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
+                    }
                 }
 
                 var barangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId && d.Id == objCitizen.PermanentBarangayId select d;
@@ -421,10 +424,13 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
 
-                var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
-                if (!typeOfCitizenship.Any())
+                if (objCitizen.TypeOfCitizenshipId != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
+                    var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
+                    if (!typeOfCitizenship.Any())
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
+                    }
                 }
 
                 var barangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId && d.Id == objCitizen.PermanentBarangayId select d;
