@@ -31,7 +31,7 @@ namespace ayudacard_api.ApiControllers
                                         YearGraduated = d.YearGraduated
                                     };
 
-            return citizensEducation.ToList();
+            return citizensEducation.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("educationLevel/dropdown/list")]
@@ -44,7 +44,7 @@ namespace ayudacard_api.ApiControllers
                                       EducationLevel = d.EducationLevel
                                   };
 
-            return educationLevels.ToList();
+            return educationLevels.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]

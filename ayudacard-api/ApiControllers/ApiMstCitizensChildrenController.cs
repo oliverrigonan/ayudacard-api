@@ -26,7 +26,7 @@ namespace ayudacard_api.ApiControllers
                                        DateOfBirth = d.DateOfBirth.ToShortDateString()
                                    };
 
-            return citizensChildren.ToList();
+            return citizensChildren.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]

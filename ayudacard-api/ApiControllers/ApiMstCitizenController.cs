@@ -100,7 +100,7 @@ namespace ayudacard_api.ApiControllers
                                UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
                            };
 
-            return citizens.ToList();
+            return citizens.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("sex/dropdown/list")]
@@ -113,7 +113,7 @@ namespace ayudacard_api.ApiControllers
                             Sex = d.Sex
                         };
 
-            return sexes.ToList();
+            return sexes.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("civilStatus/dropdown/list")]
@@ -126,7 +126,7 @@ namespace ayudacard_api.ApiControllers
                                   CivilStatus = d.CivilStatus
                               };
 
-            return civilStatus.ToList();
+            return civilStatus.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("bloodType/dropdown/list")]
@@ -139,7 +139,7 @@ namespace ayudacard_api.ApiControllers
                                  BloodType = d.BloodType
                              };
 
-            return bloodTypes.ToList();
+            return bloodTypes.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("citizenship/dropdown/list")]
@@ -152,7 +152,7 @@ namespace ayudacard_api.ApiControllers
                                    Citizenship = d.Citizenship
                                };
 
-            return citizenships.ToList();
+            return citizenships.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("typeOfCitizenship/dropdown/list")]
@@ -165,7 +165,7 @@ namespace ayudacard_api.ApiControllers
                                          TypeOfCitizenship = d.TypeOfCitizenship
                                      };
 
-            return typeOfCitizenships.ToList();
+            return typeOfCitizenships.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("barangay/dropdown/list")]
@@ -178,7 +178,7 @@ namespace ayudacard_api.ApiControllers
                                 Barangay = d.Barangay
                             };
 
-            return barangays.ToList();
+            return barangays.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("city/dropdown/list")]
@@ -191,7 +191,7 @@ namespace ayudacard_api.ApiControllers
                              City = d.City
                          };
 
-            return cities.ToList();
+            return cities.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("province/dropdown/list")]
@@ -204,7 +204,7 @@ namespace ayudacard_api.ApiControllers
                                 Province = d.Province
                             };
 
-            return provinces.ToList();
+            return provinces.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("region/dropdown/list")]
@@ -217,7 +217,7 @@ namespace ayudacard_api.ApiControllers
                               Region = d.Region
                           };
 
-            return regions.ToList();
+            return regions.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("occupation/dropdown/list")]
@@ -230,7 +230,7 @@ namespace ayudacard_api.ApiControllers
                                   Occupation = d.Occupation
                               };
 
-            return occupations.ToList();
+            return occupations.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("citizenStatus/dropdown/list")]
@@ -243,7 +243,7 @@ namespace ayudacard_api.ApiControllers
                                     CitizenStatus = d.CitizenStatus
                                 };
 
-            return citizenStatus.ToList();
+            return citizenStatus.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]
@@ -570,6 +570,107 @@ namespace ayudacard_api.ApiControllers
             catch (Exception e)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet, Route("search")]
+        public List<Entities.MstCitizen> SearchCitizen(String keyword)
+        {
+            if (String.IsNullOrEmpty(keyword))
+            {
+                return new List<Entities.MstCitizen>();
+            }
+            else
+            {
+                var citizens = from d in db.MstCitizens
+                               where d.Surname.Contains(keyword)
+                               || d.Firstname.Contains(keyword)
+                               || d.Middlename.Contains(keyword)
+                               || d.Extensionname.Contains(keyword)
+                               select new Entities.MstCitizen
+                               {
+                                   Id = d.Id,
+                                   Surname = d.Surname,
+                                   Firstname = d.Firstname,
+                                   Middlename = d.Middlename,
+                                   Extensionname = d.Extensionname,
+                                   DateOfBirth = d.DateOfBirth.ToShortDateString(),
+                                   PlaceOfBirth = d.PlaceOfBirth,
+                                   SexId = d.SexId,
+                                   Sex = d.MstSex.Sex,
+                                   CivilStatusId = d.CivilStatusId,
+                                   CivilStatus = d.MstCivilStatus.CivilStatus,
+                                   Height = d.Height,
+                                   Weight = d.Weight,
+                                   BloodTypeId = d.BloodTypeId,
+                                   BloodType = d.MstBloodType.BloodType,
+                                   GSISNumber = d.GSISNumber,
+                                   HDMFNumber = d.HDMFNumber,
+                                   PhilHealthNumber = d.PhilHealthNumber,
+                                   SSSNumber = d.SSSNumber,
+                                   TINNumber = d.TINNumber,
+                                   AgencyEmployeeNumber = d.AgencyEmployeeNumber,
+                                   CitizenshipId = d.CitizenshipId,
+                                   Citizenship = d.MstCitizenship.Citizenship,
+                                   TypeOfCitizenshipId = d.TypeOfCitizenshipId,
+                                   TypeOfCitizenship = d.TypeOfCitizenshipId != null ? d.MstTypeOfCitizenship.TypeOfCitizenship : "",
+                                   DualCitizenshipCountry = d.DualCitizenshipCountry,
+                                   ResidentialNumber = d.ResidentialNumber,
+                                   ResidentialStreet = d.ResidentialStreet,
+                                   ResidentialVillage = d.ResidentialVillage,
+                                   ResidentialBarangayId = d.ResidentialBarangayId,
+                                   ResidentialBarangay = d.MstBarangay.Barangay,
+                                   ResidentialCityId = d.ResidentialCityId,
+                                   ResidentialCity = d.MstCity.City,
+                                   ResidentialProvinceId = d.ResidentialProvinceId,
+                                   ResidentialProvince = d.MstProvince.Province,
+                                   ResidentialZipCode = d.ResidentialZipCode,
+                                   PermanentNumber = d.PermanentNumber,
+                                   PermanentStreet = d.PermanentStreet,
+                                   PermanentVillage = d.PermanentVillage,
+                                   PermanentBarangayId = d.PermanentBarangayId,
+                                   PermanentBarangay = d.MstBarangay1.Barangay,
+                                   PermanentCityId = d.PermanentCityId,
+                                   PermanentCity = d.MstCity1.City,
+                                   PermanentProvinceId = d.PermanentProvinceId,
+                                   PermanentProvince = d.MstProvince1.Province,
+                                   PermanentZipCode = d.PermanentZipCode,
+                                   TelephoneNumber = d.TelephoneNumber,
+                                   MobileNumber = d.MobileNumber,
+                                   EmailAddress = d.EmailAddress,
+                                   OccupationId = d.OccupationId,
+                                   Occupation = d.MstOccupation.Occupation,
+                                   EmployerName = d.EmployerName,
+                                   EmployerAddress = d.EmployerAddress,
+                                   EmployerTelephoneNumber = d.EmployerTelephoneNumber,
+                                   SpouseSurname = d.SpouseSurname,
+                                   SpouseFirstname = d.SpouseFirstname,
+                                   SpouseMiddlename = d.SpouseMiddlename,
+                                   SpouseExtensionname = d.SpouseExtensionname,
+                                   SpouseOccupationId = d.SpouseOccupationId,
+                                   SpouseOccupation = d.MstOccupation1.Occupation,
+                                   SpouseEmployerName = d.SpouseEmployerName,
+                                   SpouseEmployerAddress = d.SpouseEmployerAddress,
+                                   FatherSurname = d.FatherSurname,
+                                   FatherFirstname = d.FatherFirstname,
+                                   FatherMiddlename = d.FatherMiddlename,
+                                   FatherExtensionname = d.FatherExtensionname,
+                                   MotherSurname = d.MotherSurname,
+                                   MotherFirstname = d.MotherFirstname,
+                                   MotherMiddlename = d.MotherMiddlename,
+                                   MotherExtensionname = d.MotherExtensionname,
+                                   PictureURL = d.PictureURL,
+                                   CitizenStatusId = d.CitizenStatusId,
+                                   CitizenStatus = d.MstCitizensStatus.CitizenStatus,
+                                   CreatedByUserId = d.CreatedByUserId,
+                                   CreatedByUser = d.MstUser.Fullname,
+                                   CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                                   UpdatedByUserId = d.UpdatedByUserId,
+                                   UpdatedByUser = d.MstUser1.Fullname,
+                                   UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+                               };
+
+                return citizens.OrderByDescending(d => d.Id).ToList();
             }
         }
     }
