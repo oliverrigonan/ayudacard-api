@@ -69,9 +69,6 @@ namespace ayudacard_api.Data
     partial void InsertMstCitizensEducation(MstCitizensEducation instance);
     partial void UpdateMstCitizensEducation(MstCitizensEducation instance);
     partial void DeleteMstCitizensEducation(MstCitizensEducation instance);
-    partial void InsertMstCitizensEducationLevel(MstCitizensEducationLevel instance);
-    partial void UpdateMstCitizensEducationLevel(MstCitizensEducationLevel instance);
-    partial void DeleteMstCitizensEducationLevel(MstCitizensEducationLevel instance);
     partial void InsertMstCitizenship(MstCitizenship instance);
     partial void UpdateMstCitizenship(MstCitizenship instance);
     partial void DeleteMstCitizenship(MstCitizenship instance);
@@ -87,6 +84,9 @@ namespace ayudacard_api.Data
     partial void InsertMstCountry(MstCountry instance);
     partial void UpdateMstCountry(MstCountry instance);
     partial void DeleteMstCountry(MstCountry instance);
+    partial void InsertMstEducationLevel(MstEducationLevel instance);
+    partial void UpdateMstEducationLevel(MstEducationLevel instance);
+    partial void DeleteMstEducationLevel(MstEducationLevel instance);
     partial void InsertMstOccupation(MstOccupation instance);
     partial void UpdateMstOccupation(MstOccupation instance);
     partial void DeleteMstOccupation(MstOccupation instance);
@@ -238,14 +238,6 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<MstCitizensEducationLevel> MstCitizensEducationLevels
-		{
-			get
-			{
-				return this.GetTable<MstCitizensEducationLevel>();
-			}
-		}
-		
 		public System.Data.Linq.Table<MstCitizenship> MstCitizenships
 		{
 			get
@@ -283,6 +275,14 @@ namespace ayudacard_api.Data
 			get
 			{
 				return this.GetTable<MstCountry>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstEducationLevel> MstEducationLevels
+		{
+			get
+			{
+				return this.GetTable<MstEducationLevel>();
 			}
 		}
 		
@@ -4753,7 +4753,7 @@ namespace ayudacard_api.Data
 		
 		private EntityRef<MstCitizen> _MstCitizen;
 		
-		private EntityRef<MstCitizensEducationLevel> _MstCitizensEducationLevel;
+		private EntityRef<MstEducationLevel> _MstEducationLevel;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4782,7 +4782,7 @@ namespace ayudacard_api.Data
 		public MstCitizensEducation()
 		{
 			this._MstCitizen = default(EntityRef<MstCitizen>);
-			this._MstCitizensEducationLevel = default(EntityRef<MstCitizensEducationLevel>);
+			this._MstEducationLevel = default(EntityRef<MstEducationLevel>);
 			OnCreated();
 		}
 		
@@ -4841,7 +4841,7 @@ namespace ayudacard_api.Data
 			{
 				if ((this._EducationLevelId != value))
 				{
-					if (this._MstCitizensEducationLevel.HasLoadedOrAssignedValue)
+					if (this._MstEducationLevel.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -5008,26 +5008,26 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCitizensEducationLevel_MstCitizensEducation", Storage="_MstCitizensEducationLevel", ThisKey="EducationLevelId", OtherKey="Id", IsForeignKey=true)]
-		public MstCitizensEducationLevel MstCitizensEducationLevel
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstEducationLevel_MstCitizensEducation", Storage="_MstEducationLevel", ThisKey="EducationLevelId", OtherKey="Id", IsForeignKey=true)]
+		public MstEducationLevel MstEducationLevel
 		{
 			get
 			{
-				return this._MstCitizensEducationLevel.Entity;
+				return this._MstEducationLevel.Entity;
 			}
 			set
 			{
-				MstCitizensEducationLevel previousValue = this._MstCitizensEducationLevel.Entity;
+				MstEducationLevel previousValue = this._MstEducationLevel.Entity;
 				if (((previousValue != value) 
-							|| (this._MstCitizensEducationLevel.HasLoadedOrAssignedValue == false)))
+							|| (this._MstEducationLevel.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._MstCitizensEducationLevel.Entity = null;
+						this._MstEducationLevel.Entity = null;
 						previousValue.MstCitizensEducations.Remove(this);
 					}
-					this._MstCitizensEducationLevel.Entity = value;
+					this._MstEducationLevel.Entity = value;
 					if ((value != null))
 					{
 						value.MstCitizensEducations.Add(this);
@@ -5037,7 +5037,7 @@ namespace ayudacard_api.Data
 					{
 						this._EducationLevelId = default(int);
 					}
-					this.SendPropertyChanged("MstCitizensEducationLevel");
+					this.SendPropertyChanged("MstEducationLevel");
 				}
 			}
 		}
@@ -5060,120 +5060,6 @@ namespace ayudacard_api.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstCitizensEducationLevel")]
-	public partial class MstCitizensEducationLevel : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _EducationLevel;
-		
-		private EntitySet<MstCitizensEducation> _MstCitizensEducations;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnEducationLevelChanging(string value);
-    partial void OnEducationLevelChanged();
-    #endregion
-		
-		public MstCitizensEducationLevel()
-		{
-			this._MstCitizensEducations = new EntitySet<MstCitizensEducation>(new Action<MstCitizensEducation>(this.attach_MstCitizensEducations), new Action<MstCitizensEducation>(this.detach_MstCitizensEducations));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EducationLevel", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string EducationLevel
-		{
-			get
-			{
-				return this._EducationLevel;
-			}
-			set
-			{
-				if ((this._EducationLevel != value))
-				{
-					this.OnEducationLevelChanging(value);
-					this.SendPropertyChanging();
-					this._EducationLevel = value;
-					this.SendPropertyChanged("EducationLevel");
-					this.OnEducationLevelChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCitizensEducationLevel_MstCitizensEducation", Storage="_MstCitizensEducations", ThisKey="Id", OtherKey="EducationLevelId")]
-		public EntitySet<MstCitizensEducation> MstCitizensEducations
-		{
-			get
-			{
-				return this._MstCitizensEducations;
-			}
-			set
-			{
-				this._MstCitizensEducations.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_MstCitizensEducations(MstCitizensEducation entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstCitizensEducationLevel = this;
-		}
-		
-		private void detach_MstCitizensEducations(MstCitizensEducation entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstCitizensEducationLevel = null;
 		}
 	}
 	
@@ -5837,6 +5723,120 @@ namespace ayudacard_api.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstCountry = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstEducationLevel")]
+	public partial class MstEducationLevel : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _EducationLevel;
+		
+		private EntitySet<MstCitizensEducation> _MstCitizensEducations;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnEducationLevelChanging(string value);
+    partial void OnEducationLevelChanged();
+    #endregion
+		
+		public MstEducationLevel()
+		{
+			this._MstCitizensEducations = new EntitySet<MstCitizensEducation>(new Action<MstCitizensEducation>(this.attach_MstCitizensEducations), new Action<MstCitizensEducation>(this.detach_MstCitizensEducations));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EducationLevel", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string EducationLevel
+		{
+			get
+			{
+				return this._EducationLevel;
+			}
+			set
+			{
+				if ((this._EducationLevel != value))
+				{
+					this.OnEducationLevelChanging(value);
+					this.SendPropertyChanging();
+					this._EducationLevel = value;
+					this.SendPropertyChanged("EducationLevel");
+					this.OnEducationLevelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstEducationLevel_MstCitizensEducation", Storage="_MstCitizensEducations", ThisKey="Id", OtherKey="EducationLevelId")]
+		public EntitySet<MstCitizensEducation> MstCitizensEducations
+		{
+			get
+			{
+				return this._MstCitizensEducations;
+			}
+			set
+			{
+				this._MstCitizensEducations.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstCitizensEducations(MstCitizensEducation entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstEducationLevel = this;
+		}
+		
+		private void detach_MstCitizensEducations(MstCitizensEducation entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstEducationLevel = null;
 		}
 	}
 	

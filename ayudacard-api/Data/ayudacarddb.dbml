@@ -205,14 +205,7 @@
       <Column Name="UnitsEarned" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="YearGraduated" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
-      <Association Name="MstCitizensEducationLevel_MstCitizensEducation" Member="MstCitizensEducationLevel" ThisKey="EducationLevelId" OtherKey="Id" Type="MstCitizensEducationLevel" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MstCitizensEducationLevel" Member="MstCitizensEducationLevels">
-    <Type Name="MstCitizensEducationLevel">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EducationLevel" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Association Name="MstCitizensEducationLevel_MstCitizensEducation" Member="MstCitizensEducations" ThisKey="Id" OtherKey="EducationLevelId" Type="MstCitizensEducation" />
+      <Association Name="MstEducationLevel_MstCitizensEducation" Member="MstEducationLevel" ThisKey="EducationLevelId" OtherKey="Id" Type="MstEducationLevel" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstCitizenship" Member="MstCitizenships">
@@ -251,6 +244,13 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Country" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstCountry_MstRegion" Member="MstRegions" ThisKey="Id" OtherKey="CountryId" Type="MstRegion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstEducationLevel" Member="MstEducationLevels">
+    <Type Name="MstEducationLevel">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EducationLevel" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstEducationLevel_MstCitizensEducation" Member="MstCitizensEducations" ThisKey="Id" OtherKey="EducationLevelId" Type="MstCitizensEducation" />
     </Type>
   </Table>
   <Table Name="dbo.MstOccupation" Member="MstOccupations">

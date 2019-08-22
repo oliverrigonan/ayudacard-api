@@ -208,6 +208,7 @@
   <ItemGroup>
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
+    <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -251,6 +252,7 @@
       <DependentUpon>ayudacarddb.dbml</DependentUpon>
     </Compile>
     <Compile Include="Entities\MstCitizensChildren.cs" />
+    <Compile Include="Entities\MstCitizensEducation.cs" />
     <Compile Include="Entities\MstCitizenStatus.cs" />
     <Compile Include="Entities\MstBarangay.cs" />
     <Compile Include="Entities\MstBloodType.cs" />
@@ -258,6 +260,7 @@
     <Compile Include="Entities\MstCitizenship.cs" />
     <Compile Include="Entities\MstCity.cs" />
     <Compile Include="Entities\MstCivilStatus.cs" />
+    <Compile Include="Entities\MstEducationLevel.cs" />
     <Compile Include="Entities\MstOccupation.cs" />
     <Compile Include="Entities\MstProvince.cs" />
     <Compile Include="Entities\MstRegion.cs" />

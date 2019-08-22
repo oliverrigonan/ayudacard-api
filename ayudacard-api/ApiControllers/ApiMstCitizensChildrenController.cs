@@ -30,7 +30,7 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpPost, Route("add")]
-        public HttpResponseMessage AddCitizensChild(Entities.MstCitizensChildren objCitizensChildren)
+        public HttpResponseMessage AddCitizensChildren(Entities.MstCitizensChildren objCitizensChildren)
         {
             try
             {
@@ -43,14 +43,14 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
                 }
 
-                Data.MstCitizensChildren newChild = new Data.MstCitizensChildren()
+                Data.MstCitizensChildren newChildren = new Data.MstCitizensChildren()
                 {
                     CitizenId = objCitizensChildren.CitizenId,
                     Fullname = objCitizensChildren.Fullname,
                     DateOfBirth = Convert.ToDateTime(objCitizensChildren.DateOfBirth)
                 };
 
-                db.MstCitizensChildrens.InsertOnSubmit(newChild);
+                db.MstCitizensChildrens.InsertOnSubmit(newChildren);
                 db.SubmitChanges();
 
                 return Request.CreateResponse(HttpStatusCode.OK, "");
@@ -62,19 +62,19 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpPut, Route("update/{id}")]
-        public HttpResponseMessage UpdateCitizensChild(String id, Entities.MstCitizensChildren objCitizensChildren)
+        public HttpResponseMessage UpdateCitizensChildren(String id, Entities.MstCitizensChildren objCitizensChildren)
         {
             try
             {
-                var child = from d in db.MstCitizensChildrens
-                            where d.Id == Convert.ToInt32(id)
-                            select d;
+                var children = from d in db.MstCitizensChildrens
+                               where d.Id == Convert.ToInt32(id)
+                               select d;
 
-                if (child.Any())
+                if (children.Any())
                 {
-                    var updateChild = child.FirstOrDefault();
-                    updateChild.Fullname = objCitizensChildren.Fullname;
-                    updateChild.DateOfBirth = Convert.ToDateTime(objCitizensChildren.DateOfBirth);
+                    var updateChildren = children.FirstOrDefault();
+                    updateChildren.Fullname = objCitizensChildren.Fullname;
+                    updateChildren.DateOfBirth = Convert.ToDateTime(objCitizensChildren.DateOfBirth);
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, "");
@@ -91,18 +91,18 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpDelete, Route("delete/{id}")]
-        public HttpResponseMessage DeleteCitizensChild(String id)
+        public HttpResponseMessage DeleteCitizensChildren(String id)
         {
             try
             {
-                var child = from d in db.MstCitizensChildrens
-                            where d.Id == Convert.ToInt32(id)
-                            select d;
+                var children = from d in db.MstCitizensChildrens
+                               where d.Id == Convert.ToInt32(id)
+                               select d;
 
-                if (child.Any())
+                if (children.Any())
                 {
-                    var deleteChild = child.FirstOrDefault();
-                    db.MstCitizensChildrens.DeleteOnSubmit(deleteChild);
+                    var deleteChildren = children.FirstOrDefault();
+                    db.MstCitizensChildrens.DeleteOnSubmit(deleteChildren);
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK);
