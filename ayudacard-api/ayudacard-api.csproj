@@ -209,6 +209,10 @@
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
+    <Compile Include="ApiControllers\ApiMstCitizenshipController.cs" />
+    <Compile Include="ApiControllers\ApiMstCivilStatusController.cs" />
+    <Compile Include="ApiControllers\ApiMstSexController.cs" />
+    <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
