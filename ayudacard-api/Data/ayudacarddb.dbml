@@ -140,7 +140,7 @@
       <Column Name="MotherMiddlename" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="MotherExtensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="PictureURL" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
-      <Column Name="CitizenStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -154,7 +154,6 @@
       <Association Name="MstUser_MstCitizen" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_MstCitizen1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstCitizenship_MstCitizen" Member="MstCitizenship" ThisKey="CitizenshipId" OtherKey="Id" Type="MstCitizenship" IsForeignKey="true" />
-      <Association Name="MstCitizensStatus_MstCitizen" Member="MstCitizensStatus" ThisKey="CitizenStatusId" OtherKey="Id" Type="MstCitizensStatus" IsForeignKey="true" />
       <Association Name="MstCity_MstCitizen" Member="MstCity" ThisKey="ResidentialCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
       <Association Name="MstCity_MstCitizen1" Member="MstCity1" ThisKey="PermanentCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
       <Association Name="MstCivilStatus_MstCitizen" Member="MstCivilStatus" ThisKey="CivilStatusId" OtherKey="Id" Type="MstCivilStatus" IsForeignKey="true" />
@@ -163,6 +162,7 @@
       <Association Name="MstProvince_MstCitizen" Member="MstProvince" ThisKey="ResidentialProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />
       <Association Name="MstProvince_MstCitizen1" Member="MstProvince1" ThisKey="PermanentProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />
       <Association Name="MstSex_MstCitizen" Member="MstSex" ThisKey="SexId" OtherKey="Id" Type="MstSex" IsForeignKey="true" />
+      <Association Name="MstStatus_MstCitizen" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
       <Association Name="MstTypeOfCitizenship_MstCitizen" Member="MstTypeOfCitizenship" ThisKey="TypeOfCitizenshipId" OtherKey="Id" Type="MstTypeOfCitizenship" IsForeignKey="true" />
     </Type>
   </Table>
@@ -213,13 +213,6 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Citizenship" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstCitizenship_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CitizenshipId" Type="MstCitizen" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MstCitizensStatus" Member="MstCitizensStatus">
-    <Type Name="MstCitizensStatus">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CitizenStatus" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Association Name="MstCitizensStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CitizenStatusId" Type="MstCitizen" />
     </Type>
   </Table>
   <Table Name="dbo.MstCity" Member="MstCities">
@@ -286,6 +279,14 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Sex" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="MstSex_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="SexId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstStatus" Member="MstStatus">
+    <Type Name="MstStatus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="StatusId" Type="MstCitizen" />
     </Type>
   </Table>
   <Table Name="dbo.MstTypeOfCitizenship" Member="MstTypeOfCitizenships">

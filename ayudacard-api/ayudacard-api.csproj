@@ -206,11 +206,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ApiMstBloodTypeController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenshipController.cs" />
+    <Compile Include="ApiControllers\ApiMstStatusController.cs" />
     <Compile Include="ApiControllers\ApiMstCivilStatusController.cs" />
+    <Compile Include="ApiControllers\ApiMstEducationLevelController.cs" />
+    <Compile Include="ApiControllers\ApiMstOccupationController.cs" />
     <Compile Include="ApiControllers\ApiMstSexController.cs" />
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -257,7 +261,7 @@
     </Compile>
     <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizensEducation.cs" />
-    <Compile Include="Entities\MstCitizenStatus.cs" />
+    <Compile Include="Entities\MstStatus.cs" />
     <Compile Include="Entities\MstBarangay.cs" />
     <Compile Include="Entities\MstBloodType.cs" />
     <Compile Include="Entities\MstCitizen.cs" />

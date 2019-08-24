@@ -72,9 +72,6 @@ namespace ayudacard_api.Data
     partial void InsertMstCitizenship(MstCitizenship instance);
     partial void UpdateMstCitizenship(MstCitizenship instance);
     partial void DeleteMstCitizenship(MstCitizenship instance);
-    partial void InsertMstCitizensStatus(MstCitizensStatus instance);
-    partial void UpdateMstCitizensStatus(MstCitizensStatus instance);
-    partial void DeleteMstCitizensStatus(MstCitizensStatus instance);
     partial void InsertMstCity(MstCity instance);
     partial void UpdateMstCity(MstCity instance);
     partial void DeleteMstCity(MstCity instance);
@@ -99,6 +96,9 @@ namespace ayudacard_api.Data
     partial void InsertMstSex(MstSex instance);
     partial void UpdateMstSex(MstSex instance);
     partial void DeleteMstSex(MstSex instance);
+    partial void InsertMstStatus(MstStatus instance);
+    partial void UpdateMstStatus(MstStatus instance);
+    partial void DeleteMstStatus(MstStatus instance);
     partial void InsertMstTypeOfCitizenship(MstTypeOfCitizenship instance);
     partial void UpdateMstTypeOfCitizenship(MstTypeOfCitizenship instance);
     partial void DeleteMstTypeOfCitizenship(MstTypeOfCitizenship instance);
@@ -246,14 +246,6 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<MstCitizensStatus> MstCitizensStatus
-		{
-			get
-			{
-				return this.GetTable<MstCitizensStatus>();
-			}
-		}
-		
 		public System.Data.Linq.Table<MstCity> MstCities
 		{
 			get
@@ -315,6 +307,14 @@ namespace ayudacard_api.Data
 			get
 			{
 				return this.GetTable<MstSex>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstStatus> MstStatus
+		{
+			get
+			{
+				return this.GetTable<MstStatus>();
 			}
 		}
 		
@@ -2030,7 +2030,7 @@ namespace ayudacard_api.Data
 		
 		private string _PictureURL;
 		
-		private int _CitizenStatusId;
+		private int _StatusId;
 		
 		private int _CreatedByUserId;
 		
@@ -2058,8 +2058,6 @@ namespace ayudacard_api.Data
 		
 		private EntityRef<MstCitizenship> _MstCitizenship;
 		
-		private EntityRef<MstCitizensStatus> _MstCitizensStatus;
-		
 		private EntityRef<MstCity> _MstCity;
 		
 		private EntityRef<MstCity> _MstCity1;
@@ -2075,6 +2073,8 @@ namespace ayudacard_api.Data
 		private EntityRef<MstProvince> _MstProvince1;
 		
 		private EntityRef<MstSex> _MstSex;
+		
+		private EntityRef<MstStatus> _MstStatus;
 		
 		private EntityRef<MstTypeOfCitizenship> _MstTypeOfCitizenship;
 		
@@ -2198,8 +2198,8 @@ namespace ayudacard_api.Data
     partial void OnMotherExtensionnameChanged();
     partial void OnPictureURLChanging(string value);
     partial void OnPictureURLChanged();
-    partial void OnCitizenStatusIdChanging(int value);
-    partial void OnCitizenStatusIdChanged();
+    partial void OnStatusIdChanging(int value);
+    partial void OnStatusIdChanged();
     partial void OnCreatedByUserIdChanging(int value);
     partial void OnCreatedByUserIdChanged();
     partial void OnCreatedDateTimeChanging(System.DateTime value);
@@ -2221,7 +2221,6 @@ namespace ayudacard_api.Data
 			this._MstUser = default(EntityRef<MstUser>);
 			this._MstUser1 = default(EntityRef<MstUser>);
 			this._MstCitizenship = default(EntityRef<MstCitizenship>);
-			this._MstCitizensStatus = default(EntityRef<MstCitizensStatus>);
 			this._MstCity = default(EntityRef<MstCity>);
 			this._MstCity1 = default(EntityRef<MstCity>);
 			this._MstCivilStatus = default(EntityRef<MstCivilStatus>);
@@ -2230,6 +2229,7 @@ namespace ayudacard_api.Data
 			this._MstProvince = default(EntityRef<MstProvince>);
 			this._MstProvince1 = default(EntityRef<MstProvince>);
 			this._MstSex = default(EntityRef<MstSex>);
+			this._MstStatus = default(EntityRef<MstStatus>);
 			this._MstTypeOfCitizenship = default(EntityRef<MstTypeOfCitizenship>);
 			OnCreated();
 		}
@@ -3446,26 +3446,26 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CitizenStatusId", DbType="Int NOT NULL")]
-		public int CitizenStatusId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusId", DbType="Int NOT NULL")]
+		public int StatusId
 		{
 			get
 			{
-				return this._CitizenStatusId;
+				return this._StatusId;
 			}
 			set
 			{
-				if ((this._CitizenStatusId != value))
+				if ((this._StatusId != value))
 				{
-					if (this._MstCitizensStatus.HasLoadedOrAssignedValue)
+					if (this._MstStatus.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnCitizenStatusIdChanging(value);
+					this.OnStatusIdChanging(value);
 					this.SendPropertyChanging();
-					this._CitizenStatusId = value;
-					this.SendPropertyChanged("CitizenStatusId");
-					this.OnCitizenStatusIdChanged();
+					this._StatusId = value;
+					this.SendPropertyChanged("StatusId");
+					this.OnStatusIdChanged();
 				}
 			}
 		}
@@ -3801,40 +3801,6 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCitizensStatus_MstCitizen", Storage="_MstCitizensStatus", ThisKey="CitizenStatusId", OtherKey="Id", IsForeignKey=true)]
-		public MstCitizensStatus MstCitizensStatus
-		{
-			get
-			{
-				return this._MstCitizensStatus.Entity;
-			}
-			set
-			{
-				MstCitizensStatus previousValue = this._MstCitizensStatus.Entity;
-				if (((previousValue != value) 
-							|| (this._MstCitizensStatus.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MstCitizensStatus.Entity = null;
-						previousValue.MstCitizens.Remove(this);
-					}
-					this._MstCitizensStatus.Entity = value;
-					if ((value != null))
-					{
-						value.MstCitizens.Add(this);
-						this._CitizenStatusId = value.Id;
-					}
-					else
-					{
-						this._CitizenStatusId = default(int);
-					}
-					this.SendPropertyChanged("MstCitizensStatus");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCity_MstCitizen", Storage="_MstCity", ThisKey="ResidentialCityId", OtherKey="Id", IsForeignKey=true)]
 		public MstCity MstCity
 		{
@@ -4103,6 +4069,40 @@ namespace ayudacard_api.Data
 						this._SexId = default(int);
 					}
 					this.SendPropertyChanged("MstSex");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstCitizen", Storage="_MstStatus", ThisKey="StatusId", OtherKey="Id", IsForeignKey=true)]
+		public MstStatus MstStatus
+		{
+			get
+			{
+				return this._MstStatus.Entity;
+			}
+			set
+			{
+				MstStatus previousValue = this._MstStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._MstStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstStatus.Entity = null;
+						previousValue.MstCitizens.Remove(this);
+					}
+					this._MstStatus.Entity = value;
+					if ((value != null))
+					{
+						value.MstCitizens.Add(this);
+						this._StatusId = value.Id;
+					}
+					else
+					{
+						this._StatusId = default(int);
+					}
+					this.SendPropertyChanged("MstStatus");
 				}
 			}
 		}
@@ -5174,120 +5174,6 @@ namespace ayudacard_api.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstCitizenship = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstCitizensStatus")]
-	public partial class MstCitizensStatus : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _CitizenStatus;
-		
-		private EntitySet<MstCitizen> _MstCitizens;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnCitizenStatusChanging(string value);
-    partial void OnCitizenStatusChanged();
-    #endregion
-		
-		public MstCitizensStatus()
-		{
-			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CitizenStatus", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string CitizenStatus
-		{
-			get
-			{
-				return this._CitizenStatus;
-			}
-			set
-			{
-				if ((this._CitizenStatus != value))
-				{
-					this.OnCitizenStatusChanging(value);
-					this.SendPropertyChanging();
-					this._CitizenStatus = value;
-					this.SendPropertyChanged("CitizenStatus");
-					this.OnCitizenStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCitizensStatus_MstCitizen", Storage="_MstCitizens", ThisKey="Id", OtherKey="CitizenStatusId")]
-		public EntitySet<MstCitizen> MstCitizens
-		{
-			get
-			{
-				return this._MstCitizens;
-			}
-			set
-			{
-				this._MstCitizens.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_MstCitizens(MstCitizen entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstCitizensStatus = this;
-		}
-		
-		private void detach_MstCitizens(MstCitizen entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstCitizensStatus = null;
 		}
 	}
 	
@@ -6507,6 +6393,144 @@ namespace ayudacard_api.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstSex = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstStatus")]
+	public partial class MstStatus : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Status;
+		
+		private string _Category;
+		
+		private EntitySet<MstCitizen> _MstCitizens;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnCategoryChanging(string value);
+    partial void OnCategoryChanged();
+    #endregion
+		
+		public MstStatus()
+		{
+			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstCitizen", Storage="_MstCitizens", ThisKey="Id", OtherKey="StatusId")]
+		public EntitySet<MstCitizen> MstCitizens
+		{
+			get
+			{
+				return this._MstCitizens;
+			}
+			set
+			{
+				this._MstCitizens.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstCitizens(MstCitizen entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = this;
+		}
+		
+		private void detach_MstCitizens(MstCitizen entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = null;
 		}
 	}
 	

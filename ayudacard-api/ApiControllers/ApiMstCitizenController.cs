@@ -90,8 +90,8 @@ namespace ayudacard_api.ApiControllers
                                MotherMiddlename = d.MotherMiddlename,
                                MotherExtensionname = d.MotherExtensionname,
                                PictureURL = d.PictureURL,
-                               CitizenStatusId = d.CitizenStatusId,
-                               CitizenStatus = d.MstCitizensStatus.CitizenStatus,
+                               StatusId = d.StatusId,
+                               Status = d.MstStatus.Status,
                                CreatedByUserId = d.CreatedByUserId,
                                CreatedByUser = d.MstUser.Fullname,
                                CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
@@ -233,17 +233,17 @@ namespace ayudacard_api.ApiControllers
             return occupations.OrderByDescending(d => d.Id).ToList();
         }
 
-        [HttpGet, Route("citizenStatus/dropdown/list")]
-        public List<Entities.MstCitizenStatus> CitizenStatusDropdownList()
+        [HttpGet, Route("status/dropdown/list")]
+        public List<Entities.MstStatus> StatusDropdownList()
         {
-            var citizenStatus = from d in db.MstCitizensStatus
-                                select new Entities.MstCitizenStatus
-                                {
-                                    Id = d.Id,
-                                    CitizenStatus = d.CitizenStatus
-                                };
+            var statuses = from d in db.MstStatus
+                           select new Entities.MstStatus
+                           {
+                               Id = d.Id,
+                               Status = d.Status
+                           };
 
-            return citizenStatus.OrderByDescending(d => d.Id).ToList();
+            return statuses.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]
@@ -310,8 +310,8 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
-                var citizenStatus = from d in db.MstCitizensStatus where d.Id == objCitizen.CitizenStatusId select d;
-                if (!citizenStatus.Any())
+                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                if (!status.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen status not found!");
                 }
@@ -375,7 +375,7 @@ namespace ayudacard_api.ApiControllers
                     MotherMiddlename = objCitizen.MotherMiddlename,
                     MotherExtensionname = objCitizen.MotherExtensionname,
                     PictureURL = objCitizen.PictureURL,
-                    CitizenStatusId = objCitizen.CitizenStatusId,
+                    StatusId = objCitizen.StatusId,
                     CreatedByUserId = currentUser.FirstOrDefault().Id,
                     CreatedDateTime = DateTime.Now,
                     UpdatedByUserId = currentUser.FirstOrDefault().Id,
@@ -406,7 +406,7 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
                 }
 
-                var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.CitizenStatusId select d;
+                var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.StatusId select d;
                 if (!civilStatus.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
@@ -457,8 +457,8 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
-                var citizenStatus = from d in db.MstCitizensStatus where d.Id == objCitizen.CitizenStatusId select d;
-                if (!citizenStatus.Any())
+                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                if (!status.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen status not found!");
                 }
@@ -527,7 +527,7 @@ namespace ayudacard_api.ApiControllers
                     updateCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
                     updateCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
                     updateCitizen.PictureURL = objCitizen.PictureURL;
-                    updateCitizen.CitizenStatusId = objCitizen.CitizenStatusId;
+                    updateCitizen.StatusId = objCitizen.StatusId;
                     updateCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
                     updateCitizen.UpdatedDateTime = DateTime.Now;
                     db.SubmitChanges();
@@ -660,8 +660,8 @@ namespace ayudacard_api.ApiControllers
                                    MotherMiddlename = d.MotherMiddlename,
                                    MotherExtensionname = d.MotherExtensionname,
                                    PictureURL = d.PictureURL,
-                                   CitizenStatusId = d.CitizenStatusId,
-                                   CitizenStatus = d.MstCitizensStatus.CitizenStatus,
+                                   StatusId = d.StatusId,
+                                   Status = d.MstStatus.Status,
                                    CreatedByUserId = d.CreatedByUserId,
                                    CreatedByUser = d.MstUser.Fullname,
                                    CreatedDateTime = d.CreatedDateTime.ToShortDateString(),

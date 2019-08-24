@@ -1,352 +1,352 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.25, 37.375" name="ayudacarddb">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.25, 37.5" name="ayudacarddb">
   <DataContextMoniker Name="/ayudacarddbDataContext" />
   <nestedChildShapes>
-    <classShape Id="b6f2d040-39f9-4c3c-811d-831e42c0dc0a" absoluteBounds="0.75, 7.875, 2, 1.1939925130208344">
+    <classShape Id="34dcdbd2-f829-4860-8e8e-e5ffa621852a" absoluteBounds="0.75, 7.875, 2, 1.1939925130208344">
       <DataClassMoniker Name="/ayudacarddbDataContext/AspNetRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="bf06bdee-76fd-42f9-8db8-81af585dc6c8" absoluteBounds="0.765, 8.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="269fea54-53d3-4c99-b995-a01acccca571" absoluteBounds="0.765, 8.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e0e411f6-c90a-426e-bb7d-f0f7b04a98f2" absoluteBounds="3.5, 14.75, 2, 1.7708968098958327">
+    <classShape Id="d815b9aa-0406-4a6e-a0b2-9b573acf88cc" absoluteBounds="3.5, 14.75, 2, 1.7708968098958327">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="04430a42-3663-4484-af27-8517027733b3" absoluteBounds="3.515, 15.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8f8cf50f-4cba-48e5-a7e5-c6941ab0ae2b" absoluteBounds="3.515, 15.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="0eb988da-6db4-4612-818c-ed01d47730dc" absoluteBounds="3.5, 12.375, 2, 1.5785953776041666">
+    <classShape Id="11ff5587-2f42-4bc3-84f0-660fc825912f" absoluteBounds="3.5, 12.375, 2, 1.5785953776041666">
       <DataClassMoniker Name="/ayudacarddbDataContext/AspNetUserClaim" />
       <nestedChildShapes>
-        <elementListCompartment Id="f59a2316-1fcf-4075-ad26-aa91d5c8f884" absoluteBounds="3.515, 12.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f9c3c463-3ea6-4753-bcc3-06891750ac35" absoluteBounds="3.515, 12.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8740e419-b89e-4c52-beef-18854693df2f" absoluteBounds="3.5, 10.25, 2, 1.3862939453124987">
+    <classShape Id="805693c3-5f30-4120-8278-ba55f371258e" absoluteBounds="3.5, 10.25, 2, 1.3862939453124987">
       <DataClassMoniker Name="/ayudacarddbDataContext/AspNetUserLogin" />
       <nestedChildShapes>
-        <elementListCompartment Id="49cbb297-2a91-4d0c-9cec-6205dc506499" absoluteBounds="3.515, 10.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="926a4cc2-45f6-4887-beef-26f1484a1f43" absoluteBounds="3.515, 10.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f2ec6f86-5995-4812-b6ae-5ec655c1d617" absoluteBounds="3.5, 7.875, 2, 1.1939925130208344">
+    <classShape Id="cc62a50c-4aaf-4ef3-bbfa-ae4b28800a9e" absoluteBounds="3.5, 7.875, 2, 1.1939925130208344">
       <DataClassMoniker Name="/ayudacarddbDataContext/AspNetUserRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="6827f5a2-dc4d-4ccc-81de-d1114b803bc5" absoluteBounds="3.515, 8.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="37cd302d-1770-4df7-8e05-88b90942f925" absoluteBounds="3.515, 8.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="4e0277f9-7970-4f91-ad8f-021cd1216aaa" absoluteBounds="0.75, 9.875, 2, 3.1170068359375023">
+    <classShape Id="760df30b-f23b-4729-9d51-6a4d44506dd3" absoluteBounds="0.75, 9.875, 2, 3.1170068359375023">
       <DataClassMoniker Name="/ayudacarddbDataContext/AspNetUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="553a8169-8893-4c1a-948a-959de46e2ec8" absoluteBounds="0.765, 10.335, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b4b98b98-d337-44f3-aa20-9fc4323f9797" absoluteBounds="0.765, 10.335, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e18192ee-d41f-4752-824f-5565f2645add" absoluteBounds="3.5, 27.625, 2, 1.3862939453125023">
+    <classShape Id="644390ad-c4bf-478e-8a91-bf4c4df733d0" absoluteBounds="3.5, 25.625, 2, 1.3862939453125023">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstBarangay" />
       <nestedChildShapes>
-        <elementListCompartment Id="c772db28-3798-4365-9796-f49c5944c2c6" absoluteBounds="3.515, 28.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="74e6b5a1-75a2-430e-b64a-6d4cbe358a3f" absoluteBounds="3.515, 26.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="821591fe-a2cb-49ea-8361-38268386f808" absoluteBounds="3.5, 5.125, 2, 1.1939925130208344">
+    <classShape Id="046c0a67-731d-4441-a34d-850c9d7ae620" absoluteBounds="3.5, 5, 2, 1.1939925130208344">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstBloodType" />
       <nestedChildShapes>
-        <elementListCompartment Id="cbbd6ead-a696-4ebc-bd47-8b4e9ac58242" absoluteBounds="3.515, 5.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0dec219d-24fe-41db-a767-2d0eb9603107" absoluteBounds="3.515, 5.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" absoluteBounds="6.25, 9.125, 2, 12.924379882812499">
+    <classShape Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" absoluteBounds="6.25, 9.125, 2, 12.924379882812499">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizen" />
       <nestedChildShapes>
-        <elementListCompartment Id="d10773d2-ec25-4dd5-b1a7-dc409c7f6dcb" absoluteBounds="6.265, 9.585, 1.9700000000000002, 12.3643798828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="db15b6aa-832c-40b8-a937-a1cb55479922" absoluteBounds="6.265, 9.585, 1.9700000000000002, 12.3643798828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="29b33cde-9eaa-40a5-9b8d-3e45eb5f3194" absoluteBounds="9, 11.75, 2, 1.7708968098958344">
+    <classShape Id="6a6794b5-368a-45c5-9317-26e536222780" absoluteBounds="9, 11.75, 2, 1.7708968098958344">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizensCard" />
       <nestedChildShapes>
-        <elementListCompartment Id="179725a5-ca10-41d1-bfe5-b73566dfb20c" absoluteBounds="9.015, 12.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f2a91f17-b55f-4e6b-9410-00d3ef199293" absoluteBounds="9.015, 12.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f528437e-dd39-4fb5-a23b-5c4c029abb52" absoluteBounds="6.25, 7, 2, 1.1939925130208344">
+    <classShape Id="c396ce66-1f6c-4ac1-b755-22f893a66213" absoluteBounds="6.25, 7, 2, 1.1939925130208344">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizensCardStatus" />
       <nestedChildShapes>
-        <elementListCompartment Id="cd7fe883-c53a-484e-af7f-69c3919766b2" absoluteBounds="6.265, 7.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b7407809-d78f-4edb-a4e7-372e802bec2c" absoluteBounds="6.265, 7.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b4cc2e85-22f3-4e62-8a54-53c40664f582" absoluteBounds="9, 14.875, 2, 1.5785953776041648">
+    <classShape Id="0b67c796-aac0-4c90-8fca-3728073d1b73" absoluteBounds="9, 14.875, 2, 1.5785953776041648">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizensChildren" />
       <nestedChildShapes>
-        <elementListCompartment Id="d3b0c708-c7e1-42ed-8a75-709e3e6ebfa7" absoluteBounds="9.015, 15.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="7770b2f6-2d36-4ece-b7af-a253d535fdb2" absoluteBounds="9.015, 15.335, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="acb98beb-882e-48e2-a0b4-b8a30f88ee33" absoluteBounds="9, 17.375, 2, 2.5401025390625023">
+    <classShape Id="0f1c8da9-c4f0-457f-b700-6c825be6aba7" absoluteBounds="9, 17.375, 2, 2.5401025390625023">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizensEducation" />
       <nestedChildShapes>
-        <elementListCompartment Id="dc725e71-a7be-4cd1-b84f-825a7fab1fda" absoluteBounds="9.015, 17.835, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="dd436a76-9467-4f8c-9002-05010966b4b5" absoluteBounds="9.015, 17.835, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f48c4cda-85da-4ff7-9273-2c45619a4619" absoluteBounds="3.5, 3, 2, 1.193992513020834">
+    <classShape Id="e6b05fb7-e152-4c97-b7bd-9c84e9468da2" absoluteBounds="3.5, 2.875, 2, 1.193992513020834">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizenship" />
       <nestedChildShapes>
-        <elementListCompartment Id="9cd93169-c169-4aa2-b01c-9dff41c75466" absoluteBounds="3.515, 3.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="18d3b0b5-ff18-4cfc-af7e-0586601cb83a" absoluteBounds="3.515, 3.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="dc3c7d9d-b0d8-4792-8539-57868b4fa874" absoluteBounds="3.5, 18, 2, 1.1939925130208309">
-      <DataClassMoniker Name="/ayudacarddbDataContext/MstCitizensStatus" />
-      <nestedChildShapes>
-        <elementListCompartment Id="604e56ea-28cc-441e-a4cc-ae6acb443d4d" absoluteBounds="3.515, 18.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="d2d97f7a-51c0-4c0f-8b47-8e6da07074dc" absoluteBounds="3.5, 29.875, 2, 1.3862939453125023">
+    <classShape Id="c3fd519c-45ae-42d7-a3f1-c9ec816cb10d" absoluteBounds="3.5, 27.75, 2, 1.3862939453125023">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCity" />
       <nestedChildShapes>
-        <elementListCompartment Id="fdf14468-e2fb-409e-8379-319749734c7c" absoluteBounds="3.515, 30.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="24426c8f-fbb6-400e-9063-e59e21e0028a" absoluteBounds="3.515, 28.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2a1f0a77-7ba4-4afa-94e3-bd302a7f4719" absoluteBounds="3.5, 19.875, 2, 1.1939925130208309">
+    <classShape Id="0d0dd211-a73d-457f-b515-a58ea8d860b8" absoluteBounds="3.5, 17.875, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCivilStatus" />
       <nestedChildShapes>
-        <elementListCompartment Id="a4d74664-aa22-4f3f-8cb2-45c45b28f2dd" absoluteBounds="3.515, 20.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="21802d01-4bd3-4fa9-8603-f5bfb3ff124a" absoluteBounds="3.515, 18.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="a21401d9-32d7-43f3-8eb3-339f0dedd2e1" absoluteBounds="1.75, 35.875, 2, 1.1939925130208309">
+    <classShape Id="dd0d4eb4-166f-4ccb-9f7e-118ab4a16b2a" absoluteBounds="1.75, 33.875, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstCountry" />
       <nestedChildShapes>
-        <elementListCompartment Id="b4c68b9c-9b86-4025-a219-88c51140d6bc" absoluteBounds="1.7650000000000001, 36.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bc6b2720-1eae-460c-b923-9ac0c213f6db" absoluteBounds="1.7650000000000001, 34.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="0fa04ccd-189f-4806-989b-09a65d2c6aab" absoluteBounds="6.25, 23, 2, 1.1939925130208309">
+    <classShape Id="710c86d9-7aff-4f41-952b-df760461e806" absoluteBounds="6.25, 23, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstEducationLevel" />
       <nestedChildShapes>
-        <elementListCompartment Id="a8766489-b925-4722-bc9f-c99d2781d22e" absoluteBounds="6.265, 23.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="435a183d-96f2-4054-9a4b-f51464e32feb" absoluteBounds="6.265, 23.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e563c79d-ad5e-4874-a141-616a1f270c0c" absoluteBounds="3.5, 21.875, 2, 1.1939925130208309">
+    <classShape Id="d49828cf-d827-47b9-9292-4eab9ff433db" absoluteBounds="3.5, 19.75, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstOccupation" />
       <nestedChildShapes>
-        <elementListCompartment Id="cc5b9671-59ec-44d9-b8bd-0671601ee5fb" absoluteBounds="3.515, 22.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bcb25f2a-b13c-4816-8bbb-6dc9b7598133" absoluteBounds="3.515, 20.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="10011155-7c4d-4612-afa7-5b3f5142ad78" absoluteBounds="0.75, 29.875, 2, 1.3862939453125023">
+    <classShape Id="714071c2-b0c1-4d11-af37-2aff4e76efe6" absoluteBounds="0.75, 27.75, 2, 1.3862939453125023">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstProvince" />
       <nestedChildShapes>
-        <elementListCompartment Id="f1dec744-ee2b-4074-8ee1-0a4990525860" absoluteBounds="0.765, 30.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="810b9e52-4b52-4f57-ab17-77ed9ebeaf3c" absoluteBounds="0.765, 28.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="358665d4-98d2-4464-93ef-7f01f98713c3" absoluteBounds="1.5, 32.875, 2, 1.3862939453125023">
+    <classShape Id="e6e44a51-1a86-4ad0-9058-19c059664ce9" absoluteBounds="1.5, 30.75, 2, 1.3862939453125023">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstRegion" />
       <nestedChildShapes>
-        <elementListCompartment Id="c8f4298a-5f63-4d80-b73a-d67eb68fb61f" absoluteBounds="1.5150000000000001, 33.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="995d9321-967b-4f88-b33b-4a1a4b3a0c16" absoluteBounds="1.5150000000000001, 31.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="0adb90d0-d898-4666-aed6-23f54c302a4f" absoluteBounds="3.5, 23.75, 2, 1.1939925130208309">
+    <classShape Id="f0aca77c-2935-4e5a-b0b8-e813805fc78c" absoluteBounds="3.5, 21.75, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstSex" />
       <nestedChildShapes>
-        <elementListCompartment Id="76ee8358-4b25-468a-93c5-668a1d454eeb" absoluteBounds="3.515, 24.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1cc43c05-66d1-4c6a-8c9d-4e55d08cfc3a" absoluteBounds="3.515, 22.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="aa5d036a-f679-4e80-bf46-ef21b484d7e6" absoluteBounds="3.5, 25.75, 2, 1.1939925130208309">
+    <classShape Id="dea99c9b-408c-43a1-8fe3-ae01fe485d30" absoluteBounds="3.5, 35.875, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/ayudacarddbDataContext/MstStatus" />
+      <nestedChildShapes>
+        <elementListCompartment Id="40290185-7bbc-4d66-bf2c-3ce774af75b2" absoluteBounds="3.515, 36.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="eb1e1bff-b3a6-492d-8ab2-6e28c2f1d0cf" absoluteBounds="3.5, 23.75, 2, 1.1939925130208309">
       <DataClassMoniker Name="/ayudacarddbDataContext/MstTypeOfCitizenship" />
       <nestedChildShapes>
-        <elementListCompartment Id="3eaf287a-0c4d-47f4-8e52-4e1233cb386b" absoluteBounds="3.515, 26.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bb1e40a3-03da-4c55-986c-4d14bd60d79c" absoluteBounds="3.515, 24.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(2.75 : 8.47199625651042); (3.5 : 8.47199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/AspNetRole/AspNetRole_AspNetUserRole" />
       <nodes>
-        <classShapeMoniker Id="b6f2d040-39f9-4c3c-811d-831e42c0dc0a" />
-        <classShapeMoniker Id="f2ec6f86-5995-4812-b6ae-5ec655c1d617" />
+        <classShapeMoniker Id="34dcdbd2-f829-4860-8e8e-e5ffa621852a" />
+        <classShapeMoniker Id="cc62a50c-4aaf-4ef3-bbfa-ae4b28800a9e" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(1.75 : 12.9920068359375); (1.75 : 15.6354484049479); (3.5 : 15.6354484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/AspNetUser/AspNetUser_MstUser" />
       <nodes>
-        <classShapeMoniker Id="4e0277f9-7970-4f91-ad8f-021cd1216aaa" />
-        <classShapeMoniker Id="e0e411f6-c90a-426e-bb7d-f0f7b04a98f2" />
+        <classShapeMoniker Id="760df30b-f23b-4729-9d51-6a4d44506dd3" />
+        <classShapeMoniker Id="d815b9aa-0406-4a6e-a0b2-9b573acf88cc" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 12.6835034179688); (3.5 : 12.6835034179688)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/AspNetUser/AspNetUser_AspNetUserClaim" />
       <nodes>
-        <classShapeMoniker Id="4e0277f9-7970-4f91-ad8f-021cd1216aaa" />
-        <classShapeMoniker Id="0eb988da-6db4-4612-818c-ed01d47730dc" />
+        <classShapeMoniker Id="760df30b-f23b-4729-9d51-6a4d44506dd3" />
+        <classShapeMoniker Id="11ff5587-2f42-4bc3-84f0-660fc825912f" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 10.9431469726562); (3.5 : 10.9431469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/AspNetUser/AspNetUser_AspNetUserLogin" />
       <nodes>
-        <classShapeMoniker Id="4e0277f9-7970-4f91-ad8f-021cd1216aaa" />
-        <classShapeMoniker Id="8740e419-b89e-4c52-beef-18854693df2f" />
+        <classShapeMoniker Id="760df30b-f23b-4729-9d51-6a4d44506dd3" />
+        <classShapeMoniker Id="805693c3-5f30-4120-8278-ba55f371258e" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 9.87653746153846); (3.125 : 9.50153746153846); (3.125 : 8.80174638476563); (3.5 : 8.80174638476563)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/AspNetUser/AspNetUser_AspNetUserRole" />
       <nodes>
-        <classShapeMoniker Id="4e0277f9-7970-4f91-ad8f-021cd1216aaa" />
-        <classShapeMoniker Id="f2ec6f86-5995-4812-b6ae-5ec655c1d617" />
+        <classShapeMoniker Id="760df30b-f23b-4729-9d51-6a4d44506dd3" />
+        <classShapeMoniker Id="cc62a50c-4aaf-4ef3-bbfa-ae4b28800a9e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 27.6793843778546); (5.90982443490112 : 27.2695599429534 : JumpStart); (6.02767556509888 : 27.1517088127557 : JumpEnd); (6.03125 : 27.1481343778546); (6.03125 : 15.5871899414062); (6.04166666666667 : 15.5871899414062 : JumpStart); (6.20833333333333 : 15.5871899414062 : JumpEnd); (6.25 : 15.5871899414062)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 25.6793843778546); (5.84732443490112 : 25.3320599429534 : JumpStart); (6.02767556509888 : 25.1517088127557 : JumpEnd); (6.03125 : 25.1481343778546); (6.03125 : 15.5871899414062); (6.04166666666667 : 15.5871899414062 : JumpStart); (6.20833333333333 : 15.5871899414062 : JumpEnd); (6.25 : 15.5871899414062)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstBarangay/MstBarangay_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="e18192ee-d41f-4752-824f-5565f2645add" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="644390ad-c4bf-478e-8a91-bf4c4df733d0" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.47760602088341 : 27.625); (5.875 : 27.2276060208834); (5.875 : 15.5871899414062); (5.88541666666667 : 15.5871899414062 : JumpStart); (6.20833333333333 : 15.5871899414062 : JumpEnd); (6.25 : 15.5871899414062)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.47760602088341 : 25.625); (5.875 : 25.2276060208834); (5.875 : 15.5871899414062); (5.88541666666667 : 15.5871899414062 : JumpStart); (6.20833333333333 : 15.5871899414062 : JumpEnd); (6.25 : 15.5871899414062)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstBarangay/MstBarangay_MstCitizen1" />
       <nodes>
-        <classShapeMoniker Id="e18192ee-d41f-4752-824f-5565f2645add" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="644390ad-c4bf-478e-8a91-bf4c4df733d0" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 6.28776401652644); (5.90625 : 6.69401401652644); (5.90625 : 12.3248429707031); (6.04166666666667 : 12.3248429707031 : JumpStart); (6.20833333333333 : 12.3248429707031 : JumpEnd); (6.25 : 12.3248429707031)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 6.16276401652644); (5.90625 : 6.56901401652644); (5.90625 : 12.3248429707031); (6.04166666666667 : 12.3248429707031 : JumpStart); (6.20833333333333 : 12.3248429707031 : JumpEnd); (6.25 : 12.3248429707031)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstBloodType/MstBloodType_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="821591fe-a2cb-49ea-8361-38268386f808" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="046c0a67-731d-4441-a34d-850c9d7ae620" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 16.116543375651); (5.79166666666667 : 16.116543375651 : JumpStart); (6.20833333333333 : 16.116543375651 : JumpEnd); (6.25 : 16.116543375651)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstUser/MstUser_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="e0e411f6-c90a-426e-bb7d-f0f7b04a98f2" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="d815b9aa-0406-4a6e-a0b2-9b573acf88cc" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 15.1060949707031); (5.82291666666667 : 15.1060949707031 : JumpStart); (6.20833333333333 : 15.1060949707031 : JumpEnd); (6.25 : 15.1060949707031)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstUser/MstUser_MstCitizen1" />
       <nodes>
-        <classShapeMoniker Id="e0e411f6-c90a-426e-bb7d-f0f7b04a98f2" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="d815b9aa-0406-4a6e-a0b2-9b573acf88cc" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 12.6354484049479); (9 : 12.6354484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizen/MstCitizen_MstCitizensCard" />
       <nodes>
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
-        <classShapeMoniker Id="29b33cde-9eaa-40a5-9b8d-3e45eb5f3194" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
+        <classShapeMoniker Id="6a6794b5-368a-45c5-9317-26e536222780" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 7.59699625651042); (10 : 7.59699625651042); (10 : 11.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizensCardStatus/MstCitizensCardStatus_MstCitizensCard" />
       <nodes>
-        <classShapeMoniker Id="f528437e-dd39-4fb5-a23b-5c4c029abb52" />
-        <classShapeMoniker Id="29b33cde-9eaa-40a5-9b8d-3e45eb5f3194" />
+        <classShapeMoniker Id="c396ce66-1f6c-4ac1-b755-22f893a66213" />
+        <classShapeMoniker Id="6a6794b5-368a-45c5-9317-26e536222780" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 15.6642976888021); (9 : 15.6642976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizen/MstCitizen_MstCitizensChildren" />
       <nodes>
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
-        <classShapeMoniker Id="b4cc2e85-22f3-4e62-8a54-53c40664f582" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
+        <classShapeMoniker Id="0b67c796-aac0-4c90-8fca-3728073d1b73" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 18.6450512695313); (9 : 18.6450512695313)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizen/MstCitizen_MstCitizensEducation" />
       <nodes>
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
-        <classShapeMoniker Id="acb98beb-882e-48e2-a0b4-b8a30f88ee33" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
+        <classShapeMoniker Id="0f1c8da9-c4f0-457f-b700-6c825be6aba7" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 4.13521034314904); (6.125 : 4.76021034314904); (6.125 : 19.1142136292318); (6.25 : 19.1142136292318)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 4.01021034314904); (6.125 : 4.63521034314904); (6.125 : 19.1142136292318); (6.25 : 19.1142136292318)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizenship/MstCitizenship_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="f48c4cda-85da-4ff7-9273-2c45619a4619" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="e6b05fb7-e152-4c97-b7bd-9c84e9468da2" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 18.4946068146159); (5.79166666666667 : 18.4946068146159 : JumpStart); (6.20833333333333 : 18.4946068146159 : JumpEnd); (6.25 : 18.4946068146159)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/ayudacarddbDataContext/MstCitizensStatus/MstCitizensStatus_MstCitizen" />
-      <nodes>
-        <classShapeMoniker Id="dc3c7d9d-b0d8-4792-8539-57868b4fa874" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 29.8984593590745); (6.06607443490112 : 29.3323849241734 : JumpStart); (6.18392556509888 : 29.2145337939756 : JumpEnd); (6.1875 : 29.2109593590745); (6.1875 : 10.6936694853516); (6.25 : 10.6936694853516)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 27.7734593590745); (5.84732443490112 : 27.4261349241734 : JumpStart); (5.96517556509888 : 27.3082837939756 : JumpEnd); (6.06607443490112 : 27.2073849241734 : JumpStart); (6.18392556509888 : 27.0895337939756 : JumpEnd); (6.1875 : 27.0859593590745); (6.1875 : 10.6936694853516); (6.25 : 10.6936694853516)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCity/MstCity_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="d2d97f7a-51c0-4c0f-8b47-8e6da07074dc" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="c3fd519c-45ae-42d7-a3f1-c9ec816cb10d" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 29.8835300396635); (5.96875 : 29.4147800396635); (5.96875 : 10.6936694853516); (6.04166666666667 : 10.6936694853516 : JumpStart); (6.20833333333333 : 10.6936694853516 : JumpEnd); (6.25 : 10.6936694853516)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 27.7585300396635); (5.84732443490112 : 27.4112056047623 : JumpStart); (5.96517556509888 : 27.2933544745646 : JumpEnd); (5.96875 : 27.2897800396635); (5.96875 : 10.6936694853516); (6.04166666666667 : 10.6936694853516 : JumpStart); (6.20833333333333 : 10.6936694853516 : JumpEnd); (6.25 : 10.6936694853516)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCity/MstCity_MstCitizen1" />
       <nodes>
-        <classShapeMoniker Id="d2d97f7a-51c0-4c0f-8b47-8e6da07074dc" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="c3fd519c-45ae-42d7-a3f1-c9ec816cb10d" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 20.4719962565104); (5.79166666666667 : 20.4719962565104 : JumpStart); (6.11458333333333 : 20.4719962565104 : JumpEnd); (6.25 : 20.4719962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 18.4719962565104); (5.79166666666667 : 18.4719962565104 : JumpStart); (6.20833333333333 : 18.4719962565104 : JumpEnd); (6.25 : 18.4719962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCivilStatus/MstCivilStatus_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="2a1f0a77-7ba4-4afa-94e3-bd302a7f4719" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="0d0dd211-a73d-457f-b515-a58ea8d860b8" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 23.5969962565104); (10 : 23.5969962565104); (10 : 19.9151025390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstEducationLevel/MstEducationLevel_MstCitizensEducation" />
       <nodes>
-        <classShapeMoniker Id="0fa04ccd-189f-4806-989b-09a65d2c6aab" />
-        <classShapeMoniker Id="acb98beb-882e-48e2-a0b4-b8a30f88ee33" />
+        <classShapeMoniker Id="710c86d9-7aff-4f41-952b-df760461e806" />
+        <classShapeMoniker Id="0f1c8da9-c4f0-457f-b700-6c825be6aba7" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 21.8952050271434); (5.71875 : 21.6764550271434); (5.71875 : 22.559091421274); (5.81607443490112 : 22.4617669863729 : JumpStart); (6.09017556509888 : 22.1876658561752 : JumpEnd); (6.12857443490112 : 22.1492669863729 : JumpStart); (6.24642556509888 : 22.0314158561752 : JumpEnd); (6.25 : 22.027841421274)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 20.3469962565104); (5.79166666666667 : 20.3469962565104 : JumpStart); (6.11458333333333 : 20.3469962565104 : JumpEnd); (6.25 : 20.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstOccupation/MstOccupation_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="e563c79d-ad5e-4874-a141-616a1f270c0c" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="d49828cf-d827-47b9-9292-4eab9ff433db" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 21.8869389251302); (5.65625 : 21.7306889251302); (5.65625 : 22.5831298828125); (5.81607443490112 : 22.4233054479114 : JumpStart); (6.09017556509888 : 22.1492043177136 : JumpEnd); (6.12857443490112 : 22.1108054479114 : JumpStart); (6.24642556509888 : 21.9929543177136 : JumpEnd); (6.25 : 21.9893798828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 19.9859981282552); (5.79166666666667 : 19.9859981282552 : JumpStart); (6.11458333333333 : 19.9859981282552 : JumpEnd); (6.25 : 19.9859981282552)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstOccupation/MstOccupation_MstCitizen1" />
       <nodes>
-        <classShapeMoniker Id="e563c79d-ad5e-4874-a141-616a1f270c0c" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="d49828cf-d827-47b9-9292-4eab9ff433db" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 29.8984593590745); (2.89845935907452 : 29.75); (5.55019670633013 : 29.75 : JumpStart); (5.73179269240786 : 29.75 : JumpEnd); (6.15625 : 29.75); (6.15625 : 22.1985134981971); (6.30538361538461 : 22.0493798828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 27.7734593590745); (2.89845935907452 : 27.625); (5.55019670633013 : 27.625 : JumpStart); (5.73179269240786 : 27.625 : JumpEnd); (5.82291666666667 : 27.625 : JumpStart); (5.98958333333333 : 27.625 : JumpEnd); (6.15625 : 27.625); (6.15625 : 22.1769750366587); (6.28384515384615 : 22.0493798828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstProvince/MstProvince_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="10011155-7c4d-4612-afa7-5b3f5142ad78" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="714071c2-b0c1-4d11-af37-2aff4e76efe6" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 29.8835300396635); (3.10228003966346 : 29.53125); (5.76894670633013 : 29.53125 : JumpStart); (5.95054269240786 : 29.53125 : JumpEnd); (6.125 : 29.53125); (6.125 : 22.1913019597356); (6.12857443490112 : 22.1877275248345 : JumpStart); (6.24642556509888 : 22.0698763946367 : JumpEnd); (6.26692207692308 : 22.0493798828125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 27.7585300396635); (3.10228003966346 : 27.40625); (5.76894670633013 : 27.40625 : JumpStart); (5.98958333333333 : 27.40625 : JumpEnd); (6.125 : 27.40625); (6.125 : 22.1420721905048); (6.12857443490112 : 22.1384977556037 : JumpStart); (6.24642556509888 : 22.0206466254059 : JumpEnd); (6.25 : 22.0170721905048)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstProvince/MstProvince_MstCitizen1" />
       <nodes>
-        <classShapeMoniker Id="10011155-7c4d-4612-afa7-5b3f5142ad78" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="714071c2-b0c1-4d11-af37-2aff4e76efe6" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 30.6111291521935); (3.5 : 30.6111291521935)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 28.4861291521935); (3.5 : 28.4861291521935)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstProvince/MstProvince_MstCity" />
       <nodes>
-        <classShapeMoniker Id="10011155-7c4d-4612-afa7-5b3f5142ad78" />
-        <classShapeMoniker Id="d2d97f7a-51c0-4c0f-8b47-8e6da07074dc" />
+        <classShapeMoniker Id="714071c2-b0c1-4d11-af37-2aff4e76efe6" />
+        <classShapeMoniker Id="c3fd519c-45ae-42d7-a3f1-c9ec816cb10d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.125 : 32.875); (2.125 : 31.2612939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.125 : 30.75); (2.125 : 29.1362939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstRegion/MstRegion_MstProvince" />
       <nodes>
-        <classShapeMoniker Id="358665d4-98d2-4464-93ef-7f01f98713c3" />
-        <classShapeMoniker Id="10011155-7c4d-4612-afa7-5b3f5142ad78" />
+        <classShapeMoniker Id="e6e44a51-1a86-4ad0-9058-19c059664ce9" />
+        <classShapeMoniker Id="714071c2-b0c1-4d11-af37-2aff4e76efe6" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.625 : 35.875); (2.625 : 34.2612939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.625 : 33.875); (2.625 : 32.1362939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstCountry/MstCountry_MstRegion" />
       <nodes>
-        <classShapeMoniker Id="a21401d9-32d7-43f3-8eb3-339f0dedd2e1" />
-        <classShapeMoniker Id="358665d4-98d2-4464-93ef-7f01f98713c3" />
+        <classShapeMoniker Id="dd0d4eb4-166f-4ccb-9f7e-118ab4a16b2a" />
+        <classShapeMoniker Id="e6e44a51-1a86-4ad0-9058-19c059664ce9" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 23.7812264964944); (5.90625 : 23.3749764964944); (5.90625 : 13.7154689707031); (6.04166666666667 : 13.7154689707031 : JumpStart); (6.20833333333333 : 13.7154689707031 : JumpEnd); (6.25 : 13.7154689707031)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 22.5279386979167); (5.79166666666667 : 22.5279386979167 : JumpStart); (6.27083333333333 : 22.5279386979167 : JumpEnd); (7.29817507692308 : 22.5279386979167); (7.29817507692308 : 22.0493798828125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstSex/MstSex_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="0adb90d0-d898-4666-aed6-23f54c302a4f" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="f0aca77c-2935-4e5a-b0b8-e813805fc78c" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 25.8087801698718); (5.81607443490112 : 25.4927057349707 : JumpStart); (5.93392556509888 : 25.3748546047729 : JumpEnd); (5.9375 : 25.3712801698718); (5.9375 : 17.3055750951335); (5.94791666666667 : 17.3055750951335 : JumpStart); (6.20833333333333 : 17.3055750951335 : JumpEnd); (6.25 : 17.3055750951335)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 35.90592401878); (5.90625 : 35.49967401878); (5.90625 : 13.7154689707031); (6.04166666666667 : 13.7154689707031 : JumpStart); (6.20833333333333 : 13.7154689707031 : JumpEnd); (6.25 : 13.7154689707031)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ayudacarddbDataContext/MstStatus/MstStatus_MstCitizen" />
+      <nodes>
+        <classShapeMoniker Id="dea99c9b-408c-43a1-8fe3-ae01fe485d30" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 23.8087801698718); (5.81607443490112 : 23.4927057349707 : JumpStart); (5.93392556509888 : 23.3748546047729 : JumpEnd); (5.9375 : 23.3712801698718); (5.9375 : 17.2942698160807); (5.94791666666667 : 17.2942698160807 : JumpStart); (6.20833333333333 : 17.2942698160807 : JumpEnd); (6.25 : 17.2942698160807)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/ayudacarddbDataContext/MstTypeOfCitizenship/MstTypeOfCitizenship_MstCitizen" />
       <nodes>
-        <classShapeMoniker Id="aa5d036a-f679-4e80-bf46-ef21b484d7e6" />
-        <classShapeMoniker Id="611e9355-91d8-4124-9c3e-5b1f0cf0887e" />
+        <classShapeMoniker Id="eb1e1bff-b3a6-492d-8ab2-6e28c2f1d0cf" />
+        <classShapeMoniker Id="c0f1ce75-02f4-4a32-b9a0-3f1c2e6ec26d" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
