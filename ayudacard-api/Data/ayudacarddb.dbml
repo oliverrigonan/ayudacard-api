@@ -173,8 +173,9 @@
       <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CardNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="TotalBalance" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
-      <Column Name="CardStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="MstStatus_MstCitizensCard" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstCitizensChildren" Member="MstCitizensChildrens">
@@ -280,6 +281,7 @@
       <Column Name="Status" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="Category" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="StatusId" Type="MstCitizen" />
+      <Association Name="MstStatus_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="StatusId" Type="MstCitizensCard" />
     </Type>
   </Table>
   <Table Name="dbo.MstTypeOfCitizenship" Member="MstTypeOfCitizenships">

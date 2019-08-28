@@ -4225,9 +4225,11 @@ namespace ayudacard_api.Data
 		
 		private decimal _TotalBalance;
 		
-		private int _CardStatusId;
+		private int _StatusId;
 		
 		private EntityRef<MstCitizen> _MstCitizen;
+		
+		private EntityRef<MstStatus> _MstStatus;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4241,13 +4243,14 @@ namespace ayudacard_api.Data
     partial void OnCardNumberChanged();
     partial void OnTotalBalanceChanging(decimal value);
     partial void OnTotalBalanceChanged();
-    partial void OnCardStatusIdChanging(int value);
-    partial void OnCardStatusIdChanged();
+    partial void OnStatusIdChanging(int value);
+    partial void OnStatusIdChanged();
     #endregion
 		
 		public MstCitizensCard()
 		{
 			this._MstCitizen = default(EntityRef<MstCitizen>);
+			this._MstStatus = default(EntityRef<MstStatus>);
 			OnCreated();
 		}
 		
@@ -4335,22 +4338,26 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardStatusId", DbType="Int NOT NULL")]
-		public int CardStatusId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusId", DbType="Int NOT NULL")]
+		public int StatusId
 		{
 			get
 			{
-				return this._CardStatusId;
+				return this._StatusId;
 			}
 			set
 			{
-				if ((this._CardStatusId != value))
+				if ((this._StatusId != value))
 				{
-					this.OnCardStatusIdChanging(value);
+					if (this._MstStatus.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStatusIdChanging(value);
 					this.SendPropertyChanging();
-					this._CardStatusId = value;
-					this.SendPropertyChanged("CardStatusId");
-					this.OnCardStatusIdChanged();
+					this._StatusId = value;
+					this.SendPropertyChanged("StatusId");
+					this.OnStatusIdChanged();
 				}
 			}
 		}
@@ -4385,6 +4392,40 @@ namespace ayudacard_api.Data
 						this._CitizenId = default(int);
 					}
 					this.SendPropertyChanged("MstCitizen");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstCitizensCard", Storage="_MstStatus", ThisKey="StatusId", OtherKey="Id", IsForeignKey=true)]
+		public MstStatus MstStatus
+		{
+			get
+			{
+				return this._MstStatus.Entity;
+			}
+			set
+			{
+				MstStatus previousValue = this._MstStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._MstStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstStatus.Entity = null;
+						previousValue.MstCitizensCards.Remove(this);
+					}
+					this._MstStatus.Entity = value;
+					if ((value != null))
+					{
+						value.MstCitizensCards.Add(this);
+						this._StatusId = value.Id;
+					}
+					else
+					{
+						this._StatusId = default(int);
+					}
+					this.SendPropertyChanged("MstStatus");
 				}
 			}
 		}
@@ -6268,6 +6309,8 @@ namespace ayudacard_api.Data
 		
 		private EntitySet<MstCitizen> _MstCitizens;
 		
+		private EntitySet<MstCitizensCard> _MstCitizensCards;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -6283,6 +6326,7 @@ namespace ayudacard_api.Data
 		public MstStatus()
 		{
 			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
+			this._MstCitizensCards = new EntitySet<MstCitizensCard>(new Action<MstCitizensCard>(this.attach_MstCitizensCards), new Action<MstCitizensCard>(this.detach_MstCitizensCards));
 			OnCreated();
 		}
 		
@@ -6359,6 +6403,19 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstCitizensCard", Storage="_MstCitizensCards", ThisKey="Id", OtherKey="StatusId")]
+		public EntitySet<MstCitizensCard> MstCitizensCards
+		{
+			get
+			{
+				return this._MstCitizensCards;
+			}
+			set
+			{
+				this._MstCitizensCards.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -6386,6 +6443,18 @@ namespace ayudacard_api.Data
 		}
 		
 		private void detach_MstCitizens(MstCitizen entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = null;
+		}
+		
+		private void attach_MstCitizensCards(MstCitizensCard entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = this;
+		}
+		
+		private void detach_MstCitizensCards(MstCitizensCard entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstStatus = null;
