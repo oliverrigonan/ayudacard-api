@@ -80,6 +80,7 @@ namespace ayudacard_api.Entities
         public String PictureURL { get; set; }
         public Int32 StatusId { get; set; }
         public String Status { get; set; }
+        public Boolean IsLocked { get; set; }
         public Int32 CreatedByUserId { get; set; }
         public String CreatedByUser { get; set; }
         public String CreatedDateTime { get; set; }

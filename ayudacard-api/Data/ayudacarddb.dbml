@@ -141,6 +141,7 @@
       <Column Name="MotherExtensionname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="PictureURL" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
       <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -173,15 +174,7 @@
       <Column Name="CardNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="TotalBalance" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="CardStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
-      <Association Name="MstCitizensCardStatus_MstCitizensCard" Member="MstCitizensCardStatus" ThisKey="CardStatusId" OtherKey="Id" Type="MstCitizensCardStatus" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MstCitizensCardStatus" Member="MstCitizensCardStatus">
-    <Type Name="MstCitizensCardStatus">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CardStatus" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Association Name="MstCitizensCardStatus_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="CardStatusId" Type="MstCitizensCard" />
+      <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstCitizensChildren" Member="MstCitizensChildrens">
@@ -190,7 +183,7 @@
       <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="MstCitizen_MstCitizensChildren" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+      <Association Name="MstCitizen_MstCitizensChildren" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstCitizensEducation" Member="MstCitizensEducations">
@@ -204,7 +197,7 @@
       <Column Name="PeriodTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UnitsEarned" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="YearGraduated" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+      <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="MstEducationLevel_MstCitizensEducation" Member="MstEducationLevel" ThisKey="EducationLevelId" OtherKey="Id" Type="MstEducationLevel" IsForeignKey="true" />
     </Type>
   </Table>

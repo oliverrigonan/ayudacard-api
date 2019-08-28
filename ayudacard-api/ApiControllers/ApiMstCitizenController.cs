@@ -92,6 +92,7 @@ namespace ayudacard_api.ApiControllers
                                PictureURL = d.PictureURL,
                                StatusId = d.StatusId,
                                Status = d.MstStatus.Status,
+                               IsLocked = d.IsLocked,
                                CreatedByUserId = d.CreatedByUserId,
                                CreatedByUser = d.MstUser.Fullname,
                                CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
@@ -101,6 +102,98 @@ namespace ayudacard_api.ApiControllers
                            };
 
             return citizens.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("detail/{id}")]
+        public Entities.MstCitizen CitizenDetail(String id)
+        {
+            var citizen = from d in db.MstCitizens
+                          where d.Id == Convert.ToInt32(id)
+                          select new Entities.MstCitizen
+                          {
+                              Id = d.Id,
+                              Surname = d.Surname,
+                              Firstname = d.Firstname,
+                              Middlename = d.Middlename,
+                              Extensionname = d.Extensionname,
+                              DateOfBirth = d.DateOfBirth.ToShortDateString(),
+                              PlaceOfBirth = d.PlaceOfBirth,
+                              SexId = d.SexId,
+                              Sex = d.MstSex.Sex,
+                              CivilStatusId = d.CivilStatusId,
+                              CivilStatus = d.MstCivilStatus.CivilStatus,
+                              Height = d.Height,
+                              Weight = d.Weight,
+                              BloodTypeId = d.BloodTypeId,
+                              BloodType = d.MstBloodType.BloodType,
+                              GSISNumber = d.GSISNumber,
+                              HDMFNumber = d.HDMFNumber,
+                              PhilHealthNumber = d.PhilHealthNumber,
+                              SSSNumber = d.SSSNumber,
+                              TINNumber = d.TINNumber,
+                              AgencyEmployeeNumber = d.AgencyEmployeeNumber,
+                              CitizenshipId = d.CitizenshipId,
+                              Citizenship = d.MstCitizenship.Citizenship,
+                              TypeOfCitizenshipId = d.TypeOfCitizenshipId,
+                              TypeOfCitizenship = d.TypeOfCitizenshipId != null ? d.MstTypeOfCitizenship.TypeOfCitizenship : "",
+                              DualCitizenshipCountry = d.DualCitizenshipCountry,
+                              ResidentialNumber = d.ResidentialNumber,
+                              ResidentialStreet = d.ResidentialStreet,
+                              ResidentialVillage = d.ResidentialVillage,
+                              ResidentialBarangayId = d.ResidentialBarangayId,
+                              ResidentialBarangay = d.MstBarangay.Barangay,
+                              ResidentialCityId = d.ResidentialCityId,
+                              ResidentialCity = d.MstCity.City,
+                              ResidentialProvinceId = d.ResidentialProvinceId,
+                              ResidentialProvince = d.MstProvince.Province,
+                              ResidentialZipCode = d.ResidentialZipCode,
+                              PermanentNumber = d.PermanentNumber,
+                              PermanentStreet = d.PermanentStreet,
+                              PermanentVillage = d.PermanentVillage,
+                              PermanentBarangayId = d.PermanentBarangayId,
+                              PermanentBarangay = d.MstBarangay1.Barangay,
+                              PermanentCityId = d.PermanentCityId,
+                              PermanentCity = d.MstCity1.City,
+                              PermanentProvinceId = d.PermanentProvinceId,
+                              PermanentProvince = d.MstProvince1.Province,
+                              PermanentZipCode = d.PermanentZipCode,
+                              TelephoneNumber = d.TelephoneNumber,
+                              MobileNumber = d.MobileNumber,
+                              EmailAddress = d.EmailAddress,
+                              OccupationId = d.OccupationId,
+                              Occupation = d.MstOccupation.Occupation,
+                              EmployerName = d.EmployerName,
+                              EmployerAddress = d.EmployerAddress,
+                              EmployerTelephoneNumber = d.EmployerTelephoneNumber,
+                              SpouseSurname = d.SpouseSurname,
+                              SpouseFirstname = d.SpouseFirstname,
+                              SpouseMiddlename = d.SpouseMiddlename,
+                              SpouseExtensionname = d.SpouseExtensionname,
+                              SpouseOccupationId = d.SpouseOccupationId,
+                              SpouseOccupation = d.MstOccupation1.Occupation,
+                              SpouseEmployerName = d.SpouseEmployerName,
+                              SpouseEmployerAddress = d.SpouseEmployerAddress,
+                              FatherSurname = d.FatherSurname,
+                              FatherFirstname = d.FatherFirstname,
+                              FatherMiddlename = d.FatherMiddlename,
+                              FatherExtensionname = d.FatherExtensionname,
+                              MotherSurname = d.MotherSurname,
+                              MotherFirstname = d.MotherFirstname,
+                              MotherMiddlename = d.MotherMiddlename,
+                              MotherExtensionname = d.MotherExtensionname,
+                              PictureURL = d.PictureURL,
+                              StatusId = d.StatusId,
+                              Status = d.MstStatus.Status,
+                              IsLocked = d.IsLocked,
+                              CreatedByUserId = d.CreatedByUserId,
+                              CreatedByUser = d.MstUser.Fullname,
+                              CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                              UpdatedByUserId = d.UpdatedByUserId,
+                              UpdatedByUser = d.MstUser1.Fullname,
+                              UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+                          };
+
+            return citizen.FirstOrDefault();
         }
 
         [HttpGet, Route("sex/dropdown/list")]
@@ -247,135 +340,127 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpPost, Route("add")]
-        public HttpResponseMessage AddCitizen(Entities.MstCitizen objCitizen)
+        public HttpResponseMessage AddCitizen()
         {
             try
             {
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
-                var sex = from d in db.MstSexes where d.Id == objCitizen.SexId select d;
+                var sex = from d in db.MstSexes select d;
                 if (!sex.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
                 }
 
-                var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.CivilStatusId select d;
+                var civilStatus = from d in db.MstCivilStatus select d;
                 if (!civilStatus.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
                 }
 
-                var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
+                var bloodType = from d in db.MstBloodTypes select d;
                 if (!bloodType.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
                 }
 
-                var citizenship = from d in db.MstCitizenships where d.Id == objCitizen.CitizenshipId select d;
+                var citizenship = from d in db.MstCitizenships select d;
                 if (!citizenship.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
 
-                if (objCitizen.TypeOfCitizenshipId != null)
-                {
-                    var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
-                    if (!typeOfCitizenship.Any())
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
-                    }
-                }
-
-                var barangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId && d.Id == objCitizen.PermanentBarangayId select d;
+                var barangay = from d in db.MstBarangays select d;
                 if (!barangay.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Barangay not found!");
                 }
 
-                var city = from d in db.MstCities where d.Id == objCitizen.ResidentialCityId && d.Id == objCitizen.PermanentCityId select d;
+                var city = from d in db.MstCities select d;
                 if (!city.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "City not found!");
                 }
 
-                var province = from d in db.MstProvinces where d.Id == objCitizen.ResidentialProvinceId && d.Id == objCitizen.PermanentProvinceId select d;
+                var province = from d in db.MstProvinces select d;
                 if (!province.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Province not found!");
                 }
 
-                var occupation = from d in db.MstOccupations where d.Id == objCitizen.OccupationId && d.Id == objCitizen.SpouseOccupationId select d;
+                var occupation = from d in db.MstOccupations select d;
                 if (!occupation.Any())
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
-                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                var status = from d in db.MstStatus select d;
                 if (!status.Any())
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen status not found!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
 
                 Data.MstCitizen newCitizen = new Data.MstCitizen()
                 {
-                    Surname = objCitizen.Surname,
-                    Firstname = objCitizen.Firstname,
-                    Middlename = objCitizen.Middlename,
-                    Extensionname = objCitizen.Extensionname,
-                    DateOfBirth = Convert.ToDateTime(objCitizen.DateOfBirth),
-                    PlaceOfBirth = objCitizen.PlaceOfBirth,
-                    SexId = objCitizen.SexId,
-                    CivilStatusId = objCitizen.CivilStatusId,
-                    Height = objCitizen.Height,
-                    Weight = objCitizen.Weight,
-                    BloodTypeId = objCitizen.BloodTypeId,
-                    GSISNumber = objCitizen.GSISNumber,
-                    HDMFNumber = objCitizen.HDMFNumber,
-                    PhilHealthNumber = objCitizen.PhilHealthNumber,
-                    SSSNumber = objCitizen.SSSNumber,
-                    TINNumber = objCitizen.TINNumber,
-                    AgencyEmployeeNumber = objCitizen.AgencyEmployeeNumber,
-                    CitizenshipId = objCitizen.CitizenshipId,
-                    TypeOfCitizenshipId = objCitizen.TypeOfCitizenshipId,
-                    DualCitizenshipCountry = objCitizen.DualCitizenshipCountry,
-                    ResidentialNumber = objCitizen.ResidentialNumber,
-                    ResidentialStreet = objCitizen.ResidentialStreet,
-                    ResidentialVillage = objCitizen.ResidentialVillage,
-                    ResidentialBarangayId = objCitizen.ResidentialBarangayId,
-                    ResidentialCityId = objCitizen.ResidentialCityId,
-                    ResidentialProvinceId = objCitizen.ResidentialProvinceId,
-                    ResidentialZipCode = objCitizen.ResidentialZipCode,
-                    PermanentNumber = objCitizen.PermanentNumber,
-                    PermanentStreet = objCitizen.PermanentStreet,
-                    PermanentVillage = objCitizen.PermanentVillage,
-                    PermanentBarangayId = objCitizen.PermanentBarangayId,
-                    PermanentCityId = objCitizen.PermanentCityId,
-                    PermanentProvinceId = objCitizen.PermanentProvinceId,
-                    PermanentZipCode = objCitizen.PermanentZipCode,
-                    TelephoneNumber = objCitizen.TelephoneNumber,
-                    MobileNumber = objCitizen.MobileNumber,
-                    EmailAddress = objCitizen.EmailAddress,
-                    OccupationId = objCitizen.OccupationId,
-                    EmployerName = objCitizen.EmployerName,
-                    EmployerAddress = objCitizen.EmployerAddress,
-                    EmployerTelephoneNumber = objCitizen.EmployerTelephoneNumber,
-                    SpouseSurname = objCitizen.SpouseSurname,
-                    SpouseFirstname = objCitizen.SpouseFirstname,
-                    SpouseMiddlename = objCitizen.SpouseMiddlename,
-                    SpouseExtensionname = objCitizen.SpouseExtensionname,
-                    SpouseOccupationId = objCitizen.SpouseOccupationId,
-                    SpouseEmployerName = objCitizen.SpouseEmployerName,
-                    SpouseEmployerAddress = objCitizen.SpouseEmployerAddress,
-                    FatherSurname = objCitizen.FatherSurname,
-                    FatherFirstname = objCitizen.FatherFirstname,
-                    FatherMiddlename = objCitizen.FatherMiddlename,
-                    FatherExtensionname = objCitizen.FatherExtensionname,
-                    MotherSurname = objCitizen.MotherSurname,
-                    MotherFirstname = objCitizen.MotherFirstname,
-                    MotherMiddlename = objCitizen.MotherMiddlename,
-                    MotherExtensionname = objCitizen.MotherExtensionname,
-                    PictureURL = objCitizen.PictureURL,
-                    StatusId = objCitizen.StatusId,
+                    Surname = "",
+                    Firstname = "",
+                    Middlename = "",
+                    Extensionname = "",
+                    DateOfBirth = DateTime.Today,
+                    PlaceOfBirth = "",
+                    SexId = sex.FirstOrDefault().Id,
+                    CivilStatusId = civilStatus.FirstOrDefault().Id,
+                    Height = 0,
+                    Weight = 0,
+                    BloodTypeId = bloodType.FirstOrDefault().Id,
+                    GSISNumber = "",
+                    HDMFNumber = "",
+                    PhilHealthNumber = "",
+                    SSSNumber = "",
+                    TINNumber = "",
+                    AgencyEmployeeNumber = "",
+                    CitizenshipId = citizenship.FirstOrDefault().Id,
+                    TypeOfCitizenshipId = null,
+                    DualCitizenshipCountry = "",
+                    ResidentialNumber = "",
+                    ResidentialStreet = "",
+                    ResidentialVillage = "",
+                    ResidentialBarangayId = barangay.FirstOrDefault().Id,
+                    ResidentialCityId = city.FirstOrDefault().Id,
+                    ResidentialProvinceId = province.FirstOrDefault().Id,
+                    ResidentialZipCode = "",
+                    PermanentNumber = "",
+                    PermanentStreet = "",
+                    PermanentVillage = "",
+                    PermanentBarangayId = barangay.FirstOrDefault().Id,
+                    PermanentCityId = city.FirstOrDefault().Id,
+                    PermanentProvinceId = province.FirstOrDefault().Id,
+                    PermanentZipCode = "",
+                    TelephoneNumber = "",
+                    MobileNumber = "",
+                    EmailAddress = "",
+                    OccupationId = occupation.FirstOrDefault().Id,
+                    EmployerName = "",
+                    EmployerAddress = "",
+                    EmployerTelephoneNumber = "",
+                    SpouseSurname = "",
+                    SpouseFirstname = "",
+                    SpouseMiddlename = "",
+                    SpouseExtensionname = "",
+                    SpouseOccupationId = occupation.FirstOrDefault().Id,
+                    SpouseEmployerName = "",
+                    SpouseEmployerAddress = "",
+                    FatherSurname = "",
+                    FatherFirstname = "",
+                    FatherMiddlename = "",
+                    FatherExtensionname = "",
+                    MotherSurname = "",
+                    MotherFirstname = "",
+                    MotherMiddlename = "",
+                    MotherExtensionname = "",
+                    PictureURL = "",
+                    StatusId = status.FirstOrDefault().Id,
+                    IsLocked = false,
                     CreatedByUserId = currentUser.FirstOrDefault().Id,
                     CreatedDateTime = DateTime.Now,
                     UpdatedByUserId = currentUser.FirstOrDefault().Id,
@@ -385,7 +470,7 @@ namespace ayudacard_api.ApiControllers
                 db.MstCitizens.InsertOnSubmit(newCitizen);
                 db.SubmitChanges();
 
-                return Request.CreateResponse(HttpStatusCode.OK, "");
+                return Request.CreateResponse(HttpStatusCode.OK, newCitizen.Id);
             }
             catch (Exception e)
             {
@@ -393,8 +478,8 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
-        [HttpPut, Route("update/{id}")]
-        public HttpResponseMessage UpdateCitizen(String id, Entities.MstCitizen objCitizen)
+        [HttpPut, Route("save/{id}")]
+        public HttpResponseMessage SaveCitizen(String id, Entities.MstCitizen objCitizen)
         {
             try
             {
@@ -460,7 +545,7 @@ namespace ayudacard_api.ApiControllers
                 var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
                 if (!status.Any())
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen status not found!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
 
                 var citizen = from d in db.MstCitizens
@@ -469,67 +554,262 @@ namespace ayudacard_api.ApiControllers
 
                 if (citizen.Any())
                 {
-                    var updateCitizen = citizen.FirstOrDefault();
-                    updateCitizen.Surname = objCitizen.Surname;
-                    updateCitizen.Firstname = objCitizen.Firstname;
-                    updateCitizen.Middlename = objCitizen.Middlename;
-                    updateCitizen.Extensionname = objCitizen.Extensionname;
-                    updateCitizen.DateOfBirth = Convert.ToDateTime(objCitizen.DateOfBirth);
-                    updateCitizen.PlaceOfBirth = objCitizen.PlaceOfBirth;
-                    updateCitizen.SexId = objCitizen.SexId;
-                    updateCitizen.CivilStatusId = objCitizen.CivilStatusId;
-                    updateCitizen.Height = objCitizen.Height;
-                    updateCitizen.Weight = objCitizen.Weight;
-                    updateCitizen.BloodTypeId = objCitizen.BloodTypeId;
-                    updateCitizen.GSISNumber = objCitizen.GSISNumber;
-                    updateCitizen.HDMFNumber = objCitizen.HDMFNumber;
-                    updateCitizen.PhilHealthNumber = objCitizen.PhilHealthNumber;
-                    updateCitizen.SSSNumber = objCitizen.SSSNumber;
-                    updateCitizen.TINNumber = objCitizen.TINNumber;
-                    updateCitizen.AgencyEmployeeNumber = objCitizen.AgencyEmployeeNumber;
-                    updateCitizen.CitizenshipId = objCitizen.CitizenshipId;
-                    updateCitizen.TypeOfCitizenshipId = objCitizen.TypeOfCitizenshipId;
-                    updateCitizen.DualCitizenshipCountry = objCitizen.DualCitizenshipCountry;
-                    updateCitizen.ResidentialNumber = objCitizen.ResidentialNumber;
-                    updateCitizen.ResidentialStreet = objCitizen.ResidentialStreet;
-                    updateCitizen.ResidentialVillage = objCitizen.ResidentialVillage;
-                    updateCitizen.ResidentialBarangayId = objCitizen.ResidentialBarangayId;
-                    updateCitizen.ResidentialCityId = objCitizen.ResidentialCityId;
-                    updateCitizen.ResidentialProvinceId = objCitizen.ResidentialProvinceId;
-                    updateCitizen.ResidentialZipCode = objCitizen.ResidentialZipCode;
-                    updateCitizen.PermanentNumber = objCitizen.PermanentNumber;
-                    updateCitizen.PermanentStreet = objCitizen.PermanentStreet;
-                    updateCitizen.PermanentVillage = objCitizen.PermanentVillage;
-                    updateCitizen.PermanentBarangayId = objCitizen.PermanentBarangayId;
-                    updateCitizen.PermanentCityId = objCitizen.PermanentCityId;
-                    updateCitizen.PermanentProvinceId = objCitizen.PermanentProvinceId;
-                    updateCitizen.PermanentZipCode = objCitizen.PermanentZipCode;
-                    updateCitizen.TelephoneNumber = objCitizen.TelephoneNumber;
-                    updateCitizen.MobileNumber = objCitizen.MobileNumber;
-                    updateCitizen.EmailAddress = objCitizen.EmailAddress;
-                    updateCitizen.OccupationId = objCitizen.OccupationId;
-                    updateCitizen.EmployerName = objCitizen.EmployerName;
-                    updateCitizen.EmployerAddress = objCitizen.EmployerAddress;
-                    updateCitizen.EmployerTelephoneNumber = objCitizen.EmployerTelephoneNumber;
-                    updateCitizen.SpouseSurname = objCitizen.SpouseSurname;
-                    updateCitizen.SpouseFirstname = objCitizen.SpouseFirstname;
-                    updateCitizen.SpouseMiddlename = objCitizen.SpouseMiddlename;
-                    updateCitizen.SpouseExtensionname = objCitizen.SpouseExtensionname;
-                    updateCitizen.SpouseOccupationId = objCitizen.SpouseOccupationId;
-                    updateCitizen.SpouseEmployerName = objCitizen.SpouseEmployerName;
-                    updateCitizen.SpouseEmployerAddress = objCitizen.SpouseEmployerAddress;
-                    updateCitizen.FatherSurname = objCitizen.FatherSurname;
-                    updateCitizen.FatherFirstname = objCitizen.FatherFirstname;
-                    updateCitizen.FatherMiddlename = objCitizen.FatherMiddlename;
-                    updateCitizen.FatherExtensionname = objCitizen.FatherExtensionname;
-                    updateCitizen.MotherSurname = objCitizen.MotherSurname;
-                    updateCitizen.MotherFirstname = objCitizen.MotherFirstname;
-                    updateCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
-                    updateCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
-                    updateCitizen.PictureURL = objCitizen.PictureURL;
-                    updateCitizen.StatusId = objCitizen.StatusId;
-                    updateCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
-                    updateCitizen.UpdatedDateTime = DateTime.Now;
+                    var saveCitizen = citizen.FirstOrDefault();
+                    saveCitizen.Surname = objCitizen.Surname;
+                    saveCitizen.Firstname = objCitizen.Firstname;
+                    saveCitizen.Middlename = objCitizen.Middlename;
+                    saveCitizen.Extensionname = objCitizen.Extensionname;
+                    saveCitizen.DateOfBirth = Convert.ToDateTime(objCitizen.DateOfBirth);
+                    saveCitizen.PlaceOfBirth = objCitizen.PlaceOfBirth;
+                    saveCitizen.SexId = objCitizen.SexId;
+                    saveCitizen.CivilStatusId = objCitizen.CivilStatusId;
+                    saveCitizen.Height = objCitizen.Height;
+                    saveCitizen.Weight = objCitizen.Weight;
+                    saveCitizen.BloodTypeId = objCitizen.BloodTypeId;
+                    saveCitizen.GSISNumber = objCitizen.GSISNumber;
+                    saveCitizen.HDMFNumber = objCitizen.HDMFNumber;
+                    saveCitizen.PhilHealthNumber = objCitizen.PhilHealthNumber;
+                    saveCitizen.SSSNumber = objCitizen.SSSNumber;
+                    saveCitizen.TINNumber = objCitizen.TINNumber;
+                    saveCitizen.AgencyEmployeeNumber = objCitizen.AgencyEmployeeNumber;
+                    saveCitizen.CitizenshipId = objCitizen.CitizenshipId;
+                    saveCitizen.TypeOfCitizenshipId = objCitizen.TypeOfCitizenshipId;
+                    saveCitizen.DualCitizenshipCountry = objCitizen.DualCitizenshipCountry;
+                    saveCitizen.ResidentialNumber = objCitizen.ResidentialNumber;
+                    saveCitizen.ResidentialStreet = objCitizen.ResidentialStreet;
+                    saveCitizen.ResidentialVillage = objCitizen.ResidentialVillage;
+                    saveCitizen.ResidentialBarangayId = objCitizen.ResidentialBarangayId;
+                    saveCitizen.ResidentialCityId = objCitizen.ResidentialCityId;
+                    saveCitizen.ResidentialProvinceId = objCitizen.ResidentialProvinceId;
+                    saveCitizen.ResidentialZipCode = objCitizen.ResidentialZipCode;
+                    saveCitizen.PermanentNumber = objCitizen.PermanentNumber;
+                    saveCitizen.PermanentStreet = objCitizen.PermanentStreet;
+                    saveCitizen.PermanentVillage = objCitizen.PermanentVillage;
+                    saveCitizen.PermanentBarangayId = objCitizen.PermanentBarangayId;
+                    saveCitizen.PermanentCityId = objCitizen.PermanentCityId;
+                    saveCitizen.PermanentProvinceId = objCitizen.PermanentProvinceId;
+                    saveCitizen.PermanentZipCode = objCitizen.PermanentZipCode;
+                    saveCitizen.TelephoneNumber = objCitizen.TelephoneNumber;
+                    saveCitizen.MobileNumber = objCitizen.MobileNumber;
+                    saveCitizen.EmailAddress = objCitizen.EmailAddress;
+                    saveCitizen.OccupationId = objCitizen.OccupationId;
+                    saveCitizen.EmployerName = objCitizen.EmployerName;
+                    saveCitizen.EmployerAddress = objCitizen.EmployerAddress;
+                    saveCitizen.EmployerTelephoneNumber = objCitizen.EmployerTelephoneNumber;
+                    saveCitizen.SpouseSurname = objCitizen.SpouseSurname;
+                    saveCitizen.SpouseFirstname = objCitizen.SpouseFirstname;
+                    saveCitizen.SpouseMiddlename = objCitizen.SpouseMiddlename;
+                    saveCitizen.SpouseExtensionname = objCitizen.SpouseExtensionname;
+                    saveCitizen.SpouseOccupationId = objCitizen.SpouseOccupationId;
+                    saveCitizen.SpouseEmployerName = objCitizen.SpouseEmployerName;
+                    saveCitizen.SpouseEmployerAddress = objCitizen.SpouseEmployerAddress;
+                    saveCitizen.FatherSurname = objCitizen.FatherSurname;
+                    saveCitizen.FatherFirstname = objCitizen.FatherFirstname;
+                    saveCitizen.FatherMiddlename = objCitizen.FatherMiddlename;
+                    saveCitizen.FatherExtensionname = objCitizen.FatherExtensionname;
+                    saveCitizen.MotherSurname = objCitizen.MotherSurname;
+                    saveCitizen.MotherFirstname = objCitizen.MotherFirstname;
+                    saveCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
+                    saveCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
+                    saveCitizen.PictureURL = objCitizen.PictureURL;
+                    saveCitizen.StatusId = objCitizen.StatusId;
+                    saveCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
+                    saveCitizen.UpdatedDateTime = DateTime.Now;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut, Route("lock/{id}")]
+        public HttpResponseMessage LockCitizen(String id, Entities.MstCitizen objCitizen)
+        {
+            try
+            {
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var sex = from d in db.MstSexes where d.Id == objCitizen.SexId select d;
+                if (!sex.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
+                }
+
+                var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.StatusId select d;
+                if (!civilStatus.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
+                }
+
+                var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
+                if (!bloodType.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
+                }
+
+                var citizenship = from d in db.MstCitizenships where d.Id == objCitizen.CitizenshipId select d;
+                if (!citizenship.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
+                }
+
+                if (objCitizen.TypeOfCitizenshipId != null)
+                {
+                    var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
+                    if (!typeOfCitizenship.Any())
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
+                    }
+                }
+
+                var barangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId && d.Id == objCitizen.PermanentBarangayId select d;
+                if (!barangay.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Barangay not found!");
+                }
+
+                var city = from d in db.MstCities where d.Id == objCitizen.ResidentialCityId && d.Id == objCitizen.PermanentCityId select d;
+                if (!city.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "City not found!");
+                }
+
+                var province = from d in db.MstProvinces where d.Id == objCitizen.ResidentialProvinceId && d.Id == objCitizen.PermanentProvinceId select d;
+                if (!province.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Province not found!");
+                }
+
+                var occupation = from d in db.MstOccupations where d.Id == objCitizen.OccupationId && d.Id == objCitizen.SpouseOccupationId select d;
+                if (!occupation.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
+                }
+
+                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                if (!status.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                }
+
+                var citizen = from d in db.MstCitizens
+                              where d.Id == Convert.ToInt32(id)
+                              select d;
+
+                if (citizen.Any())
+                {
+                    if (citizen.FirstOrDefault().IsLocked == true)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Already locked!");
+                    }
+
+                    var lockCitizen = citizen.FirstOrDefault();
+                    lockCitizen.Surname = objCitizen.Surname;
+                    lockCitizen.Firstname = objCitizen.Firstname;
+                    lockCitizen.Middlename = objCitizen.Middlename;
+                    lockCitizen.Extensionname = objCitizen.Extensionname;
+                    lockCitizen.DateOfBirth = Convert.ToDateTime(objCitizen.DateOfBirth);
+                    lockCitizen.PlaceOfBirth = objCitizen.PlaceOfBirth;
+                    lockCitizen.SexId = objCitizen.SexId;
+                    lockCitizen.CivilStatusId = objCitizen.CivilStatusId;
+                    lockCitizen.Height = objCitizen.Height;
+                    lockCitizen.Weight = objCitizen.Weight;
+                    lockCitizen.BloodTypeId = objCitizen.BloodTypeId;
+                    lockCitizen.GSISNumber = objCitizen.GSISNumber;
+                    lockCitizen.HDMFNumber = objCitizen.HDMFNumber;
+                    lockCitizen.PhilHealthNumber = objCitizen.PhilHealthNumber;
+                    lockCitizen.SSSNumber = objCitizen.SSSNumber;
+                    lockCitizen.TINNumber = objCitizen.TINNumber;
+                    lockCitizen.AgencyEmployeeNumber = objCitizen.AgencyEmployeeNumber;
+                    lockCitizen.CitizenshipId = objCitizen.CitizenshipId;
+                    lockCitizen.TypeOfCitizenshipId = objCitizen.TypeOfCitizenshipId;
+                    lockCitizen.DualCitizenshipCountry = objCitizen.DualCitizenshipCountry;
+                    lockCitizen.ResidentialNumber = objCitizen.ResidentialNumber;
+                    lockCitizen.ResidentialStreet = objCitizen.ResidentialStreet;
+                    lockCitizen.ResidentialVillage = objCitizen.ResidentialVillage;
+                    lockCitizen.ResidentialBarangayId = objCitizen.ResidentialBarangayId;
+                    lockCitizen.ResidentialCityId = objCitizen.ResidentialCityId;
+                    lockCitizen.ResidentialProvinceId = objCitizen.ResidentialProvinceId;
+                    lockCitizen.ResidentialZipCode = objCitizen.ResidentialZipCode;
+                    lockCitizen.PermanentNumber = objCitizen.PermanentNumber;
+                    lockCitizen.PermanentStreet = objCitizen.PermanentStreet;
+                    lockCitizen.PermanentVillage = objCitizen.PermanentVillage;
+                    lockCitizen.PermanentBarangayId = objCitizen.PermanentBarangayId;
+                    lockCitizen.PermanentCityId = objCitizen.PermanentCityId;
+                    lockCitizen.PermanentProvinceId = objCitizen.PermanentProvinceId;
+                    lockCitizen.PermanentZipCode = objCitizen.PermanentZipCode;
+                    lockCitizen.TelephoneNumber = objCitizen.TelephoneNumber;
+                    lockCitizen.MobileNumber = objCitizen.MobileNumber;
+                    lockCitizen.EmailAddress = objCitizen.EmailAddress;
+                    lockCitizen.OccupationId = objCitizen.OccupationId;
+                    lockCitizen.EmployerName = objCitizen.EmployerName;
+                    lockCitizen.EmployerAddress = objCitizen.EmployerAddress;
+                    lockCitizen.EmployerTelephoneNumber = objCitizen.EmployerTelephoneNumber;
+                    lockCitizen.SpouseSurname = objCitizen.SpouseSurname;
+                    lockCitizen.SpouseFirstname = objCitizen.SpouseFirstname;
+                    lockCitizen.SpouseMiddlename = objCitizen.SpouseMiddlename;
+                    lockCitizen.SpouseExtensionname = objCitizen.SpouseExtensionname;
+                    lockCitizen.SpouseOccupationId = objCitizen.SpouseOccupationId;
+                    lockCitizen.SpouseEmployerName = objCitizen.SpouseEmployerName;
+                    lockCitizen.SpouseEmployerAddress = objCitizen.SpouseEmployerAddress;
+                    lockCitizen.FatherSurname = objCitizen.FatherSurname;
+                    lockCitizen.FatherFirstname = objCitizen.FatherFirstname;
+                    lockCitizen.FatherMiddlename = objCitizen.FatherMiddlename;
+                    lockCitizen.FatherExtensionname = objCitizen.FatherExtensionname;
+                    lockCitizen.MotherSurname = objCitizen.MotherSurname;
+                    lockCitizen.MotherFirstname = objCitizen.MotherFirstname;
+                    lockCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
+                    lockCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
+                    lockCitizen.PictureURL = objCitizen.PictureURL;
+                    lockCitizen.StatusId = objCitizen.StatusId;
+                    lockCitizen.IsLocked = true;
+                    lockCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
+                    lockCitizen.UpdatedDateTime = DateTime.Now;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut, Route("unlock/{id}")]
+        public HttpResponseMessage UnlockCitizen(String id)
+        {
+            try
+            {
+                var citizen = from d in db.MstCitizens
+                              where d.Id == Convert.ToInt32(id)
+                              select d;
+
+                if (citizen.Any())
+                {
+                    if (citizen.FirstOrDefault().IsLocked == false)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Already unlocked!");
+                    }
+
+                    var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                    var unlockCitizen = citizen.FirstOrDefault();
+                    unlockCitizen.IsLocked = false;
+                    unlockCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
+                    unlockCitizen.UpdatedDateTime = DateTime.Now;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, "");
@@ -556,6 +836,11 @@ namespace ayudacard_api.ApiControllers
 
                 if (citizen.Any())
                 {
+                    if (citizen.FirstOrDefault().IsLocked == true)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Citizen cannot be deleted if locked.");
+                    }
+
                     var deleteCitizen = citizen.FirstOrDefault();
                     db.MstCitizens.DeleteOnSubmit(deleteCitizen);
                     db.SubmitChanges();
@@ -662,6 +947,7 @@ namespace ayudacard_api.ApiControllers
                                    PictureURL = d.PictureURL,
                                    StatusId = d.StatusId,
                                    Status = d.MstStatus.Status,
+                                   IsLocked = d.IsLocked,
                                    CreatedByUserId = d.CreatedByUserId,
                                    CreatedByUser = d.MstUser.Fullname,
                                    CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
