@@ -217,6 +217,7 @@
     <Compile Include="ApiControllers\ApiMstOccupationController.cs" />
     <Compile Include="ApiControllers\ApiMstSexController.cs" />
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
+    <Compile Include="ApiControllers\ApiMstUserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Entities\MstRegion.cs" />
     <Compile Include="Entities\MstSex.cs" />
     <Compile Include="Entities\MstTypeOfCitizenship.cs" />
+    <Compile Include="Entities\MstUser.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -30,7 +30,7 @@ namespace ayudacard_api
             {
                 RequiredLength = 6,
                 //RequireNonLetterOrDigit = true,
-                RequireDigit = true,
+                //RequireDigit = true,
                 //RequireLowercase = true,
                 //RequireUppercase = true,
             };

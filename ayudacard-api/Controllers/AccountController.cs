@@ -319,7 +319,8 @@ namespace ayudacard_api.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
