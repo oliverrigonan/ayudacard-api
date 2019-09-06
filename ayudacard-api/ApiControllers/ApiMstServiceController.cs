@@ -25,7 +25,7 @@ namespace ayudacard_api.ApiControllers
                                ServiceGroupId = d.ServiceGroupId,
                                ServiceGroup = d.MstServiceGroup.ServiceGroup,
                                DateEncoded = d.DateEncoded.ToShortDateString(),
-                               DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : "",
+                               DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : null,
                                LimitAmount = d.LimitAmount,
                                IsMultipleUse = d.IsMultipleUse,
                                StatusId = d.StatusId,
@@ -55,7 +55,7 @@ namespace ayudacard_api.ApiControllers
                               ServiceGroupId = d.ServiceGroupId,
                               ServiceGroup = d.MstServiceGroup.ServiceGroup,
                               DateEncoded = d.DateEncoded.ToShortDateString(),
-                              DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : "",
+                              DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : null,
                               LimitAmount = d.LimitAmount,
                               IsMultipleUse = d.IsMultipleUse,
                               StatusId = d.StatusId,
@@ -70,6 +70,32 @@ namespace ayudacard_api.ApiControllers
                           };
 
             return service.FirstOrDefault();
+        }
+
+        [HttpGet, Route("serviceGroup/dropdown/list")]
+        public List<Entities.MstServiceGroup> ServiceGroupDropdownList()
+        {
+            var serviceGroup = from d in db.MstServiceGroups
+                               select new Entities.MstServiceGroup
+                               {
+                                   Id = d.Id,
+                                   ServiceGroup = d.ServiceGroup
+                               };
+
+            return serviceGroup.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("status/dropdown/list")]
+        public List<Entities.MstStatus> StatusDropdownList()
+        {
+            var status = from d in db.MstStatus
+                         select new Entities.MstStatus
+                         {
+                             Id = d.Id,
+                             Status = d.Status
+                         };
+
+            return status.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]
@@ -119,33 +145,95 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
-        [HttpPut, Route("lock/{id}")]
-        public HttpResponseMessage LockService(String id, Entities.MstService objService)
+        [HttpPut, Route("save/{id}")]
+        public HttpResponseMessage SaveService(String id, Entities.MstService objService)
         {
             try
             {
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var serviceGroup = from d in db.MstServiceGroups where d.Id == objService.ServiceGroupId select d;
+                if (serviceGroup.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
+                }
+
+                var status = from d in db.MstStatus where d.Id == objService.StatusId select d;
+                if (status.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                }
+
                 var service = from d in db.MstServices
                               where d.Id == Convert.ToInt32(id)
                               select d;
 
                 if (service.Any())
                 {
-                    var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
-
-                    var serviceGroup = from d in db.MstServiceGroups where d.Id == objService.ServiceGroupId select d;
-                    if (serviceGroup.Any() == false)
+                    DateTime? dateExpiry = null;
+                    if (objService.DateExpiry != null)
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
+                        dateExpiry = Convert.ToDateTime(objService.DateExpiry);
                     }
 
-                    var status = from d in db.MstStatus where d.Id == objService.StatusId select d;
-                    if (status.Any() == false)
+                    var saveService = service.FirstOrDefault();
+                    saveService.Service = objService.Service;
+                    saveService.Description = objService.Description;
+                    saveService.ServiceGroupId = objService.ServiceGroupId;
+                    saveService.DateEncoded = Convert.ToDateTime(objService.DateEncoded);
+                    saveService.DateExpiry = dateExpiry;
+                    saveService.LimitAmount = objService.LimitAmount;
+                    saveService.IsMultipleUse = objService.IsMultipleUse;
+                    saveService.StatusId = objService.StatusId;
+                    saveService.UpdatedByUserId = currentUser.FirstOrDefault().Id;
+                    saveService.UpdatedDateTime = DateTime.Now;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service  not found!");
+                }
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut, Route("lock/{id}")]
+        public HttpResponseMessage LockService(String id, Entities.MstService objService)
+        {
+            try
+            {
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var serviceGroup = from d in db.MstServiceGroups where d.Id == objService.ServiceGroupId select d;
+                if (serviceGroup.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
+                }
+
+                var status = from d in db.MstStatus where d.Id == objService.StatusId select d;
+                if (status.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                }
+
+                var service = from d in db.MstServices
+                              where d.Id == Convert.ToInt32(id)
+                              select d;
+
+                if (service.Any())
+                {
+                    if (service.FirstOrDefault().IsLocked == true)
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Already locked!");
                     }
 
                     DateTime? dateExpiry = null;
-                    if (objService.DateExpiry.Equals("") == false || objService.DateExpiry.Equals(String.Empty))
+                    if (objService.DateExpiry != null)
                     {
                         dateExpiry = Convert.ToDateTime(objService.DateExpiry);
                     }
