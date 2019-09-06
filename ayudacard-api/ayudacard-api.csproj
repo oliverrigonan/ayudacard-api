@@ -211,6 +211,9 @@
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenshipController.cs" />
+    <Compile Include="ApiControllers\ApiMstServiceController.cs" />
+    <Compile Include="ApiControllers\ApiMstServiceDepartmentController.cs" />
+    <Compile Include="ApiControllers\ApiMstServiceGroupController.cs" />
     <Compile Include="ApiControllers\ApiMstStatusController.cs" />
     <Compile Include="ApiControllers\ApiMstCivilStatusController.cs" />
     <Compile Include="ApiControllers\ApiMstEducationLevelController.cs" />
@@ -262,6 +265,9 @@
     </Compile>
     <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizensEducation.cs" />
+    <Compile Include="Entities\MstService.cs" />
+    <Compile Include="Entities\MstServiceDepartment.cs" />
+    <Compile Include="Entities\MstServiceGroup.cs" />
     <Compile Include="Entities\MstStatus.cs" />
     <Compile Include="Entities\MstBarangay.cs" />
     <Compile Include="Entities\MstBloodType.cs" />

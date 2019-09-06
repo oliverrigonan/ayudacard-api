@@ -56,7 +56,7 @@ namespace ayudacard_api.ApiControllers
                               where d.Id == objCitizensEducation.CitizenId
                               select d;
 
-                if (!citizen.Any())
+                if (citizen.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
                 }
@@ -65,7 +65,7 @@ namespace ayudacard_api.ApiControllers
                                      where d.Id == objCitizensEducation.EducationLevelId
                                      select d;
 
-                if (!educationLevel.Any())
+                if (educationLevel.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Education level not found!");
                 }
@@ -104,6 +104,24 @@ namespace ayudacard_api.ApiControllers
 
                 if (education.Any())
                 {
+                    var citizen = from d in db.MstCitizens
+                                  where d.Id == objCitizensEducation.CitizenId
+                                  select d;
+
+                    if (citizen.Any() == false)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                    }
+
+                    var educationLevel = from d in db.MstEducationLevels
+                                         where d.Id == objCitizensEducation.EducationLevelId
+                                         select d;
+
+                    if (educationLevel.Any() == false)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Education level not found!");
+                    }
+
                     var updateEducation = education.FirstOrDefault();
                     updateEducation.EducationLevelId = objCitizensEducation.EducationLevelId;
                     updateEducation.NameOfSchool = objCitizensEducation.NameOfSchool;

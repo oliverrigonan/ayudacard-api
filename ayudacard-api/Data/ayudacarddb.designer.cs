@@ -90,6 +90,15 @@ namespace ayudacard_api.Data
     partial void InsertMstRegion(MstRegion instance);
     partial void UpdateMstRegion(MstRegion instance);
     partial void DeleteMstRegion(MstRegion instance);
+    partial void InsertMstService(MstService instance);
+    partial void UpdateMstService(MstService instance);
+    partial void DeleteMstService(MstService instance);
+    partial void InsertMstServiceDepartment(MstServiceDepartment instance);
+    partial void UpdateMstServiceDepartment(MstServiceDepartment instance);
+    partial void DeleteMstServiceDepartment(MstServiceDepartment instance);
+    partial void InsertMstServiceGroup(MstServiceGroup instance);
+    partial void UpdateMstServiceGroup(MstServiceGroup instance);
+    partial void DeleteMstServiceGroup(MstServiceGroup instance);
     partial void InsertMstSex(MstSex instance);
     partial void UpdateMstSex(MstSex instance);
     partial void DeleteMstSex(MstSex instance);
@@ -291,6 +300,30 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		public System.Data.Linq.Table<MstService> MstServices
+		{
+			get
+			{
+				return this.GetTable<MstService>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstServiceDepartment> MstServiceDepartments
+		{
+			get
+			{
+				return this.GetTable<MstServiceDepartment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstServiceGroup> MstServiceGroups
+		{
+			get
+			{
+				return this.GetTable<MstServiceGroup>();
+			}
+		}
+		
 		public System.Data.Linq.Table<MstSex> MstSexes
 		{
 			get
@@ -450,6 +483,10 @@ namespace ayudacard_api.Data
 		
 		private EntitySet<MstCitizen> _MstCitizens1;
 		
+		private EntitySet<MstService> _MstServices;
+		
+		private EntitySet<MstService> _MstServices1;
+		
 		private EntityRef<AspNetUser> _AspNetUser;
 		
     #region Extensibility Method Definitions
@@ -472,6 +509,8 @@ namespace ayudacard_api.Data
 		{
 			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
 			this._MstCitizens1 = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens1), new Action<MstCitizen>(this.detach_MstCitizens1));
+			this._MstServices = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices), new Action<MstService>(this.detach_MstServices));
+			this._MstServices1 = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices1), new Action<MstService>(this.detach_MstServices1));
 			this._AspNetUser = default(EntityRef<AspNetUser>);
 			OnCreated();
 		}
@@ -606,6 +645,32 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstService", Storage="_MstServices", ThisKey="Id", OtherKey="CreatedByUserId")]
+		public EntitySet<MstService> MstServices
+		{
+			get
+			{
+				return this._MstServices;
+			}
+			set
+			{
+				this._MstServices.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstService1", Storage="_MstServices1", ThisKey="Id", OtherKey="UpdatedByUserId")]
+		public EntitySet<MstService> MstServices1
+		{
+			get
+			{
+				return this._MstServices1;
+			}
+			set
+			{
+				this._MstServices1.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetUser_MstUser", Storage="_AspNetUser", ThisKey="AspNetUserId", OtherKey="Id", IsForeignKey=true)]
 		public AspNetUser AspNetUser
 		{
@@ -679,6 +744,30 @@ namespace ayudacard_api.Data
 		}
 		
 		private void detach_MstCitizens1(MstCitizen entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = null;
+		}
+		
+		private void attach_MstServices(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstServices(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_MstServices1(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = this;
+		}
+		
+		private void detach_MstServices1(MstService entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstUser1 = null;
@@ -6181,6 +6270,933 @@ namespace ayudacard_api.Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstService")]
+	public partial class MstService : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Service;
+		
+		private string _Description;
+		
+		private int _ServiceGroupId;
+		
+		private System.DateTime _DateEncoded;
+		
+		private System.Nullable<System.DateTime> _DateExpiry;
+		
+		private decimal _LimitAmount;
+		
+		private bool _IsMultipleUse;
+		
+		private int _StatusId;
+		
+		private bool _IsLocked;
+		
+		private int _CreatedByUserId;
+		
+		private System.DateTime _CreatedDateTime;
+		
+		private int _UpdatedByUserId;
+		
+		private System.DateTime _UpdatedDateTime;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+		private EntityRef<MstUser> _MstUser1;
+		
+		private EntityRef<MstServiceGroup> _MstServiceGroup;
+		
+		private EntityRef<MstStatus> _MstStatus;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnServiceChanging(string value);
+    partial void OnServiceChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnServiceGroupIdChanging(int value);
+    partial void OnServiceGroupIdChanged();
+    partial void OnDateEncodedChanging(System.DateTime value);
+    partial void OnDateEncodedChanged();
+    partial void OnDateExpiryChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateExpiryChanged();
+    partial void OnLimitAmountChanging(decimal value);
+    partial void OnLimitAmountChanged();
+    partial void OnIsMultipleUseChanging(bool value);
+    partial void OnIsMultipleUseChanged();
+    partial void OnStatusIdChanging(int value);
+    partial void OnStatusIdChanged();
+    partial void OnIsLockedChanging(bool value);
+    partial void OnIsLockedChanged();
+    partial void OnCreatedByUserIdChanging(int value);
+    partial void OnCreatedByUserIdChanged();
+    partial void OnCreatedDateTimeChanging(System.DateTime value);
+    partial void OnCreatedDateTimeChanged();
+    partial void OnUpdatedByUserIdChanging(int value);
+    partial void OnUpdatedByUserIdChanged();
+    partial void OnUpdatedDateTimeChanging(System.DateTime value);
+    partial void OnUpdatedDateTimeChanged();
+    #endregion
+		
+		public MstService()
+		{
+			this._MstUser = default(EntityRef<MstUser>);
+			this._MstUser1 = default(EntityRef<MstUser>);
+			this._MstServiceGroup = default(EntityRef<MstServiceGroup>);
+			this._MstStatus = default(EntityRef<MstStatus>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Service", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Service
+		{
+			get
+			{
+				return this._Service;
+			}
+			set
+			{
+				if ((this._Service != value))
+				{
+					this.OnServiceChanging(value);
+					this.SendPropertyChanging();
+					this._Service = value;
+					this.SendPropertyChanged("Service");
+					this.OnServiceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceGroupId", DbType="Int NOT NULL")]
+		public int ServiceGroupId
+		{
+			get
+			{
+				return this._ServiceGroupId;
+			}
+			set
+			{
+				if ((this._ServiceGroupId != value))
+				{
+					if (this._MstServiceGroup.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnServiceGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._ServiceGroupId = value;
+					this.SendPropertyChanged("ServiceGroupId");
+					this.OnServiceGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateEncoded", DbType="DateTime NOT NULL")]
+		public System.DateTime DateEncoded
+		{
+			get
+			{
+				return this._DateEncoded;
+			}
+			set
+			{
+				if ((this._DateEncoded != value))
+				{
+					this.OnDateEncodedChanging(value);
+					this.SendPropertyChanging();
+					this._DateEncoded = value;
+					this.SendPropertyChanged("DateEncoded");
+					this.OnDateEncodedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateExpiry", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateExpiry
+		{
+			get
+			{
+				return this._DateExpiry;
+			}
+			set
+			{
+				if ((this._DateExpiry != value))
+				{
+					this.OnDateExpiryChanging(value);
+					this.SendPropertyChanging();
+					this._DateExpiry = value;
+					this.SendPropertyChanged("DateExpiry");
+					this.OnDateExpiryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LimitAmount", DbType="Decimal(18,5) NOT NULL")]
+		public decimal LimitAmount
+		{
+			get
+			{
+				return this._LimitAmount;
+			}
+			set
+			{
+				if ((this._LimitAmount != value))
+				{
+					this.OnLimitAmountChanging(value);
+					this.SendPropertyChanging();
+					this._LimitAmount = value;
+					this.SendPropertyChanged("LimitAmount");
+					this.OnLimitAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsMultipleUse", DbType="Bit NOT NULL")]
+		public bool IsMultipleUse
+		{
+			get
+			{
+				return this._IsMultipleUse;
+			}
+			set
+			{
+				if ((this._IsMultipleUse != value))
+				{
+					this.OnIsMultipleUseChanging(value);
+					this.SendPropertyChanging();
+					this._IsMultipleUse = value;
+					this.SendPropertyChanged("IsMultipleUse");
+					this.OnIsMultipleUseChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusId", DbType="Int NOT NULL")]
+		public int StatusId
+		{
+			get
+			{
+				return this._StatusId;
+			}
+			set
+			{
+				if ((this._StatusId != value))
+				{
+					if (this._MstStatus.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStatusIdChanging(value);
+					this.SendPropertyChanging();
+					this._StatusId = value;
+					this.SendPropertyChanged("StatusId");
+					this.OnStatusIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
+		public bool IsLocked
+		{
+			get
+			{
+				return this._IsLocked;
+			}
+			set
+			{
+				if ((this._IsLocked != value))
+				{
+					this.OnIsLockedChanging(value);
+					this.SendPropertyChanging();
+					this._IsLocked = value;
+					this.SendPropertyChanged("IsLocked");
+					this.OnIsLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByUserId", DbType="Int NOT NULL")]
+		public int CreatedByUserId
+		{
+			get
+			{
+				return this._CreatedByUserId;
+			}
+			set
+			{
+				if ((this._CreatedByUserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCreatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedByUserId = value;
+					this.SendPropertyChanged("CreatedByUserId");
+					this.OnCreatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDateTime
+		{
+			get
+			{
+				return this._CreatedDateTime;
+			}
+			set
+			{
+				if ((this._CreatedDateTime != value))
+				{
+					this.OnCreatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDateTime = value;
+					this.SendPropertyChanged("CreatedDateTime");
+					this.OnCreatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedByUserId", DbType="Int NOT NULL")]
+		public int UpdatedByUserId
+		{
+			get
+			{
+				return this._UpdatedByUserId;
+			}
+			set
+			{
+				if ((this._UpdatedByUserId != value))
+				{
+					if (this._MstUser1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUpdatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedByUserId = value;
+					this.SendPropertyChanged("UpdatedByUserId");
+					this.OnUpdatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime UpdatedDateTime
+		{
+			get
+			{
+				return this._UpdatedDateTime;
+			}
+			set
+			{
+				if ((this._UpdatedDateTime != value))
+				{
+					this.OnUpdatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedDateTime = value;
+					this.SendPropertyChanged("UpdatedDateTime");
+					this.OnUpdatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstService", Storage="_MstUser", ThisKey="CreatedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstServices.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstServices.Add(this);
+						this._CreatedByUserId = value.Id;
+					}
+					else
+					{
+						this._CreatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstService1", Storage="_MstUser1", ThisKey="UpdatedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser1
+		{
+			get
+			{
+				return this._MstUser1.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser1.Entity = null;
+						previousValue.MstServices1.Remove(this);
+					}
+					this._MstUser1.Entity = value;
+					if ((value != null))
+					{
+						value.MstServices1.Add(this);
+						this._UpdatedByUserId = value.Id;
+					}
+					else
+					{
+						this._UpdatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstServiceGroup_MstService", Storage="_MstServiceGroup", ThisKey="ServiceGroupId", OtherKey="Id", IsForeignKey=true)]
+		public MstServiceGroup MstServiceGroup
+		{
+			get
+			{
+				return this._MstServiceGroup.Entity;
+			}
+			set
+			{
+				MstServiceGroup previousValue = this._MstServiceGroup.Entity;
+				if (((previousValue != value) 
+							|| (this._MstServiceGroup.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstServiceGroup.Entity = null;
+						previousValue.MstServices.Remove(this);
+					}
+					this._MstServiceGroup.Entity = value;
+					if ((value != null))
+					{
+						value.MstServices.Add(this);
+						this._ServiceGroupId = value.Id;
+					}
+					else
+					{
+						this._ServiceGroupId = default(int);
+					}
+					this.SendPropertyChanged("MstServiceGroup");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstService", Storage="_MstStatus", ThisKey="StatusId", OtherKey="Id", IsForeignKey=true)]
+		public MstStatus MstStatus
+		{
+			get
+			{
+				return this._MstStatus.Entity;
+			}
+			set
+			{
+				MstStatus previousValue = this._MstStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._MstStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstStatus.Entity = null;
+						previousValue.MstServices.Remove(this);
+					}
+					this._MstStatus.Entity = value;
+					if ((value != null))
+					{
+						value.MstServices.Add(this);
+						this._StatusId = value.Id;
+					}
+					else
+					{
+						this._StatusId = default(int);
+					}
+					this.SendPropertyChanged("MstStatus");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstServiceDepartment")]
+	public partial class MstServiceDepartment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _ServiceDepartment;
+		
+		private string _OfficerInCharge;
+		
+		private string _ContactNumber;
+		
+		private string _EmailAddress;
+		
+		private EntitySet<MstServiceGroup> _MstServiceGroups;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnServiceDepartmentChanging(string value);
+    partial void OnServiceDepartmentChanged();
+    partial void OnOfficerInChargeChanging(string value);
+    partial void OnOfficerInChargeChanged();
+    partial void OnContactNumberChanging(string value);
+    partial void OnContactNumberChanged();
+    partial void OnEmailAddressChanging(string value);
+    partial void OnEmailAddressChanged();
+    #endregion
+		
+		public MstServiceDepartment()
+		{
+			this._MstServiceGroups = new EntitySet<MstServiceGroup>(new Action<MstServiceGroup>(this.attach_MstServiceGroups), new Action<MstServiceGroup>(this.detach_MstServiceGroups));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceDepartment", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string ServiceDepartment
+		{
+			get
+			{
+				return this._ServiceDepartment;
+			}
+			set
+			{
+				if ((this._ServiceDepartment != value))
+				{
+					this.OnServiceDepartmentChanging(value);
+					this.SendPropertyChanging();
+					this._ServiceDepartment = value;
+					this.SendPropertyChanged("ServiceDepartment");
+					this.OnServiceDepartmentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OfficerInCharge", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string OfficerInCharge
+		{
+			get
+			{
+				return this._OfficerInCharge;
+			}
+			set
+			{
+				if ((this._OfficerInCharge != value))
+				{
+					this.OnOfficerInChargeChanging(value);
+					this.SendPropertyChanging();
+					this._OfficerInCharge = value;
+					this.SendPropertyChanged("OfficerInCharge");
+					this.OnOfficerInChargeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string ContactNumber
+		{
+			get
+			{
+				return this._ContactNumber;
+			}
+			set
+			{
+				if ((this._ContactNumber != value))
+				{
+					this.OnContactNumberChanging(value);
+					this.SendPropertyChanging();
+					this._ContactNumber = value;
+					this.SendPropertyChanged("ContactNumber");
+					this.OnContactNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailAddress", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string EmailAddress
+		{
+			get
+			{
+				return this._EmailAddress;
+			}
+			set
+			{
+				if ((this._EmailAddress != value))
+				{
+					this.OnEmailAddressChanging(value);
+					this.SendPropertyChanging();
+					this._EmailAddress = value;
+					this.SendPropertyChanged("EmailAddress");
+					this.OnEmailAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstServiceDepartment_MstServiceGroup", Storage="_MstServiceGroups", ThisKey="Id", OtherKey="ServiceDepartmentId")]
+		public EntitySet<MstServiceGroup> MstServiceGroups
+		{
+			get
+			{
+				return this._MstServiceGroups;
+			}
+			set
+			{
+				this._MstServiceGroups.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstServiceGroups(MstServiceGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstServiceDepartment = this;
+		}
+		
+		private void detach_MstServiceGroups(MstServiceGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstServiceDepartment = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstServiceGroup")]
+	public partial class MstServiceGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _ServiceGroup;
+		
+		private string _Description;
+		
+		private int _ServiceDepartmentId;
+		
+		private EntitySet<MstService> _MstServices;
+		
+		private EntityRef<MstServiceDepartment> _MstServiceDepartment;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnServiceGroupChanging(string value);
+    partial void OnServiceGroupChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnServiceDepartmentIdChanging(int value);
+    partial void OnServiceDepartmentIdChanged();
+    #endregion
+		
+		public MstServiceGroup()
+		{
+			this._MstServices = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices), new Action<MstService>(this.detach_MstServices));
+			this._MstServiceDepartment = default(EntityRef<MstServiceDepartment>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceGroup", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string ServiceGroup
+		{
+			get
+			{
+				return this._ServiceGroup;
+			}
+			set
+			{
+				if ((this._ServiceGroup != value))
+				{
+					this.OnServiceGroupChanging(value);
+					this.SendPropertyChanging();
+					this._ServiceGroup = value;
+					this.SendPropertyChanged("ServiceGroup");
+					this.OnServiceGroupChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServiceDepartmentId", DbType="Int NOT NULL")]
+		public int ServiceDepartmentId
+		{
+			get
+			{
+				return this._ServiceDepartmentId;
+			}
+			set
+			{
+				if ((this._ServiceDepartmentId != value))
+				{
+					if (this._MstServiceDepartment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnServiceDepartmentIdChanging(value);
+					this.SendPropertyChanging();
+					this._ServiceDepartmentId = value;
+					this.SendPropertyChanged("ServiceDepartmentId");
+					this.OnServiceDepartmentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstServiceGroup_MstService", Storage="_MstServices", ThisKey="Id", OtherKey="ServiceGroupId")]
+		public EntitySet<MstService> MstServices
+		{
+			get
+			{
+				return this._MstServices;
+			}
+			set
+			{
+				this._MstServices.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstServiceDepartment_MstServiceGroup", Storage="_MstServiceDepartment", ThisKey="ServiceDepartmentId", OtherKey="Id", IsForeignKey=true)]
+		public MstServiceDepartment MstServiceDepartment
+		{
+			get
+			{
+				return this._MstServiceDepartment.Entity;
+			}
+			set
+			{
+				MstServiceDepartment previousValue = this._MstServiceDepartment.Entity;
+				if (((previousValue != value) 
+							|| (this._MstServiceDepartment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstServiceDepartment.Entity = null;
+						previousValue.MstServiceGroups.Remove(this);
+					}
+					this._MstServiceDepartment.Entity = value;
+					if ((value != null))
+					{
+						value.MstServiceGroups.Add(this);
+						this._ServiceDepartmentId = value.Id;
+					}
+					else
+					{
+						this._ServiceDepartmentId = default(int);
+					}
+					this.SendPropertyChanged("MstServiceDepartment");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstServices(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstServiceGroup = this;
+		}
+		
+		private void detach_MstServices(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstServiceGroup = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstSex")]
 	public partial class MstSex : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -6311,6 +7327,8 @@ namespace ayudacard_api.Data
 		
 		private EntitySet<MstCitizensCard> _MstCitizensCards;
 		
+		private EntitySet<MstService> _MstServices;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -6327,6 +7345,7 @@ namespace ayudacard_api.Data
 		{
 			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
 			this._MstCitizensCards = new EntitySet<MstCitizensCard>(new Action<MstCitizensCard>(this.attach_MstCitizensCards), new Action<MstCitizensCard>(this.detach_MstCitizensCards));
+			this._MstServices = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices), new Action<MstService>(this.detach_MstServices));
 			OnCreated();
 		}
 		
@@ -6416,6 +7435,19 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstStatus_MstService", Storage="_MstServices", ThisKey="Id", OtherKey="StatusId")]
+		public EntitySet<MstService> MstServices
+		{
+			get
+			{
+				return this._MstServices;
+			}
+			set
+			{
+				this._MstServices.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -6455,6 +7487,18 @@ namespace ayudacard_api.Data
 		}
 		
 		private void detach_MstCitizensCards(MstCitizensCard entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = null;
+		}
+		
+		private void attach_MstServices(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstStatus = this;
+		}
+		
+		private void detach_MstServices(MstService entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstStatus = null;

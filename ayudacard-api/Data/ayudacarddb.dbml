@@ -16,6 +16,8 @@
       <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstCitizen" />
       <Association Name="MstUser_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstCitizen" />
+      <Association Name="MstUser_MstService" Member="MstServices" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstService" />
+      <Association Name="MstUser_MstService1" Member="MstServices1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstService" />
       <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
     </Type>
   </Table>
@@ -268,6 +270,48 @@
       <Association Name="MstCountry_MstRegion" Member="MstCountry" ThisKey="CountryId" OtherKey="Id" Type="MstCountry" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.MstService" Member="MstServices">
+    <Type Name="MstService">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Service" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ServiceGroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateEncoded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateExpiry" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LimitAmount" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="IsMultipleUse" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_MstService" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstService1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstServiceGroup_MstService" Member="MstServiceGroup" ThisKey="ServiceGroupId" OtherKey="Id" Type="MstServiceGroup" IsForeignKey="true" />
+      <Association Name="MstStatus_MstService" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstServiceDepartment" Member="MstServiceDepartments">
+    <Type Name="MstServiceDepartment">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ServiceDepartment" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="OfficerInCharge" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ContactNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="MstServiceDepartment_MstServiceGroup" Member="MstServiceGroups" ThisKey="Id" OtherKey="ServiceDepartmentId" Type="MstServiceGroup" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstServiceGroup" Member="MstServiceGroups">
+    <Type Name="MstServiceGroup">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ServiceGroup" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ServiceDepartmentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstServiceGroup_MstService" Member="MstServices" ThisKey="Id" OtherKey="ServiceGroupId" Type="MstService" />
+      <Association Name="MstServiceDepartment_MstServiceGroup" Member="MstServiceDepartment" ThisKey="ServiceDepartmentId" OtherKey="Id" Type="MstServiceDepartment" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.MstSex" Member="MstSexes">
     <Type Name="MstSex">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -282,6 +326,7 @@
       <Column Name="Category" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="StatusId" Type="MstCitizen" />
       <Association Name="MstStatus_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="StatusId" Type="MstCitizensCard" />
+      <Association Name="MstStatus_MstService" Member="MstServices" ThisKey="Id" OtherKey="StatusId" Type="MstService" />
     </Type>
   </Table>
   <Table Name="dbo.MstTypeOfCitizenship" Member="MstTypeOfCitizenships">

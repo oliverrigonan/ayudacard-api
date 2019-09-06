@@ -38,7 +38,7 @@ namespace ayudacard_api.ApiControllers
                               where d.Id == objCitizensChildren.CitizenId
                               select d;
 
-                if (!citizen.Any())
+                if (citizen.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
                 }
@@ -72,6 +72,15 @@ namespace ayudacard_api.ApiControllers
 
                 if (children.Any())
                 {
+                    var citizen = from d in db.MstCitizens
+                                  where d.Id == objCitizensChildren.CitizenId
+                                  select d;
+
+                    if (citizen.Any() == false)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                    }
+
                     var updateChildren = children.FirstOrDefault();
                     updateChildren.Fullname = objCitizensChildren.Fullname;
                     updateChildren.DateOfBirth = Convert.ToDateTime(objCitizensChildren.DateOfBirth);

@@ -347,55 +347,55 @@ namespace ayudacard_api.ApiControllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
                 var sex = from d in db.MstSexes select d;
-                if (!sex.Any())
+                if (sex.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
                 }
 
                 var civilStatus = from d in db.MstCivilStatus select d;
-                if (!civilStatus.Any())
+                if (civilStatus.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
                 }
 
                 var bloodType = from d in db.MstBloodTypes select d;
-                if (!bloodType.Any())
+                if (bloodType.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
                 }
 
                 var citizenship = from d in db.MstCitizenships select d;
-                if (!citizenship.Any())
+                if (citizenship.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
 
                 var barangay = from d in db.MstBarangays select d;
-                if (!barangay.Any())
+                if (barangay.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Barangay not found!");
                 }
 
                 var city = from d in db.MstCities select d;
-                if (!city.Any())
+                if (city.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "City not found!");
                 }
 
                 var province = from d in db.MstProvinces select d;
-                if (!province.Any())
+                if (province.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Province not found!");
                 }
 
                 var occupation = from d in db.MstOccupations select d;
-                if (!occupation.Any())
+                if (occupation.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
                 var status = from d in db.MstStatus select d;
-                if (!status.Any())
+                if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
@@ -486,25 +486,25 @@ namespace ayudacard_api.ApiControllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
                 var sex = from d in db.MstSexes where d.Id == objCitizen.SexId select d;
-                if (!sex.Any())
+                if (sex.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
                 }
 
                 var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.StatusId select d;
-                if (!civilStatus.Any())
+                if (civilStatus.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
                 }
 
                 var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
-                if (!bloodType.Any())
+                if (bloodType.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
                 }
 
                 var citizenship = from d in db.MstCitizenships where d.Id == objCitizen.CitizenshipId select d;
-                if (!citizenship.Any())
+                if (citizenship.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
@@ -512,62 +512,62 @@ namespace ayudacard_api.ApiControllers
                 if (objCitizen.TypeOfCitizenshipId != null)
                 {
                     var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
-                    if (!typeOfCitizenship.Any())
+                    if (typeOfCitizenship.Any() == false)
                     {
                         return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
                     }
                 }
 
                 var residentialBarangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId select d;
-                if (!residentialBarangay.Any())
+                if (residentialBarangay.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential barangay not found!");
                 }
 
                 var permanentBarangay = from d in db.MstBarangays where d.Id == objCitizen.PermanentBarangayId select d;
-                if (!permanentBarangay.Any())
+                if (permanentBarangay.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent barangay not found!");
                 }
 
                 var residentialCity = from d in db.MstCities where d.Id == objCitizen.ResidentialCityId select d;
-                if (!residentialCity.Any())
+                if (residentialCity.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential city not found!");
                 }
 
                 var permanentCity = from d in db.MstCities where d.Id == objCitizen.PermanentCityId select d;
-                if (!permanentCity.Any())
+                if (permanentCity.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent city not found!");
                 }
 
                 var residentialProvince = from d in db.MstProvinces where d.Id == objCitizen.ResidentialProvinceId select d;
-                if (!residentialProvince.Any())
+                if (residentialProvince.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential province not found!");
                 }
 
                 var permanentProvince = from d in db.MstProvinces where d.Id == objCitizen.PermanentProvinceId select d;
-                if (!permanentProvince.Any())
+                if (permanentProvince.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent province not found!");
                 }
 
                 var occupation = from d in db.MstOccupations where d.Id == objCitizen.OccupationId select d;
-                if (!occupation.Any())
+                if (occupation.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
                 var spouseoccupation = from d in db.MstOccupations where d.Id == objCitizen.SpouseOccupationId select d;
-                if (!spouseoccupation.Any())
+                if (spouseoccupation.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Spouse's occupation not found!");
                 }
 
                 var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
-                if (!status.Any())
+                if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
@@ -662,25 +662,25 @@ namespace ayudacard_api.ApiControllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
                 var sex = from d in db.MstSexes where d.Id == objCitizen.SexId select d;
-                if (!sex.Any())
+                if (sex.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
                 }
 
                 var civilStatus = from d in db.MstCivilStatus where d.Id == objCitizen.StatusId select d;
-                if (!civilStatus.Any())
+                if (civilStatus.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
                 }
 
                 var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
-                if (!bloodType.Any())
+                if (bloodType.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
                 }
 
                 var citizenship = from d in db.MstCitizenships where d.Id == objCitizen.CitizenshipId select d;
-                if (!citizenship.Any())
+                if (citizenship.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
                 }
@@ -688,62 +688,62 @@ namespace ayudacard_api.ApiControllers
                 if (objCitizen.TypeOfCitizenshipId != null)
                 {
                     var typeOfCitizenship = from d in db.MstTypeOfCitizenships where d.Id == objCitizen.TypeOfCitizenshipId select d;
-                    if (!typeOfCitizenship.Any())
+                    if (typeOfCitizenship.Any() == false)
                     {
                         return Request.CreateResponse(HttpStatusCode.NotFound, "Type of citizenship not found!");
                     }
                 }
 
                 var residentialBarangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId select d;
-                if (!residentialBarangay.Any())
+                if (residentialBarangay.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential barangay not found!");
                 }
 
                 var permanentBarangay = from d in db.MstBarangays where d.Id == objCitizen.PermanentBarangayId select d;
-                if (!permanentBarangay.Any())
+                if (permanentBarangay.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent barangay not found!");
                 }
 
                 var residentialCity = from d in db.MstCities where d.Id == objCitizen.ResidentialCityId select d;
-                if (!residentialCity.Any())
+                if (residentialCity.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential city not found!");
                 }
 
                 var permanentCity = from d in db.MstCities where d.Id == objCitizen.PermanentCityId select d;
-                if (!permanentCity.Any())
+                if (permanentCity.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent city not found!");
                 }
 
                 var residentialProvince = from d in db.MstProvinces where d.Id == objCitizen.ResidentialProvinceId select d;
-                if (!residentialProvince.Any())
+                if (residentialProvince.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Residential province not found!");
                 }
 
                 var permanentProvince = from d in db.MstProvinces where d.Id == objCitizen.PermanentProvinceId select d;
-                if (!permanentProvince.Any())
+                if (permanentProvince.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Permanent province not found!");
                 }
 
                 var occupation = from d in db.MstOccupations where d.Id == objCitizen.OccupationId select d;
-                if (!occupation.Any())
+                if (occupation.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
                 var spouseoccupation = from d in db.MstOccupations where d.Id == objCitizen.SpouseOccupationId select d;
-                if (!spouseoccupation.Any())
+                if (spouseoccupation.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Spouse's occupation not found!");
                 }
 
                 var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
-                if (!status.Any())
+                if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
