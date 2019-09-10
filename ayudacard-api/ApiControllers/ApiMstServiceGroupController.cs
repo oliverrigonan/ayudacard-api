@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace ayudacard_api.ApiControllers
 {
-    [Authorize, RoutePrefix("api/mst/serviceGroup")]
+    [Authorize, RoutePrefix("api/mst/service/group")]
     public class ApiMstServiceGroupController : ApiController
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();

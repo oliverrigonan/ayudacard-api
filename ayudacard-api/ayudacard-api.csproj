@@ -208,6 +208,7 @@
   <ItemGroup>
     <Compile Include="ApiControllers\ApiMstBloodTypeController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
+    <Compile Include="ApiControllers\ApiMstCitizensCardController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenshipController.cs" />
@@ -263,6 +264,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ayudacarddb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\MstCitizensCard.cs" />
     <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizensEducation.cs" />
     <Compile Include="Entities\MstService.cs" />
