@@ -330,6 +330,7 @@ namespace ayudacard_api.ApiControllers
         public List<Entities.MstStatus> StatusDropdownList()
         {
             var statuses = from d in db.MstStatus
+                           where d.Category.Equals("Citizen")
                            select new Entities.MstStatus
                            {
                                Id = d.Id,
@@ -394,7 +395,10 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
                 }
 
-                var status = from d in db.MstStatus select d;
+                var status = from d in db.MstStatus
+                             where d.Category.Equals("Citizen")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
@@ -566,7 +570,11 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Spouse's occupation not found!");
                 }
 
-                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                var status = from d in db.MstStatus
+                             where d.Id == objCitizen.StatusId
+                             && d.Category.Equals("Citizen")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
@@ -742,7 +750,11 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Spouse's occupation not found!");
                 }
 
-                var status = from d in db.MstStatus where d.Id == objCitizen.StatusId select d;
+                var status = from d in db.MstStatus
+                             where d.Id == objCitizen.StatusId
+                             && d.Category.Equals("Citizen")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");

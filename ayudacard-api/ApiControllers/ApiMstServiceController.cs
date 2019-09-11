@@ -89,6 +89,7 @@ namespace ayudacard_api.ApiControllers
         public List<Entities.MstStatus> StatusDropdownList()
         {
             var status = from d in db.MstStatus
+                         where d.Category.Equals("Service")
                          select new Entities.MstStatus
                          {
                              Id = d.Id,
@@ -111,7 +112,10 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
                 }
 
-                var status = from d in db.MstStatus select d;
+                var status = from d in db.MstStatus
+                             where d.Category.Equals("Service")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
@@ -158,7 +162,11 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
                 }
 
-                var status = from d in db.MstStatus where d.Id == objService.StatusId select d;
+                var status = from d in db.MstStatus
+                             where d.Id == objService.StatusId
+                             && d.Category.Equals("Service")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
@@ -215,7 +223,11 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Service group not found!");
                 }
 
-                var status = from d in db.MstStatus where d.Id == objService.StatusId select d;
+                var status = from d in db.MstStatus
+                             where d.Id == objService.StatusId
+                             && d.Category.Equals("Service")
+                             select d;
+
                 if (status.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
