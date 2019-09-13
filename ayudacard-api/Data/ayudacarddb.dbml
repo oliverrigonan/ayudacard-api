@@ -71,8 +71,10 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Barangay" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="BarangayChairman" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="CityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="MstBarangay_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialBarangayId" Type="MstCitizen" />
       <Association Name="MstBarangay_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="PermanentBarangayId" Type="MstCitizen" />
+      <Association Name="MstCity_MstBarangay" Member="MstCity" ThisKey="CityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstBloodType" Member="MstBloodTypes">
@@ -216,6 +218,7 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="City" Type="System.String" DbType="NChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="ProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstCity_MstBarangay" Member="MstBarangays" ThisKey="Id" OtherKey="CityId" Type="MstBarangay" />
       <Association Name="MstCity_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialCityId" Type="MstCitizen" />
       <Association Name="MstCity_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="PermanentCityId" Type="MstCitizen" />
       <Association Name="MstProvince_MstCity" Member="MstProvince" ThisKey="ProvinceId" OtherKey="Id" Type="MstProvince" IsForeignKey="true" />

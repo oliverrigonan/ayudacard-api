@@ -206,12 +206,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ApiMstBarangayController.cs" />
     <Compile Include="ApiControllers\ApiMstBloodTypeController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensCardController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensChildrenController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizensEducationController.cs" />
     <Compile Include="ApiControllers\ApiMstCitizenshipController.cs" />
+    <Compile Include="ApiControllers\ApiMstCityController.cs" />
+    <Compile Include="ApiControllers\ApiMstCountryController.cs" />
+    <Compile Include="ApiControllers\ApiMstProvinceController.cs" />
+    <Compile Include="ApiControllers\ApiMstRegionController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceDepartmentController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceGroupController.cs" />
@@ -267,6 +272,7 @@
     <Compile Include="Entities\MstCitizensCard.cs" />
     <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizensEducation.cs" />
+    <Compile Include="Entities\MstCountry.cs" />
     <Compile Include="Entities\MstService.cs" />
     <Compile Include="Entities\MstServiceDepartment.cs" />
     <Compile Include="Entities\MstServiceGroup.cs" />

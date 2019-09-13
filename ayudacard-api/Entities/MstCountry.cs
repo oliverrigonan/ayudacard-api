@@ -5,13 +5,9 @@ using System.Web;
 
 namespace ayudacard_api.Entities
 {
-    public class MstProvince
+    public class MstCountry
     {
         public Int32 Id { get; set; }
-        public String Province { get; set; }
-        public Int32 RegionId { get; set; }
-        public String Region { get; set; }
-        public Int32 CountryId { get; set; }
         public String Country { get; set; }
     }
 }

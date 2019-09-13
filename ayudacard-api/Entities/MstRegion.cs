@@ -9,5 +9,7 @@ namespace ayudacard_api.Entities
     {
         public Int32 Id { get; set; }
         public String Region { get; set; }
+        public Int32 CountryId { get; set; }
+        public String Country { get; set; }
     }
 }

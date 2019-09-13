@@ -127,7 +127,7 @@ namespace ayudacard_api.ApiControllers
                     Description = "",
                     ServiceGroupId = serviceGroup.FirstOrDefault().Id,
                     DateEncoded = DateTime.Today,
-                    DateExpiry = null,
+                    DateExpiry = DateTime.Today.AddYears(1),
                     LimitAmount = 0,
                     IsMultipleUse = false,
                     StatusId = status.FirstOrDefault().Id,

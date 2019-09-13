@@ -1718,9 +1718,13 @@ namespace ayudacard_api.Data
 		
 		private string _BarangayChairman;
 		
+		private int _CityId;
+		
 		private EntitySet<MstCitizen> _MstCitizens;
 		
 		private EntitySet<MstCitizen> _MstCitizens1;
+		
+		private EntityRef<MstCity> _MstCity;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1732,12 +1736,15 @@ namespace ayudacard_api.Data
     partial void OnBarangayChanged();
     partial void OnBarangayChairmanChanging(string value);
     partial void OnBarangayChairmanChanged();
+    partial void OnCityIdChanging(int value);
+    partial void OnCityIdChanged();
     #endregion
 		
 		public MstBarangay()
 		{
 			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
 			this._MstCitizens1 = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens1), new Action<MstCitizen>(this.detach_MstCitizens1));
+			this._MstCity = default(EntityRef<MstCity>);
 			OnCreated();
 		}
 		
@@ -1801,6 +1808,30 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CityId", DbType="Int NOT NULL")]
+		public int CityId
+		{
+			get
+			{
+				return this._CityId;
+			}
+			set
+			{
+				if ((this._CityId != value))
+				{
+					if (this._MstCity.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCityIdChanging(value);
+					this.SendPropertyChanging();
+					this._CityId = value;
+					this.SendPropertyChanged("CityId");
+					this.OnCityIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBarangay_MstCitizen", Storage="_MstCitizens", ThisKey="Id", OtherKey="ResidentialBarangayId")]
 		public EntitySet<MstCitizen> MstCitizens
 		{
@@ -1824,6 +1855,40 @@ namespace ayudacard_api.Data
 			set
 			{
 				this._MstCitizens1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCity_MstBarangay", Storage="_MstCity", ThisKey="CityId", OtherKey="Id", IsForeignKey=true)]
+		public MstCity MstCity
+		{
+			get
+			{
+				return this._MstCity.Entity;
+			}
+			set
+			{
+				MstCity previousValue = this._MstCity.Entity;
+				if (((previousValue != value) 
+							|| (this._MstCity.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstCity.Entity = null;
+						previousValue.MstBarangays.Remove(this);
+					}
+					this._MstCity.Entity = value;
+					if ((value != null))
+					{
+						value.MstBarangays.Add(this);
+						this._CityId = value.Id;
+					}
+					else
+					{
+						this._CityId = default(int);
+					}
+					this.SendPropertyChanged("MstCity");
+				}
 			}
 		}
 		
@@ -5177,6 +5242,8 @@ namespace ayudacard_api.Data
 		
 		private int _ProvinceId;
 		
+		private EntitySet<MstBarangay> _MstBarangays;
+		
 		private EntitySet<MstCitizen> _MstCitizens;
 		
 		private EntitySet<MstCitizen> _MstCitizens1;
@@ -5197,6 +5264,7 @@ namespace ayudacard_api.Data
 		
 		public MstCity()
 		{
+			this._MstBarangays = new EntitySet<MstBarangay>(new Action<MstBarangay>(this.attach_MstBarangays), new Action<MstBarangay>(this.detach_MstBarangays));
 			this._MstCitizens = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens), new Action<MstCitizen>(this.detach_MstCitizens));
 			this._MstCitizens1 = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens1), new Action<MstCitizen>(this.detach_MstCitizens1));
 			this._MstProvince = default(EntityRef<MstProvince>);
@@ -5264,6 +5332,19 @@ namespace ayudacard_api.Data
 					this.SendPropertyChanged("ProvinceId");
 					this.OnProvinceIdChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstCity_MstBarangay", Storage="_MstBarangays", ThisKey="Id", OtherKey="CityId")]
+		public EntitySet<MstBarangay> MstBarangays
+		{
+			get
+			{
+				return this._MstBarangays;
+			}
+			set
+			{
+				this._MstBarangays.Assign(value);
 			}
 		}
 		
@@ -5345,6 +5426,18 @@ namespace ayudacard_api.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_MstBarangays(MstBarangay entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstCity = this;
+		}
+		
+		private void detach_MstBarangays(MstBarangay entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstCity = null;
 		}
 		
 		private void attach_MstCitizens(MstCitizen entity)
