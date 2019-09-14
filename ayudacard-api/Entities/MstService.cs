@@ -10,6 +10,8 @@ namespace ayudacard_api.Entities
         public Int32 Id { get; set; }
         public String Service { get; set; }
         public String Description { get; set; }
+        public Int32 ServiceDepartmentId { get; set; }
+        public String ServiceDepartment { get; set; }
         public Int32 ServiceGroupId { get; set; }
         public String ServiceGroup { get; set; }
         public String DateEncoded { get; set; }

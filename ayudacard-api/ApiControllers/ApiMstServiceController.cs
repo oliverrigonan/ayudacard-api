@@ -22,6 +22,8 @@ namespace ayudacard_api.ApiControllers
                                Id = d.Id,
                                Service = d.Service,
                                Description = d.Description,
+                               ServiceDepartmentId = d.MstServiceGroup.ServiceDepartmentId,
+                               ServiceDepartment = d.MstServiceGroup.MstServiceDepartment.ServiceDepartment,
                                ServiceGroupId = d.ServiceGroupId,
                                ServiceGroup = d.MstServiceGroup.ServiceGroup,
                                DateEncoded = d.DateEncoded.ToShortDateString(),
@@ -52,6 +54,8 @@ namespace ayudacard_api.ApiControllers
                               Id = d.Id,
                               Service = d.Service,
                               Description = d.Description,
+                              ServiceDepartmentId = d.MstServiceGroup.ServiceDepartmentId,
+                              ServiceDepartment = d.MstServiceGroup.MstServiceDepartment.ServiceDepartment,
                               ServiceGroupId = d.ServiceGroupId,
                               ServiceGroup = d.MstServiceGroup.ServiceGroup,
                               DateEncoded = d.DateEncoded.ToShortDateString(),
@@ -72,10 +76,24 @@ namespace ayudacard_api.ApiControllers
             return service.FirstOrDefault();
         }
 
-        [HttpGet, Route("serviceGroup/dropdown/list")]
-        public List<Entities.MstServiceGroup> ServiceGroupDropdownList()
+        [HttpGet, Route("serviceDepartment/dropdown/list")]
+        public List<Entities.MstServiceDepartment> ServiceDepartmentDropdownList()
+        {
+            var serviceDepartment = from d in db.MstServiceDepartments
+                                    select new Entities.MstServiceDepartment
+                                    {
+                                        Id = d.Id,
+                                        ServiceDepartment = d.ServiceDepartment
+                                    };
+
+            return serviceDepartment.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("serviceGroup/dropdown/list/{serviceDepartmentId}")]
+        public List<Entities.MstServiceGroup> ServiceGroupDropdownList(String serviceDepartmentId)
         {
             var serviceGroup = from d in db.MstServiceGroups
+                               where d.ServiceDepartmentId == Convert.ToInt32(serviceDepartmentId)
                                select new Entities.MstServiceGroup
                                {
                                    Id = d.Id,
@@ -105,6 +123,12 @@ namespace ayudacard_api.ApiControllers
             try
             {
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var serviceDepartment = from d in db.MstServiceDepartments select d;
+                if (serviceDepartment.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service department not found!");
+                }
 
                 var serviceGroup = from d in db.MstServiceGroups select d;
                 if (serviceGroup.Any() == false)
@@ -155,6 +179,12 @@ namespace ayudacard_api.ApiControllers
             try
             {
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var serviceDepartment = from d in db.MstServiceDepartments where d.Id == objService.ServiceDepartmentId select d;
+                if (serviceDepartment.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service department not found!");
+                }
 
                 var serviceGroup = from d in db.MstServiceGroups where d.Id == objService.ServiceGroupId select d;
                 if (serviceGroup.Any() == false)
@@ -216,6 +246,12 @@ namespace ayudacard_api.ApiControllers
             try
             {
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var serviceDepartment = from d in db.MstServiceDepartments where d.Id == objService.ServiceDepartmentId select d;
+                if (serviceDepartment.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service department not found!");
+                }
 
                 var serviceGroup = from d in db.MstServiceGroups where d.Id == objService.ServiceGroupId select d;
                 if (serviceGroup.Any() == false)
