@@ -7,18 +7,33 @@
       <Association Name="AspNetRole_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRole" />
     </Type>
   </Table>
-  <Table Name="dbo.MstUser" Member="MstUsers">
-    <Type Name="MstUser">
+  <Table Name="dbo.TrnCase" Member="TrnCases">
+    <Type Name="TrnCase">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Association Name="MstUser_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstCitizen" />
-      <Association Name="MstUser_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstCitizen" />
-      <Association Name="MstUser_MstService" Member="MstServices" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstService" />
-      <Association Name="MstUser_MstService1" Member="MstServices1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstService" />
-      <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
+      <Column Name="CaseNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CaseDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CitizenCardId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Problem" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Backgroud" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Recommendation" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="PreparedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CheckedById" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizen_TrnCase" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
+      <Association Name="MstCitizensCard_TrnCase" Member="MstCitizensCard" ThisKey="CitizenCardId" OtherKey="Id" Type="MstCitizensCard" IsForeignKey="true" />
+      <Association Name="MstService_TrnCase" Member="MstService" ThisKey="ServiceId" OtherKey="Id" Type="MstService" IsForeignKey="true" />
+      <Association Name="MstStatus_TrnCase" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
+      <Association Name="MstUser_TrnCase" Member="MstUser" ThisKey="PreparedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_TrnCase1" Member="MstUser1" ThisKey="CheckedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_TrnCase2" Member="MstUser2" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_TrnCase3" Member="MstUser3" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AspNetUserClaims" Member="AspNetUserClaims">
@@ -60,10 +75,10 @@
       <Column Name="LockoutEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="AccessFailedCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Association Name="AspNetUser_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="AspNetUserId" Type="MstUser" />
       <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUserClaims" ThisKey="Id" OtherKey="UserId" Type="AspNetUserClaim" />
       <Association Name="AspNetUser_AspNetUserLogin" Member="AspNetUserLogins" ThisKey="Id" OtherKey="UserId" Type="AspNetUserLogin" />
       <Association Name="AspNetUser_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="UserId" Type="AspNetUserRole" />
+      <Association Name="AspNetUser_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="AspNetUserId" Type="MstUser" />
     </Type>
   </Table>
   <Table Name="dbo.MstBarangay" Member="MstBarangays">
@@ -150,14 +165,13 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizen_TrnCase" Member="TrnCases" ThisKey="Id" OtherKey="CitizenId" Type="TrnCase" />
       <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensCard" />
       <Association Name="MstCitizen_MstCitizensChildren" Member="MstCitizensChildrens" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensChildren" />
       <Association Name="MstCitizen_MstCitizensEducation" Member="MstCitizensEducations" ThisKey="Id" OtherKey="CitizenId" Type="MstCitizensEducation" />
       <Association Name="MstBarangay_MstCitizen" Member="MstBarangay" ThisKey="ResidentialBarangayId" OtherKey="Id" Type="MstBarangay" IsForeignKey="true" />
       <Association Name="MstBarangay_MstCitizen1" Member="MstBarangay1" ThisKey="PermanentBarangayId" OtherKey="Id" Type="MstBarangay" IsForeignKey="true" />
       <Association Name="MstBloodType_MstCitizen" Member="MstBloodType" ThisKey="BloodTypeId" OtherKey="Id" Type="MstBloodType" IsForeignKey="true" />
-      <Association Name="MstUser_MstCitizen" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
-      <Association Name="MstUser_MstCitizen1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstCitizenship_MstCitizen" Member="MstCitizenship" ThisKey="CitizenshipId" OtherKey="Id" Type="MstCitizenship" IsForeignKey="true" />
       <Association Name="MstCity_MstCitizen" Member="MstCity" ThisKey="ResidentialCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
       <Association Name="MstCity_MstCitizen1" Member="MstCity1" ThisKey="PermanentCityId" OtherKey="Id" Type="MstCity" IsForeignKey="true" />
@@ -169,6 +183,8 @@
       <Association Name="MstSex_MstCitizen" Member="MstSex" ThisKey="SexId" OtherKey="Id" Type="MstSex" IsForeignKey="true" />
       <Association Name="MstStatus_MstCitizen" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
       <Association Name="MstTypeOfCitizenship_MstCitizen" Member="MstTypeOfCitizenship" ThisKey="TypeOfCitizenshipId" OtherKey="Id" Type="MstTypeOfCitizenship" IsForeignKey="true" />
+      <Association Name="MstUser_MstCitizen" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstCitizen1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstCitizensCard" Member="MstCitizensCards">
@@ -178,6 +194,7 @@
       <Column Name="CardNumber" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="TotalBalance" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MstCitizensCard_TrnCase" Member="TrnCases" ThisKey="Id" OtherKey="CitizenCardId" Type="TrnCase" />
       <Association Name="MstCitizen_MstCitizensCard" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="MstStatus_MstCitizensCard" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
     </Type>
@@ -289,10 +306,11 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="MstUser_MstService" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
-      <Association Name="MstUser_MstService1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstService_TrnCase" Member="TrnCases" ThisKey="Id" OtherKey="ServiceId" Type="TrnCase" />
       <Association Name="MstServiceGroup_MstService" Member="MstServiceGroup" ThisKey="ServiceGroupId" OtherKey="Id" Type="MstServiceGroup" IsForeignKey="true" />
       <Association Name="MstStatus_MstService" Member="MstStatus" ThisKey="StatusId" OtherKey="Id" Type="MstStatus" IsForeignKey="true" />
+      <Association Name="MstUser_MstService" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstService1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstServiceDepartment" Member="MstServiceDepartments">
@@ -312,7 +330,19 @@
       <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="ServiceDepartmentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="MstServiceGroup_MstService" Member="MstServices" ThisKey="Id" OtherKey="ServiceGroupId" Type="MstService" />
+      <Association Name="MstServiceGroup_MstServiceGroupTemplate" Member="MstServiceGroupTemplates" ThisKey="Id" OtherKey="ServiceGroupId" Type="MstServiceGroupTemplate" />
       <Association Name="MstServiceDepartment_MstServiceGroup" Member="MstServiceDepartment" ThisKey="ServiceDepartmentId" OtherKey="Id" Type="MstServiceDepartment" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstServiceGroupTemplate" Member="MstServiceGroupTemplates">
+    <Type Name="MstServiceGroupTemplate">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ServiceGroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TemplateName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Problem" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Background" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Recommendation" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="MstServiceGroup_MstServiceGroupTemplate" Member="MstServiceGroup" ThisKey="ServiceGroupId" OtherKey="Id" Type="MstServiceGroup" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstSex" Member="MstSexes">
@@ -327,6 +357,7 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Status" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="Category" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstStatus_TrnCase" Member="TrnCases" ThisKey="Id" OtherKey="StatusId" Type="TrnCase" />
       <Association Name="MstStatus_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="StatusId" Type="MstCitizen" />
       <Association Name="MstStatus_MstCitizensCard" Member="MstCitizensCards" ThisKey="Id" OtherKey="StatusId" Type="MstCitizensCard" />
       <Association Name="MstStatus_MstService" Member="MstServices" ThisKey="Id" OtherKey="StatusId" Type="MstService" />
@@ -337,6 +368,24 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TypeOfCitizenship" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="MstTypeOfCitizenship_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="TypeOfCitizenshipId" Type="MstCitizen" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstUser" Member="MstUsers">
+    <Type Name="MstUser">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Fullname" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_TrnCase" Member="TrnCases" ThisKey="Id" OtherKey="PreparedById" Type="TrnCase" />
+      <Association Name="MstUser_TrnCase1" Member="TrnCases1" ThisKey="Id" OtherKey="CheckedById" Type="TrnCase" />
+      <Association Name="MstUser_TrnCase2" Member="TrnCases2" ThisKey="Id" OtherKey="CreatedByUserId" Type="TrnCase" />
+      <Association Name="MstUser_TrnCase3" Member="TrnCases3" ThisKey="Id" OtherKey="UpdatedByUserId" Type="TrnCase" />
+      <Association Name="MstUser_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstCitizen" />
+      <Association Name="MstUser_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstCitizen" />
+      <Association Name="MstUser_MstService" Member="MstServices" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstService" />
+      <Association Name="MstUser_MstService1" Member="MstServices1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstService" />
+      <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -220,6 +220,7 @@
     <Compile Include="ApiControllers\ApiMstServiceController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceDepartmentController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceGroupController.cs" />
+    <Compile Include="ApiControllers\ApiMstServiceGroupTemplateController.cs" />
     <Compile Include="ApiControllers\ApiMstStatusController.cs" />
     <Compile Include="ApiControllers\ApiMstCivilStatusController.cs" />
     <Compile Include="ApiControllers\ApiMstEducationLevelController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="ApiControllers\ApiMstSexController.cs" />
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiTrnCaseController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -276,6 +278,7 @@
     <Compile Include="Entities\MstService.cs" />
     <Compile Include="Entities\MstServiceDepartment.cs" />
     <Compile Include="Entities\MstServiceGroup.cs" />
+    <Compile Include="Entities\MstServiceGroupTemplate.cs" />
     <Compile Include="Entities\MstStatus.cs" />
     <Compile Include="Entities\MstBarangay.cs" />
     <Compile Include="Entities\MstBloodType.cs" />
@@ -290,6 +293,7 @@
     <Compile Include="Entities\MstSex.cs" />
     <Compile Include="Entities\MstTypeOfCitizenship.cs" />
     <Compile Include="Entities\MstUser.cs" />
+    <Compile Include="Entities\TrnCase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
