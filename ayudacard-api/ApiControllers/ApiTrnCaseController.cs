@@ -26,6 +26,19 @@ namespace ayudacard_api.ApiControllers
             return result;
         }
 
+        [HttpGet, Route("serviceDepartment/dropdown/list")]
+        public List<Entities.MstServiceDepartment> ServiceDepartmentDropdownList()
+        {
+            var serviceDepartments = from d in db.MstServiceDepartments
+                                     select new Entities.MstServiceDepartment
+                                     {
+                                         Id = d.Id,
+                                         ServiceDepartment = d.ServiceDepartment
+                                     };
+
+            return serviceDepartments.OrderByDescending(d => d.Id).ToList();
+        }
+
         [HttpGet, Route("list/{serviceDepartmentId}/{startDate}/{endDate}")]
         public List<Entities.TrnCase> CasesList(String serviceDepartmentId, String startDate, String endDate)
         {
@@ -270,6 +283,101 @@ namespace ayudacard_api.ApiControllers
                 db.SubmitChanges();
 
                 return Request.CreateResponse(HttpStatusCode.OK, newCase.Id);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut, Route("save/{id}")]
+        public HttpResponseMessage SaveCase(String id, Entities.TrnCase objCase)
+        {
+            try
+            {
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var citizen = from d in db.MstCitizens
+                              where d.Id == objCase.CitizenId
+                              && d.IsLocked == true
+                              select d;
+
+                if (citizen.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                }
+
+                var citizensCard = from d in db.MstCitizensCards
+                                   where d.Id == objCase.CitizenCardId
+                                   select d;
+
+                if (citizensCard.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen's card not found!");
+                }
+
+                var service = from d in db.MstServices
+                              where d.Id == objCase.ServiceId
+                              && d.IsLocked == true
+                              select d;
+
+                if (service.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Service not found!");
+                }
+
+                var status = from d in db.MstStatus
+                             where d.Id == objCase.StatusId
+                             && d.Category.Equals("Case")
+                             select d;
+
+                if (status.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                }
+
+                var user = from d in db.MstUsers
+                           where d.Id == objCase.PreparedById
+                           && d.Id == objCase.CheckedById
+                           select d;
+
+                if (user.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Some users are not found!");
+                }
+
+                var currentCase = from d in db.TrnCases
+                                  where d.Id == Convert.ToInt32(id)
+                                  select d;
+
+                if (currentCase.Any())
+                {
+                    if (currentCase.FirstOrDefault().IsLocked == true)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Already locked!");
+                    }
+
+                    var saveCase = currentCase.FirstOrDefault();
+                    saveCase.CaseDate = Convert.ToDateTime(objCase.CaseDate);
+                    saveCase.CitizenId = objCase.CitizenId;
+                    saveCase.CitizenCardId = objCase.CitizenCardId;
+                    saveCase.ServiceId = objCase.ServiceId;
+                    saveCase.Problem = objCase.Problem;
+                    saveCase.Backgroud = objCase.Backgroud;
+                    saveCase.Recommendation = objCase.Recommendation;
+                    saveCase.StatusId = objCase.StatusId;
+                    saveCase.PreparedById = objCase.PreparedById;
+                    saveCase.CheckedById = objCase.CheckedById;
+                    saveCase.UpdatedByUserId = currentUser.FirstOrDefault().Id;
+                    saveCase.UpdatedDateTime = DateTime.Now;
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Case not found!");
+                }
             }
             catch (Exception e)
             {
