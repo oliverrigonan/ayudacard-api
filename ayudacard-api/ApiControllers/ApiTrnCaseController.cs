@@ -60,12 +60,13 @@ namespace ayudacard_api.ApiControllers
                             CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
                             CitizenReligion = "None",
                             CitizenAddress = d.MstCitizen.PermanentNumber + " " +
-                                                  d.MstCitizen.PermanentStreet + " " +
-                                                  d.MstCitizen.PermanentVillage + " " +
-                                                  d.MstCitizen.MstBarangay.Barangay + " " +
-                                                  d.MstCitizen.MstCity.City + " " +
-                                                  d.MstCitizen.MstProvince.Province +
-                                                  ", Phil. " + d.MstCitizen.PermanentZipCode,
+                                             d.MstCitizen.PermanentStreet + " " +
+                                             d.MstCitizen.PermanentVillage + " " +
+                                             d.MstCitizen.MstBarangay.Barangay + " " +
+                                             d.MstCitizen.MstCity.City + " " +
+                                             d.MstCitizen.MstProvince.Province + " " +
+                                             d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                             d.MstCitizen.PermanentZipCode,
                             CitizenCardId = d.CitizenCardId,
                             CitizenCardNumber = d.MstCitizensCard.CardNumber,
                             ServiceId = d.ServiceId,
@@ -115,8 +116,9 @@ namespace ayudacard_api.ApiControllers
                                                   d.MstCitizen.PermanentVillage + " " +
                                                   d.MstCitizen.MstBarangay.Barangay + " " +
                                                   d.MstCitizen.MstCity.City + " " +
-                                                  d.MstCitizen.MstProvince.Province +
-                                                  ", Phil. " + d.MstCitizen.PermanentZipCode,
+                                                  d.MstCitizen.MstProvince.Province + " " +
+                                                  d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                                  d.MstCitizen.PermanentZipCode,
                                  CitizenCardId = d.CitizenCardId,
                                  CitizenCardNumber = d.MstCitizensCard.CardNumber,
                                  ServiceId = d.ServiceId,
@@ -266,7 +268,7 @@ namespace ayudacard_api.ApiControllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
                 var citizensCard = from d in db.MstCitizensCards
-                                   where d.CitizenId == Convert.ToInt32(citizensCardId)
+                                   where d.Id == Convert.ToInt32(citizensCardId)
                                    select d;
 
                 if (citizensCard.Any() == false)
@@ -382,14 +384,22 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
 
-                var user = from d in db.MstUsers
-                           where d.Id == objCase.PreparedById
-                           && d.Id == objCase.CheckedById
-                           select d;
+                var preparedByUser = from d in db.MstUsers
+                                     where d.Id == objCase.PreparedById
+                                     select d;
 
-                if (user.Any() == false)
+                if (preparedByUser.Any() == false)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Some users are not found!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Prepared by user not found!");
+                }
+
+                var checkedByUser = from d in db.MstUsers
+                                    where d.Id == objCase.CheckedById
+                                    select d;
+
+                if (checkedByUser.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Checked by user not found!");
                 }
 
                 var currentCase = from d in db.TrnCases
@@ -477,14 +487,22 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
 
-                var user = from d in db.MstUsers
-                           where d.Id == objCase.PreparedById
-                           && d.Id == objCase.CheckedById
-                           select d;
+                var preparedByUser = from d in db.MstUsers
+                                     where d.Id == objCase.PreparedById
+                                     select d;
 
-                if (user.Any() == false)
+                if (preparedByUser.Any() == false)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Some users are not found!");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Prepared by user not found!");
+                }
+
+                var checkedByUser = from d in db.MstUsers
+                                    where d.Id == objCase.CheckedById
+                                    select d;
+
+                if (checkedByUser.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Checked by user not found!");
                 }
 
                 var currentCase = from d in db.TrnCases
@@ -564,7 +582,7 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
-        [HttpPut, Route("delete/{id}")]
+        [HttpDelete, Route("delete/{id}")]
         public HttpResponseMessage DeleteCase(String id)
         {
             try
@@ -575,7 +593,7 @@ namespace ayudacard_api.ApiControllers
 
                 if (currentCase.Any())
                 {
-                    if (currentCase.FirstOrDefault().IsLocked == false)
+                    if (currentCase.FirstOrDefault().IsLocked == true)
                     {
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "Case cannot be deleted if locked.");
                     }

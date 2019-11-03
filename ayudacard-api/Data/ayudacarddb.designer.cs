@@ -5832,7 +5832,7 @@ namespace ayudacard_api.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="NChar(250) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
 		public string City
 		{
 			get

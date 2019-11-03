@@ -233,7 +233,7 @@
   <Table Name="dbo.MstCity" Member="MstCities">
     <Type Name="MstCity">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="City" Type="System.String" DbType="NChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="ProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="MstCity_MstBarangay" Member="MstBarangays" ThisKey="Id" OtherKey="CityId" Type="MstBarangay" />
       <Association Name="MstCity_MstCitizen" Member="MstCitizens" ThisKey="Id" OtherKey="ResidentialCityId" Type="MstCitizen" />
