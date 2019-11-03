@@ -12,10 +12,11 @@ namespace ayudacard_api.ApiControllers
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
 
-        [HttpGet, Route("list")]
-        public List<Entities.MstServiceGroupTemplate> ServiceGroupTemplateList()
+        [HttpGet, Route("list/{serviceGroupId}")]
+        public List<Entities.MstServiceGroupTemplate> ServiceGroupTemplateList(String serviceGroupId)
         {
             var serviceGroupTemplates = from d in db.MstServiceGroupTemplates
+                                        where d.ServiceGroupId == Convert.ToInt32(serviceGroupId)
                                         select new Entities.MstServiceGroupTemplate
                                         {
                                             Id = d.Id,
@@ -28,19 +29,6 @@ namespace ayudacard_api.ApiControllers
                                         };
 
             return serviceGroupTemplates.OrderByDescending(d => d.Id).ToList();
-        }
-
-        [HttpGet, Route("serviceGroup/dropdown/list")]
-        public List<Entities.MstServiceGroup> ServiceGroupDropdownList()
-        {
-            var serviceGroup = from d in db.MstServiceGroups
-                               select new Entities.MstServiceGroup
-                               {
-                                   Id = d.Id,
-                                   ServiceGroup = d.ServiceGroup
-                               };
-
-            return serviceGroup.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpPost, Route("add")]
