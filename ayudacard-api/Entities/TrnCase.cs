@@ -12,6 +12,13 @@ namespace ayudacard_api.Entities
         public String CaseDate { get; set; }
         public Int32 CitizenId { get; set; }
         public String Citizen { get; set; }
+        public String CitizenDateOfBirth { get; set; }
+        public Int32 CitizenAge { get; set; }
+        public String CitizenCivilStatus { get; set; }
+        public String CitizenEducationalAttainment { get; set; }
+        public String CitizenOccupation { get; set; }
+        public String CitizenReligion { get; set; }
+        public String CitizenAddress { get; set; }
         public Int32 CitizenCardId { get; set; }
         public String CitizenCardNumber { get; set; }
         public Int32 ServiceId { get; set; }

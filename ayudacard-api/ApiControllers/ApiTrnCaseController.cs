@@ -53,6 +53,19 @@ namespace ayudacard_api.ApiControllers
                             CaseDate = d.CaseDate.ToShortDateString(),
                             CitizenId = d.CitizenId,
                             Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                            CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                            CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
+                            CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
+                            CitizenEducationalAttainment = "None",
+                            CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
+                            CitizenReligion = "None",
+                            CitizenAddress = d.MstCitizen.PermanentNumber + " " +
+                                                  d.MstCitizen.PermanentStreet + " " +
+                                                  d.MstCitizen.PermanentVillage + " " +
+                                                  d.MstCitizen.MstBarangay.Barangay + " " +
+                                                  d.MstCitizen.MstCity.City + " " +
+                                                  d.MstCitizen.MstProvince.Province +
+                                                  ", Phil. " + d.MstCitizen.PermanentZipCode,
                             CitizenCardId = d.CitizenCardId,
                             CitizenCardNumber = d.MstCitizensCard.CardNumber,
                             ServiceId = d.ServiceId,
@@ -91,6 +104,19 @@ namespace ayudacard_api.ApiControllers
                                  CaseDate = d.CaseDate.ToShortDateString(),
                                  CitizenId = d.CitizenId,
                                  Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                                 CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                                 CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
+                                 CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
+                                 CitizenEducationalAttainment = d.MstCitizen.MstCitizensEducations.Any() == true ? d.MstCitizen.MstCitizensEducations.OrderByDescending(e => e.Id).FirstOrDefault().Degree : "None",
+                                 CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
+                                 CitizenReligion = "None",
+                                 CitizenAddress = d.MstCitizen.PermanentNumber + " " +
+                                                  d.MstCitizen.PermanentStreet + " " +
+                                                  d.MstCitizen.PermanentVillage + " " +
+                                                  d.MstCitizen.MstBarangay.Barangay + " " +
+                                                  d.MstCitizen.MstCity.City + " " +
+                                                  d.MstCitizen.MstProvince.Province +
+                                                  ", Phil. " + d.MstCitizen.PermanentZipCode,
                                  CitizenCardId = d.CitizenCardId,
                                  CitizenCardNumber = d.MstCitizensCard.CardNumber,
                                  ServiceId = d.ServiceId,
@@ -189,21 +215,41 @@ namespace ayudacard_api.ApiControllers
             return statuses.OrderByDescending(d => d.Id).ToList();
         }
 
-        [HttpGet, Route("citizensCard/search/list")]
-        public List<Entities.MstCitizensCard> CitizensCardList(String keyWordCardNumber, String keyWordCitizenName)
+        [HttpGet, Route("citizensCard/list")]
+        public List<Entities.MstCitizensCard> CitizensCardList()
         {
             var citizensCards = from d in db.MstCitizensCards
-                                where d.CardNumber.Contains(keyWordCardNumber)
-                                || d.MstCitizen.Surname.Contains(keyWordCitizenName)
-                                || d.MstCitizen.Firstname.Contains(keyWordCitizenName)
-                                || d.MstCitizen.Middlename.Contains(keyWordCitizenName)
-                                || d.MstCitizen.Extensionname.Contains(keyWordCitizenName)
                                 select new Entities.MstCitizensCard
                                 {
                                     Id = d.Id,
                                     CitizenId = d.CitizenId,
                                     Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
                                     CardNumber = d.CardNumber,
+                                    CitizensDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                                    TotalBalance = d.TotalBalance,
+                                    StatusId = d.StatusId,
+                                    Status = d.MstStatus.Status
+                                };
+
+            return citizensCards.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("citizensCard/search/list")]
+        public List<Entities.MstCitizensCard> CitizensCardSearchList(String keyWord)
+        {
+            var citizensCards = from d in db.MstCitizensCards
+                                where d.CardNumber.Contains(keyWord)
+                                || d.MstCitizen.Surname.Contains(keyWord)
+                                || d.MstCitizen.Firstname.Contains(keyWord)
+                                || d.MstCitizen.Middlename.Contains(keyWord)
+                                || d.MstCitizen.Extensionname.Contains(keyWord)
+                                select new Entities.MstCitizensCard
+                                {
+                                    Id = d.Id,
+                                    CitizenId = d.CitizenId,
+                                    Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                                    CardNumber = d.CardNumber,
+                                    CitizensDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
                                     TotalBalance = d.TotalBalance,
                                     StatusId = d.StatusId,
                                     Status = d.MstStatus.Status

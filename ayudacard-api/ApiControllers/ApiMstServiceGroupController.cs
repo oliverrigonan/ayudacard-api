@@ -28,6 +28,23 @@ namespace ayudacard_api.ApiControllers
             return serviceGroups.OrderByDescending(d => d.Id).ToList();
         }
 
+        [HttpGet, Route("detail/{id}")]
+        public Entities.MstServiceGroup ServiceGroupDetail(String id)
+        {
+            var serviceGroup = from d in db.MstServiceGroups
+                               where d.Id == Convert.ToInt32(id)
+                               select new Entities.MstServiceGroup
+                               {
+                                   Id = d.Id,
+                                   ServiceGroup = d.ServiceGroup,
+                                   Description = d.Description,
+                                   ServiceDepartmentId = d.ServiceDepartmentId,
+                                   ServiceDepartment = d.MstServiceDepartment.ServiceDepartment
+                               };
+
+            return serviceGroup.FirstOrDefault();
+        }
+
         [HttpGet, Route("serviceDepartment/dropdown/list")]
         public List<Entities.MstServiceDepartment> ServiceDepartmentDropdownList()
         {
@@ -42,11 +59,11 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpPost, Route("add")]
-        public HttpResponseMessage AddServiceGroup(Entities.MstServiceGroup objServiceGroup)
+        public HttpResponseMessage AddServiceGroup()
         {
             try
             {
-                var serviceDepartment = from d in db.MstServiceDepartments where d.Id == objServiceGroup.ServiceDepartmentId select d;
+                var serviceDepartment = from d in db.MstServiceDepartments select d;
                 if (serviceDepartment.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Service department not found!");
@@ -54,15 +71,15 @@ namespace ayudacard_api.ApiControllers
 
                 Data.MstServiceGroup newServiceGroup = new Data.MstServiceGroup()
                 {
-                    ServiceGroup = objServiceGroup.ServiceGroup,
-                    Description = objServiceGroup.Description,
-                    ServiceDepartmentId = objServiceGroup.ServiceDepartmentId
+                    ServiceGroup = "",
+                    Description = "",
+                    ServiceDepartmentId = serviceDepartment.FirstOrDefault().Id
                 };
 
                 db.MstServiceGroups.InsertOnSubmit(newServiceGroup);
                 db.SubmitChanges();
 
-                return Request.CreateResponse(HttpStatusCode.OK, "");
+                return Request.CreateResponse(HttpStatusCode.OK, newServiceGroup.Id);
             }
             catch (Exception e)
             {

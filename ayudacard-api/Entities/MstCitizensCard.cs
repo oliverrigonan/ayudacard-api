@@ -10,6 +10,7 @@ namespace ayudacard_api.Entities
         public Int32 Id { get; set; }
         public Int32 CitizenId { get; set; }
         public String Citizen { get; set; }
+        public String CitizensDateOfBirth { get; set; }
         public String CardNumber { get; set; }
         public Decimal TotalBalance { get; set; }
         public Int32 StatusId { get; set; }
