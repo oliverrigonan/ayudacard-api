@@ -73,7 +73,7 @@ namespace ayudacard_api.ApiControllers
                             Service = d.MstService.Service,
                             ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
                             Problem = d.Problem,
-                            Backgroud = d.Backgroud,
+                            Background = d.Background,
                             Recommendation = d.Recommendation,
                             PreparedById = d.PreparedById,
                             PreparedBy = d.MstUser.Fullname,
@@ -125,7 +125,7 @@ namespace ayudacard_api.ApiControllers
                                  Service = d.MstService.Service,
                                  ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
                                  Problem = d.Problem,
-                                 Backgroud = d.Backgroud,
+                                 Background = d.Background,
                                  Recommendation = d.Recommendation,
                                  PreparedById = d.PreparedById,
                                  PreparedBy = d.MstUser.Fullname,
@@ -185,9 +185,29 @@ namespace ayudacard_api.ApiControllers
                            {
                                Id = d.Id,
                                Service = d.Service,
+                               ServiceGroupId = d.ServiceGroupId
                            };
 
             return services.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("service/group/template/list/{serviceGroupId}")]
+        public List<Entities.MstServiceGroupTemplate> ServiceGroupTemplateList(String serviceGroupId)
+        {
+            var serviceGroupTemplates = from d in db.MstServiceGroupTemplates
+                                        where d.ServiceGroupId == Convert.ToInt32(serviceGroupId)
+                                        select new Entities.MstServiceGroupTemplate
+                                        {
+                                            Id = d.Id,
+                                            ServiceGroupId = d.ServiceGroupId,
+                                            ServiceGroup = d.MstServiceGroup.ServiceGroup,
+                                            TemplateName = d.TemplateName,
+                                            Problem = d.Problem,
+                                            Background = d.Background,
+                                            Recommendation = d.Recommendation
+                                        };
+
+            return serviceGroupTemplates.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("user/dropdown/list")]
@@ -315,7 +335,7 @@ namespace ayudacard_api.ApiControllers
                     CitizenCardId = citizensCard.FirstOrDefault().Id,
                     ServiceId = service.FirstOrDefault().Id,
                     Problem = "",
-                    Backgroud = "",
+                    Background = "",
                     Recommendation = "",
                     PreparedById = currentUser.FirstOrDefault().Id,
                     CheckedById = currentUser.FirstOrDefault().Id,
@@ -419,7 +439,7 @@ namespace ayudacard_api.ApiControllers
                     saveCase.CitizenCardId = objCase.CitizenCardId;
                     saveCase.ServiceId = objCase.ServiceId;
                     saveCase.Problem = objCase.Problem;
-                    saveCase.Backgroud = objCase.Backgroud;
+                    saveCase.Background = objCase.Background;
                     saveCase.Recommendation = objCase.Recommendation;
                     saveCase.StatusId = objCase.StatusId;
                     saveCase.PreparedById = objCase.PreparedById;
@@ -522,7 +542,7 @@ namespace ayudacard_api.ApiControllers
                     lockCase.CitizenCardId = objCase.CitizenCardId;
                     lockCase.ServiceId = objCase.ServiceId;
                     lockCase.Problem = objCase.Problem;
-                    lockCase.Backgroud = objCase.Backgroud;
+                    lockCase.Background = objCase.Background;
                     lockCase.Recommendation = objCase.Recommendation;
                     lockCase.StatusId = objCase.StatusId;
                     lockCase.PreparedById = objCase.PreparedById;

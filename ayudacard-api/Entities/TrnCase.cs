@@ -25,7 +25,7 @@ namespace ayudacard_api.Entities
         public String Service { get; set; }
         public String ServiceGroup { get; set; }
         public String Problem { get; set; }
-        public String Backgroud { get; set; }
+        public String Background { get; set; }
         public String Recommendation { get; set; }
         public Int32 PreparedById { get; set; }
         public String PreparedBy { get; set; }
