@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNet.Identity;
 
 namespace ayudacard_api.ApiControllers
 {
-    [Authorize, RoutePrefix("api/trn/case")]
+    [RoutePrefix("api/trn/case")]
     public class ApiTrnCaseController : ApiController
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
@@ -633,6 +637,179 @@ namespace ayudacard_api.ApiControllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
             }
+        }
+
+        [HttpGet, Route("print/{id}")]
+        public HttpResponseMessage PrintCase(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
+            Font fontTimesNewRoman12 = FontFactory.GetFont("Times New Roman", 12);
+            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Times New Roman", 12, Font.BOLD);
+
+            Document document = new Document(PageSize.LETTER, 25f, 25f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(30f, 30f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman11);
+                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman11);
+                Phrase phraseDepartment = new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment + "\n\n", fontTimesNewRoman11);
+                Phrase phraseTitle = new Phrase("Case Summary Report", fontTimesNewRoman12Bold);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseRepublic,
+                    phraseCity,
+                    phraseDepartment,
+                    phraseTitle
+                };
+
+                headerParagraph.SetLeading(12f, 0);
+                headerParagraph.Alignment = Element.ALIGN_CENTER;
+
+                document.Add(headerParagraph);
+                document.Add(line);
+
+                String citizenName = currentCase.FirstOrDefault().MstCitizen.Surname + ", " +
+                                     currentCase.FirstOrDefault().MstCitizen.Firstname + " " +
+                                     currentCase.FirstOrDefault().MstCitizen.Middlename + " " +
+                                     currentCase.FirstOrDefault().MstCitizen.Extensionname;
+                String caseNumber = currentCase.FirstOrDefault().CaseNumber;
+                String birthDate = currentCase.FirstOrDefault().MstCitizen.DateOfBirth.ToShortDateString();
+                String caseDate = currentCase.FirstOrDefault().CaseDate.ToShortDateString();
+                Int32 age = DateTime.Today.Year - currentCase.FirstOrDefault().MstCitizen.DateOfBirth.Year;
+                String service = currentCase.FirstOrDefault().MstService.Service;
+                String sex = currentCase.FirstOrDefault().MstCitizen.MstSex.Sex;
+                String civilStatus = currentCase.FirstOrDefault().MstCitizen.MstCivilStatus.CivilStatus;
+                String educationalAttainment = "None";
+                if (currentCase.FirstOrDefault().MstCitizen.MstCitizensEducations.Any())
+                {
+                    educationalAttainment = currentCase.FirstOrDefault().MstCitizen.MstCitizensEducations.OrderByDescending(d => d.Id).FirstOrDefault().Degree;
+                }
+                String occupation = currentCase.FirstOrDefault().MstCitizen.MstOccupation.Occupation;
+                String address = currentCase.FirstOrDefault().MstCitizen.PermanentNumber + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.PermanentStreet + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.PermanentVillage + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.MstBarangay.Barangay + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.MstCity.City + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.MstProvince.Province + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                 currentCase.FirstOrDefault().MstCitizen.PermanentZipCode;
+                String religion = "None";
+                String problem = currentCase.FirstOrDefault().Problem;
+                String background = currentCase.FirstOrDefault().Background;
+                String recommendation = currentCase.FirstOrDefault().Recommendation;
+                String preparedBy = currentCase.FirstOrDefault().MstUser.Fullname;
+                String checkedBy = currentCase.FirstOrDefault().MstUser1.Fullname;
+
+                PdfPTable pdfTableCaseDetail = new PdfPTable(4);
+                pdfTableCaseDetail.SetWidths(new float[] { 20f, 40f, 15f, 25f });
+                pdfTableCaseDetail.WidthPercentage = 100;
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Name: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(citizenName, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Case No.: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(caseNumber, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Birth Date: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(birthDate, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Case Date: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(caseDate, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Age: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(age.ToString(), fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Service: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(service, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Sex: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(sex, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Civil Status: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(civilStatus, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Educ. Attainment: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(educationalAttainment, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Occupation: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(occupation, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Address: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(address, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Religion: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(religion, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
+
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(line)) { Colspan = 4, Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                Phrase phraseProblemLabel = new Phrase("Problem: \n", fontTimesNewRoman11Bold);
+                Phrase phraseProblemData = new Phrase(problem, fontTimesNewRoman11);
+                Paragraph problemParagraph = new Paragraph { phraseProblemLabel, phraseProblemData };
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(problemParagraph)) { Colspan = 4, Border = 0 });
+
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                Phrase phraseBackgroundLabel = new Phrase("Background: \n", fontTimesNewRoman11Bold);
+                Phrase phraseBackgroundData = new Phrase(background, fontTimesNewRoman11);
+                Paragraph backgroundParagraph = new Paragraph { phraseBackgroundLabel, phraseBackgroundData };
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(backgroundParagraph)) { Colspan = 4, Border = 0 });
+
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                Phrase phraseRecommendationLabel = new Phrase("Recommendation: \n", fontTimesNewRoman11Bold);
+                Phrase phraseRecommendationData = new Phrase(recommendation, fontTimesNewRoman11);
+                Paragraph recommendationParagraph = new Paragraph { phraseRecommendationLabel, phraseRecommendationData };
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(recommendationParagraph)) { Colspan = 4, Border = 0 });
+
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                document.Add(pdfTableCaseDetail);
+                document.Add(line);
+
+                PdfPTable pdfTableUsers = new PdfPTable(4);
+                pdfTableUsers.SetWidths(new float[] { 15f, 25f, 15f, 45f });
+                pdfTableUsers.WidthPercentage = 100;
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Prepared By: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(preparedBy, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Checked By: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(checkedBy, fontTimesNewRoman11)) { Border = 0 });
+
+                document.Add(pdfTableUsers);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=case.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
         }
     }
 }
