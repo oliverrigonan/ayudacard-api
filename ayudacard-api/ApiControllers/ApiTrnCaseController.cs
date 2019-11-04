@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Web.Http;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -12,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ayudacard_api.ApiControllers
 {
-    [RoutePrefix("api/trn/case")]
+    [Authorize, RoutePrefix("api/trn/case")]
     public class ApiTrnCaseController : ApiController
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
@@ -682,7 +683,18 @@ namespace ayudacard_api.ApiControllers
                 headerParagraph.SetLeading(12f, 0);
                 headerParagraph.Alignment = Element.ALIGN_CENTER;
 
-                document.Add(headerParagraph);
+                String logoPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\Logo\danaocitylogo.png";
+                Image imageLogo = Image.GetInstance(logoPath);
+                imageLogo.ScaleToFit(1000f, 60f);
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
+                pdfTableHeaderDetail.SetWidths(new float[] { 30f, 40, 30f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(new Phrase("")) { Border = 0 });
+
+                document.Add(pdfTableHeaderDetail);
                 document.Add(line);
 
                 String citizenName = currentCase.FirstOrDefault().MstCitizen.Surname + ", " +
