@@ -1025,8 +1025,8 @@ namespace ayudacard_api.ApiControllers
             return citizens.OrderByDescending(d => d.Id).ToList();
         }
 
-        [HttpPost, Route("uploadPhoto")]
-        public async Task<IHttpActionResult> UploadPhotoCitizen()
+        [HttpPost, Route("uploadPhoto/{citizenId}")]
+        public async Task<IHttpActionResult> UploadPhotoCitizen(String citizenId)
         {
             try
             {
@@ -1051,7 +1051,20 @@ namespace ayudacard_api.ApiControllers
                     return BadRequest("An error has occured while uploading your file. Please try again.");
                 }
 
-                return Ok(Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName));
+                String imageURI = Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName);
+
+                var citizen = from d in db.MstCitizens
+                              where d.Id == Convert.ToInt32(citizenId)
+                              select d;
+
+                if (citizen.Any())
+                {
+                    var updateCitizen = citizen.FirstOrDefault();
+                    updateCitizen.PictureURL = imageURI;
+                    db.SubmitChanges();
+                }
+
+                return Ok(imageURI);
             }
             catch (Exception ex)
             {
