@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ayudacard_api.Azure.AzureStorage;
 using Microsoft.AspNet.Identity;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace ayudacard_api.ApiControllers
 {
-    [Authorize, RoutePrefix("api/mst/citizen")]
+    //[Authorize, RoutePrefix("api/mst/citizen")]
+    [RoutePrefix("api/mst/citizen")]
     public class ApiMstCitizenController : ApiController
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
@@ -1016,6 +1023,40 @@ namespace ayudacard_api.ApiControllers
                            };
 
             return citizens.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpPost, Route("uploadPhoto")]
+        public async Task<IHttpActionResult> UploadPhotoCitizen()
+        {
+            try
+            {
+                if (!Request.Content.IsMimeMultipartContent("form-data"))
+                {
+                    throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                }
+
+                String cloudStorageConnectionString = ConfigurationManager.AppSettings["CloudStorageConnectionString"];
+                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(cloudStorageConnectionString);
+
+                String cloudStorageContainerName = ConfigurationManager.AppSettings["CloudStorageContainerName"];
+                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(cloudStorageContainerName);
+
+                AzureStorageMultipartFormDataStreamProvider provider = new AzureStorageMultipartFormDataStreamProvider(cloudBlobContainer);
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                String fileName = provider.FileData.FirstOrDefault()?.LocalFileName;
+                if (String.IsNullOrEmpty(fileName))
+                {
+                    return BadRequest("An error has occured while uploading your file. Please try again.");
+                }
+
+                return Ok(Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error has occured. Details: {ex.Message}");
+            }
         }
     }
 }
