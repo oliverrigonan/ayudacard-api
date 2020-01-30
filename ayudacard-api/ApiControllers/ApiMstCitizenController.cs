@@ -1071,5 +1071,33 @@ namespace ayudacard_api.ApiControllers
                 return BadRequest($"An error has occured. Details: {ex.Message}");
             }
         }
+
+        [HttpPut, Route("clearPhoto/{citizenId}")]
+        public HttpResponseMessage ClearPhotoCitizen(String citizenId)
+        {
+            try
+            {
+                var citizen = from d in db.MstCitizens
+                              where d.Id == Convert.ToInt32(citizenId)
+                              select d;
+
+                if (citizen.Any())
+                {
+                    var updateCitizen = citizen.FirstOrDefault();
+                    updateCitizen.PictureURL = "";
+                    db.SubmitChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }
