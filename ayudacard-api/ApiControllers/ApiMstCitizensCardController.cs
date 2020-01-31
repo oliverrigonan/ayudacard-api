@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Policy;
 using System.Web.Http;
 
 namespace ayudacard_api.ApiControllers
@@ -221,11 +222,7 @@ namespace ayudacard_api.ApiControllers
             Font fontArial6Bold = FontFactory.GetFont("Arial", 6, Font.BOLD);
             Font fontArial20Bold = FontFactory.GetFont("Arial", 20, Font.BOLD);
 
-            Rectangle cardSize = new Rectangle(202.5F, 127.5F)
-            {
-                BackgroundColor = BaseColor.LIGHT_GRAY
-            };
-
+            Rectangle cardSize = new Rectangle(202.5F, 127.5F);
             Document document = new Document(cardSize, 5f, 5f, 5f, 5f);
             MemoryStream workStream = new MemoryStream();
 
@@ -258,12 +255,17 @@ namespace ayudacard_api.ApiControllers
                 Image imageLogo = Image.GetInstance(logoPath);
                 imageLogo.ScaleToFit(1000f, 40f);
 
+                Image citizensPhoto = Image.GetInstance(new Uri(citizensCard.FirstOrDefault().MstCitizen.PictureURL));
+                citizensPhoto.ScaleToFit(1000f, 40f);
+
                 PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
                 pdfTableHeaderDetail.SetWidths(new float[] { 30f, 50, 30f });
                 pdfTableHeaderDetail.WidthPercentage = 100;
-                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0, PaddingBottom = 2f });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
                 pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
-                pdfTableHeaderDetail.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingBottom = 2f });
+
+                PdfPCell citizensPhotoCell = new PdfPCell(citizensPhoto, true) { FixedHeight = 2f };
+                pdfTableHeaderDetail.AddCell(new PdfPCell(citizensPhotoCell) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
                 document.Add(pdfTableHeaderDetail);
 
                 Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial6Bold);
