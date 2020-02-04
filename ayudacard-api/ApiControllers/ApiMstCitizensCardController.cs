@@ -216,123 +216,146 @@ namespace ayudacard_api.ApiControllers
         [HttpGet, Route("print/{id}")]
         public HttpResponseMessage PrintCitizensCard(String id)
         {
-            FontFactory.RegisterDirectories();
-
-            Font fontArial6 = FontFactory.GetFont("Arial", 6);
-            Font fontArial6Bold = FontFactory.GetFont("Arial", 6, Font.BOLD);
-            Font fontArial20Bold = FontFactory.GetFont("Arial", 20, Font.BOLD);
-
-            Rectangle cardSize = new Rectangle(202.5F, 127.5F);
-            Document document = new Document(cardSize, 5f, 5f, 5f, 5f);
-            MemoryStream workStream = new MemoryStream();
-
-            PdfWriter.GetInstance(document, workStream).CloseStream = false;
-
-            document.Open();
-
-            Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
-
-            var citizensCard = from d in db.MstCitizensCards
-                               where d.Id == Convert.ToInt32(id)
-                               select d;
-
-            if (citizensCard.Any())
+            try
             {
-                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontArial6);
-                Phrase phraseCity = new Phrase("City of Danao\n", fontArial6);
-                Phrase phraseTitle = new Phrase("AYUDA", fontArial20Bold);
+                FontFactory.RegisterDirectories();
 
-                Paragraph headerParagraph = new Paragraph
+                Font fontArial6 = FontFactory.GetFont("Arial", 6);
+                Font fontArial6Bold = FontFactory.GetFont("Arial", 6, Font.BOLD);
+                Font fontArial20Bold = FontFactory.GetFont("Arial", 20, Font.BOLD);
+
+                Rectangle cardSize = new Rectangle(Utilities.MillimetersToPoints(85), Utilities.MillimetersToPoints(54));
+                Document document = new Document(cardSize, 5f, 5f, 5f, 5f);
+                MemoryStream workStream = new MemoryStream();
+
+                PdfWriter.GetInstance(document, workStream).CloseStream = false;
+
+                document.Open();
+
+                String cardBackgroundPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\CardBackground\ayudaCardBackground.png";
+                Image cardBackground = Image.GetInstance(cardBackgroundPath);
+                cardBackground.Alignment = Image.UNDERLYING;
+
+                var pageWidth = document.PageSize.Width;
+                var pageHeight = document.PageSize.Height;
+
+                cardBackground.SetAbsolutePosition(0, 0);
+                cardBackground.ScaleToFit(pageWidth, pageHeight);
+                document.Add(cardBackground);
+
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                var citizensCard = from d in db.MstCitizensCards
+                                   where d.Id == Convert.ToInt32(id)
+                                   select d;
+
+                if (citizensCard.Any())
                 {
-                    phraseRepublic,
-                    phraseCity,
-                    phraseTitle
-                };
+                    PdfPTable pdfTableSpace = new PdfPTable(1);
+                    pdfTableSpace.SetWidths(new float[] { 100f });
+                    pdfTableSpace.WidthPercentage = 100;
+                    pdfTableSpace.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 45f });
+                    document.Add(pdfTableSpace);
 
-                headerParagraph.Alignment = Element.ALIGN_CENTER;
+                    Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial6Bold);
+                    Phrase phraseLastNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Surname + "\n", fontArial6);
 
-                String logoPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\Logo\danaocitylogo.png";
-                Image imageLogo = Image.GetInstance(logoPath);
-                imageLogo.ScaleToFit(1000f, 40f);
+                    Phrase phraseFirstNameLabel = new Phrase("First Name: ", fontArial6Bold);
+                    Phrase phraseFirstNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Firstname + "\n", fontArial6);
 
-                Image citizensPhoto = Image.GetInstance(new Uri(citizensCard.FirstOrDefault().MstCitizen.PictureURL));
-                citizensPhoto.ScaleToFit(1000f, 40f);
+                    Phrase phraseMiddleNameLabel = new Phrase("Middle Name: ", fontArial6Bold);
+                    Phrase phraseMiddleNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Middlename + "\n", fontArial6);
 
-                PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
-                pdfTableHeaderDetail.SetWidths(new float[] { 30f, 50, 30f });
-                pdfTableHeaderDetail.WidthPercentage = 100;
-                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
-                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
+                    Phrase phraseGenderLabel = new Phrase("Gender: ", fontArial6Bold);
+                    Phrase phraseGenderData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.MstSex.Sex + "\n", fontArial6);
 
-                PdfPCell citizensPhotoCell = new PdfPCell(citizensPhoto, true) { FixedHeight = 2f };
-                pdfTableHeaderDetail.AddCell(new PdfPCell(citizensPhotoCell) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 2f });
-                document.Add(pdfTableHeaderDetail);
+                    Phrase phraseBirthDateLabel = new Phrase("Date of Birth: ", fontArial6Bold);
+                    Phrase phraseBirthDateData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.DateOfBirth.ToString("MMMM dd, yyyy") + "\n", fontArial6);
 
-                Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial6Bold);
-                Phrase phraseLastNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Surname + "\n", fontArial6);
-                Phrase phraseFirstNameLabel = new Phrase("First Name: ", fontArial6Bold);
-                Phrase phraseFirstNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Firstname + "\n", fontArial6);
-                Phrase phraseMiddleNameLabel = new Phrase("Middle Name: ", fontArial6Bold);
-                Phrase phraseMiddleNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Middlename + "\n", fontArial6);
-                Phrase phraseGenderLabel = new Phrase("Gender: ", fontArial6Bold);
-                Phrase phraseGenderData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.MstSex.Sex + "\n", fontArial6);
-                Phrase phraseBirthDateLabel = new Phrase("Date of Birth: ", fontArial6Bold);
-                Phrase phraseBirthDateData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.DateOfBirth.ToString("MMMM dd, yyyy") + "\n", fontArial6);
-                Phrase phraseAddressLabel = new Phrase("Address: ", fontArial6Bold);
-                Phrase phraseAddressData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.PermanentNumber + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentStreet + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentVillage + " " + citizensCard.FirstOrDefault().MstCitizen.MstCity.City + " " + citizensCard.FirstOrDefault().MstCitizen.MstProvince.Province + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentZipCode + "\n", fontArial6);
+                    Phrase phraseAddressLabel = new Phrase("Address: ", fontArial6Bold);
+                    String address = citizensCard.FirstOrDefault().MstCitizen.PermanentNumber + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentStreet + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentVillage + " " + citizensCard.FirstOrDefault().MstCitizen.MstCity.City + " " + citizensCard.FirstOrDefault().MstCitizen.MstProvince.Province + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentZipCode + "\n";
+                    Phrase phraseAddressData = new Phrase(address.TrimStart(), fontArial6);
 
-                Phrase phraseIDNumberLabel = new Phrase("ID No.: ", fontArial6Bold);
-                Phrase phraseIDNumberData = new Phrase(citizensCard.FirstOrDefault().CardNumber, fontArial6);
-                Paragraph IDNumberParagraph = new Paragraph { phraseIDNumberLabel, phraseIDNumberData };
+                    Phrase phraseIDNumberLabel = new Phrase("ID No.: ", fontArial6Bold);
+                    Phrase phraseIDNumberData = new Phrase(citizensCard.FirstOrDefault().CardNumber, fontArial6);
+                    Paragraph IDNumberParagraph = new Paragraph { phraseIDNumberLabel, phraseIDNumberData };
 
-                Phrase phrasePrecinctNumberLabel = new Phrase("Precinct No.: ", fontArial6Bold);
-                Phrase phrasePrecinctNumberData = new Phrase("0128C", fontArial6);
-                Paragraph precinctNumberParagraph = new Paragraph { phrasePrecinctNumberLabel, phrasePrecinctNumberData };
+                    Phrase phrasePrecinctNumberLabel = new Phrase("Precinct No.: ", fontArial6Bold);
+                    Phrase phrasePrecinctNumberData = new Phrase("0128C", fontArial6);
+                    Paragraph precinctNumberParagraph = new Paragraph { phrasePrecinctNumberLabel, phrasePrecinctNumberData };
 
-                PdfPTable pdfTableCitizensDetail = new PdfPTable(3);
-                pdfTableCitizensDetail.SetWidths(new float[] { 35f, 70f, 50f });
-                pdfTableCitizensDetail.WidthPercentage = 100;
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Rowspan = 4, HorizontalAlignment = 1, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseMiddleNameLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseMiddleNameData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(IDNumberParagraph) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressLabel) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressData) { Border = 0, Padding = 1f });
-                pdfTableCitizensDetail.AddCell(new PdfPCell(precinctNumberParagraph) { Border = 0, Padding = 1f });
-                document.Add(pdfTableCitizensDetail);
+                    PdfPTable pdfTableCitizensDetail = new PdfPTable(3);
+                    pdfTableCitizensDetail.SetWidths(new float[] { 35f, 70f, 50f });
+                    pdfTableCitizensDetail.WidthPercentage = 93;
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameData) { Border = 0, Padding = 1f });
+
+                    if (String.IsNullOrEmpty(citizensCard.FirstOrDefault().MstCitizen.PictureURL) == true)
+                    {
+                        pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
+                    }
+                    else
+                    {
+                        Image citizensPhoto = Image.GetInstance(new Uri(citizensCard.FirstOrDefault().MstCitizen.PictureURL));
+                        citizensPhoto.ScaleToFit(1000f, 40f);
+                        PdfPCell citizensPhotoCell = new PdfPCell(citizensPhoto, true) { FixedHeight = 2f };
+
+                        pdfTableCitizensDetail.AddCell(new PdfPCell(citizensPhotoCell) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
+                    }
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameData) { Border = 0, Padding = 1f });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseMiddleNameLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseMiddleNameData) { Border = 0, Padding = 1f });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderData) { Border = 0, Padding = 1f });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateData) { Border = 0, Padding = 1f });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressData) { Border = 0, Padding = 1f, Rowspan = 3 });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(IDNumberParagraph) { Border = 0, Padding = 1f });
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(precinctNumberParagraph) { Border = 0, Padding = 1f });
+
+                    document.Add(pdfTableCitizensDetail);
+                }
+                else
+                {
+                    document.Add(line);
+                }
+
+                document.Close();
+
+                byte[] byteInfo = workStream.ToArray();
+
+                workStream.Write(byteInfo, 0, byteInfo.Length);
+                workStream.Position = 0;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+                response = Request.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StreamContent(workStream);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                response.Content.Headers.ContentLength = byteInfo.Length;
+
+                if (ContentDispositionHeaderValue.TryParse("inline; filename=case.pdf", out ContentDispositionHeaderValue contentDisposition))
+                {
+                    response.Content.Headers.ContentDisposition = contentDisposition;
+                }
+
+                return response;
             }
-            else
+            catch (Exception e)
             {
-                document.Add(line);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
             }
-
-            document.Close();
-
-            byte[] byteInfo = workStream.ToArray();
-
-            workStream.Write(byteInfo, 0, byteInfo.Length);
-            workStream.Position = 0;
-
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
-            response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StreamContent(workStream);
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            response.Content.Headers.ContentLength = byteInfo.Length;
-
-            if (ContentDispositionHeaderValue.TryParse("inline; filename=case.pdf", out ContentDispositionHeaderValue contentDisposition))
-            {
-                response.Content.Headers.ContentDisposition = contentDisposition;
-            }
-
-            return response;
         }
 
         public System.Drawing.Image DownloadImageFromUrl(string imageUrl)

@@ -650,7 +650,7 @@ namespace ayudacard_api.ApiControllers
                     saveCitizen.MotherFirstname = objCitizen.MotherFirstname;
                     saveCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
                     saveCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
-                    saveCitizen.PictureURL = objCitizen.PictureURL;
+                    //saveCitizen.PictureURL = objCitizen.PictureURL;
                     saveCitizen.StatusId = objCitizen.StatusId;
                     saveCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
                     saveCitizen.UpdatedDateTime = DateTime.Now;
@@ -835,7 +835,7 @@ namespace ayudacard_api.ApiControllers
                     lockCitizen.MotherFirstname = objCitizen.MotherFirstname;
                     lockCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
                     lockCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
-                    lockCitizen.PictureURL = objCitizen.PictureURL;
+                    //lockCitizen.PictureURL = objCitizen.PictureURL;
                     lockCitizen.StatusId = objCitizen.StatusId;
                     lockCitizen.IsLocked = true;
                     lockCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;

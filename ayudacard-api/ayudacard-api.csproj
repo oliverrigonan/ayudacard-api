@@ -325,6 +325,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\CardBackground\ayudaCardBackground.png" />
     <Content Include="Images\Logo\danaocitylogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
