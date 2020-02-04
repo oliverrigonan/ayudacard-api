@@ -222,13 +222,20 @@ namespace ayudacard_api.ApiControllers
 
                 Font fontArial6 = FontFactory.GetFont("Arial", 6);
                 Font fontArial6Bold = FontFactory.GetFont("Arial", 6, Font.BOLD);
+
+                Font fontArial7 = FontFactory.GetFont("Arial", 7);
+                Font fontArial7Bold = FontFactory.GetFont("Arial", 7, Font.BOLD);
+
+                Font fontArial8Bold = FontFactory.GetFont("Arial", 8, Font.BOLD);
+
                 Font fontArial20Bold = FontFactory.GetFont("Arial", 20, Font.BOLD);
 
                 Rectangle cardSize = new Rectangle(Utilities.MillimetersToPoints(85), Utilities.MillimetersToPoints(54));
                 Document document = new Document(cardSize, 5f, 5f, 5f, 5f);
                 MemoryStream workStream = new MemoryStream();
 
-                PdfWriter.GetInstance(document, workStream).CloseStream = false;
+                PdfWriter pdfWriter = PdfWriter.GetInstance(document, workStream);
+                pdfWriter.CloseStream = false;
 
                 document.Open();
 
@@ -254,27 +261,27 @@ namespace ayudacard_api.ApiControllers
                     PdfPTable pdfTableSpace = new PdfPTable(1);
                     pdfTableSpace.SetWidths(new float[] { 100f });
                     pdfTableSpace.WidthPercentage = 100;
-                    pdfTableSpace.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 45f });
+                    pdfTableSpace.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 40f });
                     document.Add(pdfTableSpace);
 
-                    Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial6Bold);
-                    Phrase phraseLastNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Surname + "\n", fontArial6);
+                    Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial7Bold);
+                    Phrase phraseLastNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Surname + "\n", fontArial7);
 
-                    Phrase phraseFirstNameLabel = new Phrase("First Name: ", fontArial6Bold);
-                    Phrase phraseFirstNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Firstname + "\n", fontArial6);
+                    Phrase phraseFirstNameLabel = new Phrase("First Name: ", fontArial7Bold);
+                    Phrase phraseFirstNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Firstname + "\n", fontArial7);
 
-                    Phrase phraseMiddleNameLabel = new Phrase("Middle Name: ", fontArial6Bold);
-                    Phrase phraseMiddleNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Middlename + "\n", fontArial6);
+                    Phrase phraseMiddleNameLabel = new Phrase("Middle Name: ", fontArial7Bold);
+                    Phrase phraseMiddleNameData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.Middlename + "\n", fontArial7);
 
-                    Phrase phraseGenderLabel = new Phrase("Gender: ", fontArial6Bold);
-                    Phrase phraseGenderData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.MstSex.Sex + "\n", fontArial6);
+                    Phrase phraseGenderLabel = new Phrase("Gender: ", fontArial7Bold);
+                    Phrase phraseGenderData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.MstSex.Sex + "\n", fontArial7);
 
-                    Phrase phraseBirthDateLabel = new Phrase("Date of Birth: ", fontArial6Bold);
-                    Phrase phraseBirthDateData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.DateOfBirth.ToString("MMMM dd, yyyy") + "\n", fontArial6);
+                    Phrase phraseBirthDateLabel = new Phrase("Date of Birth: ", fontArial7Bold);
+                    Phrase phraseBirthDateData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.DateOfBirth.ToString("MMMM dd, yyyy") + "\n", fontArial7);
 
-                    Phrase phraseAddressLabel = new Phrase("Address: ", fontArial6Bold);
+                    Phrase phraseAddressLabel = new Phrase("Address: ", fontArial7Bold);
                     String address = citizensCard.FirstOrDefault().MstCitizen.PermanentNumber + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentStreet + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentVillage + " " + citizensCard.FirstOrDefault().MstCitizen.MstCity.City + " " + citizensCard.FirstOrDefault().MstCitizen.MstProvince.Province + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentZipCode + "\n";
-                    Phrase phraseAddressData = new Phrase(address.TrimStart(), fontArial6);
+                    Phrase phraseAddressData = new Phrase(address.TrimStart(), fontArial7);
 
                     Phrase phraseIDNumberLabel = new Phrase("ID No.: ", fontArial6Bold);
                     Phrase phraseIDNumberData = new Phrase(citizensCard.FirstOrDefault().CardNumber, fontArial6);
@@ -293,7 +300,7 @@ namespace ayudacard_api.ApiControllers
 
                     if (String.IsNullOrEmpty(citizensCard.FirstOrDefault().MstCitizen.PictureURL) == true)
                     {
-                        pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
+                        pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
                     }
                     else
                     {
@@ -325,7 +332,46 @@ namespace ayudacard_api.ApiControllers
                     pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Padding = 1f });
                     pdfTableCitizensDetail.AddCell(new PdfPCell(precinctNumberParagraph) { Border = 0, Padding = 1f });
 
+                    PdfContentByte pdfContentByte = pdfWriter.DirectContent;
+                    Barcode39 barcode39 = new Barcode39
+                    {
+                        AltText = " ",
+                        Code = citizensCard.FirstOrDefault().CardNumber
+                    };
+
+                    Image image39 = barcode39.CreateImageWithBarcode(pdfContentByte, null, null);
+                    PdfPCell barcodeImage = new PdfPCell(image39, true) { FixedHeight = 20f };
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, PaddingTop = 5f, PaddingLeft = 1f, PaddingRight = 1f, PaddingBottom = 1f, Colspan = 2 });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(barcodeImage) { Border = 0, PaddingTop = 5f, PaddingLeft = 1f, PaddingRight = 1f, PaddingBottom = 1f });
+
                     document.Add(pdfTableCitizensDetail);
+
+                    // back page...
+                    document.NewPage();
+
+                    PdfPTable pdfTableTermsAndConditions = new PdfPTable(2);
+                    pdfTableTermsAndConditions.SetWidths(new float[] { 5f, 100f });
+                    pdfTableTermsAndConditions.WidthPercentage = 95;
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("TERMS AND CONDITIONS", fontArial8Bold)) { Border = 0, HorizontalAlignment = 1, PaddingTop = 20f, PaddingBottom = 5f, Colspan = 2 });
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("Present this card when availing educational, medical and burial assistance.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("Use of this card is goverened by Terms and Conditions under AYUDA Program agreements with its partner establishments.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("This card is non-transferable, non-seleable.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("If found, please return to AYUDA Office, Ground Floor of Legislative Bldg., Danao City Hall, Danao City.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("For inquiries, you may call AYUDA Office at 255-5373; CSWD Office a2 260-1172; City Health Office at 261-8386", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+
+                    document.Add(pdfTableTermsAndConditions);
                 }
                 else
                 {
