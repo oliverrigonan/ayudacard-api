@@ -360,7 +360,7 @@ namespace ayudacard_api.ApiControllers
                     pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("Present this card when availing educational, medical and burial assistance.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
 
                     pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
-                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("Use of this card is goverened by Terms and Conditions under AYUDA Program agreements with its partner establishments.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
+                    pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("Use of this card is governed by Terms and Conditions under AYUDA Program agreements with its partner establishments.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
 
                     pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("•", fontArial7Bold)) { Border = 0, HorizontalAlignment = 2, Padding = 2f });
                     pdfTableTermsAndConditions.AddCell(new PdfPCell(new Phrase("This card is non-transferable, non-seleable.", fontArial7)) { Border = 0, HorizontalAlignment = 0, Padding = 2f });
