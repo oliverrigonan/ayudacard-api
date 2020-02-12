@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Policy;
 using System.Web.Http;
+using Zen.Barcode;
 
 namespace ayudacard_api.ApiControllers
 {
@@ -261,7 +262,7 @@ namespace ayudacard_api.ApiControllers
                     PdfPTable pdfTableSpace = new PdfPTable(1);
                     pdfTableSpace.SetWidths(new float[] { 100f });
                     pdfTableSpace.WidthPercentage = 100;
-                    pdfTableSpace.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 40f });
+                    pdfTableSpace.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 0, HorizontalAlignment = 1, PaddingBottom = 15f });
                     document.Add(pdfTableSpace);
 
                     Phrase phraseLastNameLabel = new Phrase("Last Name: ", fontArial7Bold);
@@ -291,25 +292,47 @@ namespace ayudacard_api.ApiControllers
                     Phrase phrasePrecinctNumberData = new Phrase("0128C", fontArial6);
                     Paragraph precinctNumberParagraph = new Paragraph { phrasePrecinctNumberLabel, phrasePrecinctNumberData };
 
+                    Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
+                    System.Drawing.Image imageDrawing = barcode.Draw(citizensCard.FirstOrDefault().CardNumber, 35);
+                    Image barcodeImageDrawing = Image.GetInstance(imageDrawing, BaseColor.BLACK);
+                    PdfPCell barcodeImage = new PdfPCell(barcodeImageDrawing, true) { };
+
+                    //PdfContentByte pdfContentByte = pdfWriter.DirectContent;
+                    //Barcode39 barcode39 = new Barcode39
+                    //{
+                    //    AltText = " ",
+                    //    Code = citizensCard.FirstOrDefault().CardNumber
+                    //};
+
+                    //Image image39 = barcode39.CreateImageWithBarcode(pdfContentByte, null, null);
+                    //image39.ScaleAbsoluteHeight(30f);
+                    //image39.ScaleAbsoluteWidth(65f);
+                    //PdfPCell barcodeImage = new PdfPCell(barcodeImageDrawing, true) { };
+
+                    // Table
                     PdfPTable pdfTableCitizensDetail = new PdfPTable(3);
                     pdfTableCitizensDetail.SetWidths(new float[] { 35f, 70f, 50f });
                     pdfTableCitizensDetail.WidthPercentage = 93;
 
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameLabel) { Border = 0, Padding = 1f });
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameData) { Border = 0, Padding = 1f });
+                    // Picture Side
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, PaddingTop = 20f, Colspan = 2 });
 
                     if (String.IsNullOrEmpty(citizensCard.FirstOrDefault().MstCitizen.PictureURL) == true)
                     {
-                        pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
+                        pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial7Bold)) { Border = 5, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
                     }
                     else
                     {
                         Image citizensPhoto = Image.GetInstance(new Uri(citizensCard.FirstOrDefault().MstCitizen.PictureURL));
-                        citizensPhoto.ScaleToFit(1000f, 40f);
-                        PdfPCell citizensPhotoCell = new PdfPCell(citizensPhoto, true) { FixedHeight = 2f };
+                        //citizensPhoto.ScaleToFit(1000f, 40f);
+                        citizensPhoto.ScaleAbsolute(170f, 155f);
+                        PdfPCell citizensPhotoCell = new PdfPCell(citizensPhoto) { FixedHeight = 2f };
 
-                        pdfTableCitizensDetail.AddCell(new PdfPCell(citizensPhotoCell) { Border = 0, Rowspan = 6, HorizontalAlignment = 0, Padding = 1f });
+                        pdfTableCitizensDetail.AddCell(new PdfPCell(citizensPhotoCell) { Border = 0, Rowspan = 5, HorizontalAlignment = 0, Padding = 1f });
                     }
+
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameLabel) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseLastNameData) { Border = 0, Padding = 1f });
 
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameLabel) { Border = 0, Padding = 1f });
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseFirstNameData) { Border = 0, Padding = 1f });
@@ -320,30 +343,16 @@ namespace ayudacard_api.ApiControllers
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderLabel) { Border = 0, Padding = 1f });
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseGenderData) { Border = 0, Padding = 1f });
 
+                    // ID Number && Precinct No. Side
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateLabel) { Border = 0, Padding = 1f });
                     pdfTableCitizensDetail.AddCell(new PdfPCell(phraseBirthDateData) { Border = 0, Padding = 1f });
-
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressLabel) { Border = 0, Padding = 1f });
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressData) { Border = 0, Padding = 1f, Rowspan = 3 });
-
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Padding = 1f });
                     pdfTableCitizensDetail.AddCell(new PdfPCell(IDNumberParagraph) { Border = 0, Padding = 1f });
 
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, Padding = 1f });
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(precinctNumberParagraph) { Border = 0, Padding = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressLabel) { Border = 0, Padding = 1f, Rowspan = 3 });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(phraseAddressData) { Border = 0, Padding = 1f, Rowspan = 3 });
 
-                    PdfContentByte pdfContentByte = pdfWriter.DirectContent;
-                    Barcode39 barcode39 = new Barcode39
-                    {
-                        AltText = " ",
-                        Code = citizensCard.FirstOrDefault().CardNumber
-                    };
-
-                    Image image39 = barcode39.CreateImageWithBarcode(pdfContentByte, null, null);
-                    PdfPCell barcodeImage = new PdfPCell(image39, true) { FixedHeight = 20f };
-
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(new Phrase(" ", fontArial6Bold)) { Border = 0, PaddingTop = 5f, PaddingLeft = 1f, PaddingRight = 1f, PaddingBottom = 1f, Colspan = 2 });
-                    pdfTableCitizensDetail.AddCell(new PdfPCell(barcodeImage) { Border = 0, PaddingTop = 5f, PaddingLeft = 1f, PaddingRight = 1f, PaddingBottom = 1f });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(precinctNumberParagraph) { Border = 0 });
+                    pdfTableCitizensDetail.AddCell(new PdfPCell(barcodeImage) { Border = 0, Padding = 1f, Rowspan = 2 });
 
                     document.Add(pdfTableCitizensDetail);
 
