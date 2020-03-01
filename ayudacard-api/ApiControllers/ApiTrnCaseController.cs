@@ -823,5 +823,121 @@ namespace ayudacard_api.ApiControllers
 
             return response;
         }
+
+        [HttpGet, Route("print/certificateOfEligibility/{id}")]
+        public HttpResponseMessage PrintCertificateOfEligibility(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
+            Font fontTimesNewRoman12 = FontFactory.GetFont("Times New Roman", 12);
+            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Times New Roman", 12, Font.BOLD);
+
+            Document document = new Document(PageSize.LETTER, 25f, 25f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(50f, 50f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman11);
+                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman11);
+                Phrase phraseDepartment = new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment + "\n\n", fontTimesNewRoman11);
+                Phrase phraseTitle = new Phrase("Certificate of Eligibility", fontTimesNewRoman12Bold);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseRepublic,
+                    phraseCity,
+                    phraseDepartment,
+                    phraseTitle
+                };
+
+                headerParagraph.SetLeading(12f, 0);
+                headerParagraph.Alignment = Element.ALIGN_CENTER;
+
+                String logoPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\Logo\danaocitylogo.png";
+                Image imageLogo = Image.GetInstance(logoPath);
+                imageLogo.ScaleToFit(1000f, 60f);
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
+                pdfTableHeaderDetail.SetWidths(new float[] { 30f, 40, 30f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(new Phrase("")) { Border = 0 });
+
+                document.Add(pdfTableHeaderDetail);
+                document.Add(line);
+
+                Data.MstCitizen citizen = currentCase.FirstOrDefault().MstCitizen;
+                String citizensFullname = citizen.Surname + ", " + citizen.Firstname;
+                String citizensAddress = citizen.MstBarangay.Barangay + ", " + citizen.MstCity.City;
+
+                Phrase phrase1 = new Phrase("This is to certify that " + citizensFullname + " of " + citizensAddress + " has been eligible for Financial Assistance under the Bureau of Assistance after interview and case study has been made. \n\n", fontTimesNewRoman11);
+                Paragraph paragraph1 = new Paragraph { phrase1 };
+
+                document.Add(paragraph1);
+
+                String caseDate = currentCase.FirstOrDefault().CaseDate.ToLongDateString();
+                String caseServiceDepartment = currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment;
+
+                Phrase phrase2 = new Phrase("Records of the case study date " + caseDate + " are in the Confidence file at Unit " + caseServiceDepartment + ". \n\n", fontTimesNewRoman11);
+                Paragraph paragraph2 = new Paragraph { phrase2 };
+                paragraph2.SetLeading(12f, 0);
+
+                document.Add(paragraph2);
+
+                String service = currentCase.FirstOrDefault().MstService.Service;
+
+                Phrase phrase3 = new Phrase("Client is recommended for assistance in the amount of Five Thousand Pesos only for " + service + ". \n\n", fontTimesNewRoman11);
+                Paragraph paragraph3 = new Paragraph { phrase3 };
+                paragraph3.SetLeading(12f, 0);
+
+                document.Add(paragraph3);
+
+                Phrase phrase4 = new Phrase("Records and Case Study Reviewed. \n\n", fontTimesNewRoman11);
+                Paragraph paragraph4 = new Paragraph { phrase4 };
+                paragraph4.SetLeading(12f, 0);
+
+                document.Add(paragraph4);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=certificateOfEligibility.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
+        }
     }
 }
