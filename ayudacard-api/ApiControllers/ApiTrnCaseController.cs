@@ -829,12 +829,12 @@ namespace ayudacard_api.ApiControllers
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
-            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
-            Font fontTimesNewRoman12 = FontFactory.GetFont("Times New Roman", 12);
-            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Times New Roman", 12, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 25f, 25f, 25f, 25f);
+            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -851,10 +851,10 @@ namespace ayudacard_api.ApiControllers
             {
                 Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
 
-                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman11);
-                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman11);
-                Phrase phraseDepartment = new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment + "\n\n", fontTimesNewRoman11);
-                Phrase phraseTitle = new Phrase("Certificate of Eligibility", fontTimesNewRoman12Bold);
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman15);
+                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman15);
+                Phrase phraseDepartment = new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment + "\n\n", fontTimesNewRoman15);
+                Phrase phraseTitle = new Phrase("Certificate of Eligibility", fontTimesNewRoman16Bold);
 
                 Paragraph headerParagraph = new Paragraph
                 {
@@ -872,12 +872,11 @@ namespace ayudacard_api.ApiControllers
                 imageLogo.ScaleToFit(1000f, 60f);
 
                 PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
-                pdfTableHeaderDetail.SetWidths(new float[] { 30f, 40, 30f });
+                pdfTableHeaderDetail.SetWidths(new float[] { 30f, 40f, 30f });
                 pdfTableHeaderDetail.WidthPercentage = 100;
                 pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0 });
                 pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1 });
                 pdfTableHeaderDetail.AddCell(new PdfPCell(new Phrase("")) { Border = 0 });
-
                 document.Add(pdfTableHeaderDetail);
                 document.Add(line);
 
@@ -885,33 +884,59 @@ namespace ayudacard_api.ApiControllers
                 String citizensFullname = citizen.Surname + ", " + citizen.Firstname;
                 String citizensAddress = citizen.MstBarangay.Barangay + ", " + citizen.MstCity.City;
 
-                Phrase phrase1 = new Phrase("This is to certify that " + citizensFullname + " of " + citizensAddress + " has been eligible for Financial Assistance under the Bureau of Assistance after interview and case study has been made. \n\n", fontTimesNewRoman11);
+                Phrase phrase1 = new Phrase("\nThis is to certify that " + citizensFullname + " of " + citizensAddress + " has been eligible for Financial Assistance under the Bureau of Assistance after interview and case study has been made.", fontTimesNewRoman15);
                 Paragraph paragraph1 = new Paragraph { phrase1 };
-
+                paragraph1.SetLeading(20f, 0);
                 document.Add(paragraph1);
 
                 String caseDate = currentCase.FirstOrDefault().CaseDate.ToLongDateString();
                 String caseServiceDepartment = currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment;
 
-                Phrase phrase2 = new Phrase("Records of the case study date " + caseDate + " are in the Confidence file at Unit " + caseServiceDepartment + ". \n\n", fontTimesNewRoman11);
+                Phrase phrase2 = new Phrase("\nRecords of the case study date " + caseDate + " are in the Confidence file at Unit " + caseServiceDepartment + ".", fontTimesNewRoman15);
                 Paragraph paragraph2 = new Paragraph { phrase2 };
-                paragraph2.SetLeading(12f, 0);
-
+                paragraph2.SetLeading(20f, 0);
                 document.Add(paragraph2);
 
                 String service = currentCase.FirstOrDefault().MstService.Service;
 
-                Phrase phrase3 = new Phrase("Client is recommended for assistance in the amount of Five Thousand Pesos only for " + service + ". \n\n", fontTimesNewRoman11);
+                Phrase phrase3 = new Phrase("\nClient is recommended for assistance in the amount of Five Thousand Pesos only for " + service + ".", fontTimesNewRoman15);
                 Paragraph paragraph3 = new Paragraph { phrase3 };
-                paragraph3.SetLeading(12f, 0);
-
+                paragraph3.SetLeading(20f, 0);
                 document.Add(paragraph3);
 
-                Phrase phrase4 = new Phrase("Records and Case Study Reviewed. \n\n", fontTimesNewRoman11);
+                Phrase phrase4 = new Phrase("\nRecords and Case Study Reviewed. \n\n", fontTimesNewRoman15);
                 Paragraph paragraph4 = new Paragraph { phrase4 };
-                paragraph4.SetLeading(12f, 0);
-
+                paragraph4.SetLeading(20f, 0);
                 document.Add(paragraph4);
+
+                String preparedBy = currentCase.FirstOrDefault().MstUser.Fullname;
+                String officerInCharge = currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.OfficerInCharge;
+
+                PdfPTable pdfTableUsers = new PdfPTable(3);
+                pdfTableUsers.SetWidths(new float[] { 50f, 20f, 50f });
+                pdfTableUsers.WidthPercentage = 100;
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n\n", fontTimesNewRoman15)) { Colspan = 3, Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Prepared By:", fontTimesNewRoman15Bold)) { Border = 2, PaddingBottom = 40f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 40f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Noted By:", fontTimesNewRoman15Bold)) { Border = 2, PaddingBottom = 40f });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(preparedBy.ToUpper(), fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(officerInCharge.ToUpper(), fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n\n", fontTimesNewRoman15)) { Colspan = 3, Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Approved By:", fontTimesNewRoman15Bold)) { Border = 2, PaddingBottom = 40f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 40f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 40f });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("RAMON D. DURANO III", fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman15Bold)) { Border = 0, PaddingTop = 3f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman15Bold)) { Border = 0, PaddingTop = 3f });
+
+                document.Add(pdfTableUsers);
             }
             else
             {
