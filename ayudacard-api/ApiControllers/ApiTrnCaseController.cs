@@ -1092,7 +1092,7 @@ namespace ayudacard_api.ApiControllers
 
                 Phrase phraseCertifiedLetterA = new Phrase("A", fontTimesNewRoman11Bold);
                 Phrase phraseCertifiedValueA = new Phrase("Certified\n\n", fontTimesNewRoman11Bold);
-                Phrase phraseAmountObligated = new Phrase("___ Amount obiligated for the purpose as indicated above. \n", fontTimesNewRoman11);
+                Phrase phraseAmountObligated = new Phrase("___ Allotment obiligated for the purpose as indicated above. \n", fontTimesNewRoman11);
                 Phrase phraseSupportingDocuments = new Phrase("___ Supporting documents complete", fontTimesNewRoman11);
 
                 Paragraph certifiedAValueParagraph = new Paragraph
@@ -1188,6 +1188,249 @@ namespace ayudacard_api.ApiControllers
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("JEV No.", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 document.Add(pdfTableMayorSignatureAndCheckSignatureDetail);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=certificateOfEligibility.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
+        }
+
+        [HttpGet, Route("print/obligationRequest/{id}")]
+        public HttpResponseMessage PrintObligationRequest(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+
+            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(30f, 30f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman15);
+                Phrase phraseGovernment = new Phrase("DANAO CITY GOVERNMENT\n", fontTimesNewRoman16Bold);
+                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman15);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseRepublic,
+                    phraseGovernment,
+                    phraseCity
+                };
+
+                headerParagraph.SetLeading(12f, 0);
+                headerParagraph.Alignment = Element.ALIGN_CENTER;
+
+                Phrase phraseTitle = new Phrase("OBLIGATION REQUEST", fontTimesNewRoman16Bold);
+                Phrase phraseNo = new Phrase("No.", fontTimesNewRoman10);
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(2);
+                pdfTableHeaderDetail.SetWidths(new float[] { 86.25f, 28.75f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(phraseTitle) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(phraseNo) { PaddingBottom = 6f, PaddingTop = 6f });
+                document.Add(pdfTableHeaderDetail);
+
+                Phrase phrasePayee = new Phrase("Payee", fontTimesNewRoman11);
+                Phrase phrasePayeeValue = new Phrase(" ", fontTimesNewRoman11);
+                Phrase phraseOffice = new Phrase("Office", fontTimesNewRoman11);
+                Phrase phraseOfficeValue = new Phrase(" ", fontTimesNewRoman11);
+                Phrase phraseAddress = new Phrase("Address", fontTimesNewRoman11);
+                Phrase phraseAddressValue = new Phrase(" ", fontTimesNewRoman11);
+
+                PdfPTable pdfTablePayeeDetail = new PdfPTable(2);
+                pdfTablePayeeDetail.SetWidths(new float[] { 15f, 100f });
+                pdfTablePayeeDetail.WidthPercentage = 100;
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phrasePayee) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phrasePayeeValue) { HorizontalAlignment = 1, PaddingBottom = 6f, PaddingTop = 3f });
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phraseOffice) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phraseOfficeValue) { HorizontalAlignment = 1, PaddingBottom = 6f, PaddingTop = 3f });
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phraseAddress) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTablePayeeDetail.AddCell(new PdfPCell(phraseAddressValue) { HorizontalAlignment = 1, PaddingBottom = 6f, PaddingTop = 3f });
+                document.Add(pdfTablePayeeDetail);
+
+                Phrase phraseResponsibilityCenter = new Phrase("Responsibility Center", fontTimesNewRoman11);
+                Phrase phraseResponsibilityCenterValue = new Phrase(" ", fontTimesNewRoman11);
+                Phrase phraseAllotmentClass = new Phrase("Allotment Class", fontTimesNewRoman11);
+                Phrase phraseFPP = new Phrase("F.P.P", fontTimesNewRoman11);
+                Phrase phraseAccountCode = new Phrase("Account Code", fontTimesNewRoman11);
+                Phrase phraseAmount = new Phrase("Amount", fontTimesNewRoman11);
+
+                PdfPTable pdfTableResponsibilityCenterDetail = new PdfPTable(6);
+                pdfTableResponsibilityCenterDetail.SetWidths(new float[] { 15f, 42.5f, 20f, 8.75f, 20f, 8.75f });
+                pdfTableResponsibilityCenterDetail.WidthPercentage = 100;
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseResponsibilityCenter) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseResponsibilityCenterValue) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAllotmentClass) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseFPP) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAccountCode) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAmount) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 4 });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                document.Add(pdfTableResponsibilityCenterDetail);
+
+                Phrase phraseCertifiedLetterA = new Phrase("A", fontTimesNewRoman11Bold);
+                Phrase phraseCertifiedValueA = new Phrase("Certified\n\n", fontTimesNewRoman11Bold);
+                Phrase phraseAmountObligated = new Phrase("___ Charges to approporiation/allotment necessary, lawful and under my direct supervision. \n", fontTimesNewRoman11);
+                Phrase phraseSupportingDocuments = new Phrase("___ Supporting documents valid, proper and legal", fontTimesNewRoman11);
+
+                Paragraph certifiedAValueParagraph = new Paragraph
+                {
+                    phraseCertifiedValueA,
+                    phraseAmountObligated,
+                    phraseSupportingDocuments
+                };
+
+                Phrase phraseCertifiedLetterB = new Phrase("B", fontTimesNewRoman11Bold);
+                Phrase phraseCertifiedValueB = new Phrase("Certified\n\n", fontTimesNewRoman11Bold);
+                Phrase phraseFunds = new Phrase("Existence of available apprporiation", fontTimesNewRoman11);
+
+                Paragraph certifiedBValueParagraph = new Paragraph
+                {
+                    phraseCertifiedValueB,
+                    phraseFunds
+                };
+
+                PdfPTable pdfTableCertifiedDetail = new PdfPTable(4);
+                pdfTableCertifiedDetail.SetWidths(new float[] { 7.5f, 50f, 7.5f, 50f });
+                pdfTableCertifiedDetail.WidthPercentage = 100;
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(phraseCertifiedLetterA) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(certifiedAValueParagraph) { Border = Rectangle.RIGHT_BORDER, PaddingLeft = 3f, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(phraseCertifiedLetterB) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(certifiedBValueParagraph) { Border = Rectangle.RIGHT_BORDER, PaddingLeft = 3f, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(new Phrase("")) { PaddingBottom = 6f, Border = Rectangle.LEFT_BORDER });
+                pdfTableCertifiedDetail.AddCell(new PdfPCell(new Phrase("")) { PaddingBottom = 6f, Border = Rectangle.LEFT_BORDER });
+                document.Add(pdfTableCertifiedDetail);
+
+                Phrase phraseSignature = new Phrase("Signature", fontTimesNewRoman11Bold);
+
+                PdfPTable pdfTableSignatureDetail = new PdfPTable(4);
+                pdfTableSignatureDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
+                pdfTableSignatureDetail.WidthPercentage = 100;
+                pdfTableSignatureDetail.AddCell(new PdfPCell(phraseSignature) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase("")) { PaddingBottom = 12f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(phraseSignature) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase("")) { PaddingBottom = 12f });
+                document.Add(pdfTableSignatureDetail);
+
+                Phrase phrasePrintedNameA = new Phrase("Printed Name", fontTimesNewRoman11);
+                Phrase phrasePrintedNameValueA = new Phrase("", fontTimesNewRoman11);
+
+                Phrase phrasePrintedNameB = new Phrase("Printed Name", fontTimesNewRoman11);
+                Phrase phrasePrintedNameValueB = new Phrase("", fontTimesNewRoman11);
+
+                PdfPTable pdfTablePrintedDetail = new PdfPTable(4);
+                pdfTablePrintedDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
+                pdfTablePrintedDetail.WidthPercentage = 100;
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueA) { PaddingLeft = 3f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueB) { PaddingLeft = 3f, PaddingBottom = 12f });
+                document.Add(pdfTablePrintedDetail);
+
+                Phrase phrasePositionNameA = new Phrase("Position", fontTimesNewRoman11);
+                Phrase phrasePositionNameValueA = new Phrase(" ", fontTimesNewRoman11);
+
+                Phrase phrasePositionNameB = new Phrase("Position", fontTimesNewRoman11);
+                Phrase phrasePositionNameValueB = new Phrase("", fontTimesNewRoman11);
+
+                PdfPTable pdfTablePositionDetail = new PdfPTable(4);
+                pdfTablePositionDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
+                pdfTablePositionDetail.WidthPercentage = 100;
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 18f, Rowspan = 2 });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 18f, Rowspan = 2 });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { PaddingLeft = 3f, PaddingBottom = 6f });
+                document.Add(pdfTablePositionDetail);
+
+                PdfPTable pdfTableSignatureDateDetail = new PdfPTable(4);
+                pdfTableSignatureDateDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
+                pdfTableSignatureDateDetail.WidthPercentage = 100;
+                pdfTableSignatureDateDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTableSignatureDateDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTableSignatureDateDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTableSignatureDateDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingBottom = 6f });
+                document.Add(pdfTableSignatureDateDetail);
+
+                PdfPTable pdfTableStatusDetail = new PdfPTable(1);
+                pdfTableStatusDetail.SetWidths(new float[] { 115f });
+                pdfTableStatusDetail.WidthPercentage = 100;
+                pdfTableStatusDetail.AddCell(new PdfPCell(new Phrase("STATUS OF OBLIGATIONS AND ALLOTMENT BALANCE", fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
+                document.Add(pdfTableStatusDetail);
+
+                PdfPTable pdfTableStatusObligationValueDetail = new PdfPTable(6);
+                pdfTableStatusObligationValueDetail.SetWidths(new float[] { 15f, 27.5f, 25f, 15.75f, 18f, 13.75f });
+                pdfTableStatusObligationValueDetail.WidthPercentage = 100;
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("DATE", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("PARTICULARS", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("AMOUNT OBLIGATED AND ALLOTMENT BALANCE", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 3 });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("POSTED BY", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("ALLOTMENT", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("OBLIGATION", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("BALANCE", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                document.Add(pdfTableStatusObligationValueDetail);
             }
             else
             {
