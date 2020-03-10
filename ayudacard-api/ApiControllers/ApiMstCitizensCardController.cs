@@ -18,6 +18,20 @@ namespace ayudacard_api.ApiControllers
     {
         public Data.ayudacarddbDataContext db = new Data.ayudacarddbDataContext();
 
+        public String FillZeroes(Int32 number, Int32 length)
+        {
+            var result = number.ToString();
+            var pad = length - result.Length;
+
+            while (pad > 0)
+            {
+                result = '0' + result;
+                pad--;
+            }
+
+            return result;
+        }
+
         [HttpGet, Route("list")]
         public List<Entities.MstCitizensCard> CitizensCardList()
         {
@@ -120,10 +134,18 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
                 }
 
+                String cardNumber = "0000000001";
+                var lastCard = from d in db.MstCitizensCards.OrderByDescending(d => d.Id) select d;
+                if (lastCard.Any())
+                {
+                    Int32 newCardNumber = Convert.ToInt32(lastCard.FirstOrDefault().CardNumber) + 1;
+                    cardNumber = FillZeroes(newCardNumber, 10);
+                }
+
                 Data.MstCitizensCard newCitizensCard = new Data.MstCitizensCard()
                 {
                     CitizenId = objCitizensCard.CitizenId,
-                    CardNumber = objCitizensCard.CardNumber,
+                    CardNumber = cardNumber,
                     TotalBalance = objCitizensCard.TotalBalance,
                     StatusId = objCitizensCard.StatusId
                 };
@@ -131,7 +153,7 @@ namespace ayudacard_api.ApiControllers
                 db.MstCitizensCards.InsertOnSubmit(newCitizensCard);
                 db.SubmitChanges();
 
-                return Request.CreateResponse(HttpStatusCode.OK, "");
+                return Request.CreateResponse(HttpStatusCode.OK, newCitizensCard.Id.ToString());
             }
             catch (Exception e)
             {
@@ -168,7 +190,6 @@ namespace ayudacard_api.ApiControllers
 
                     var updateCitizensCard = citizensCard.FirstOrDefault();
                     updateCitizensCard.CitizenId = objCitizensCard.CitizenId;
-                    updateCitizensCard.CardNumber = objCitizensCard.CardNumber;
                     updateCitizensCard.TotalBalance = objCitizensCard.TotalBalance;
                     updateCitizensCard.StatusId = objCitizensCard.StatusId;
                     db.SubmitChanges();
@@ -289,7 +310,7 @@ namespace ayudacard_api.ApiControllers
                     Paragraph IDNumberParagraph = new Paragraph { phraseIDNumberLabel, phraseIDNumberData };
 
                     Phrase phrasePrecinctNumberLabel = new Phrase("Precinct No.: ", fontArial6Bold);
-                    Phrase phrasePrecinctNumberData = new Phrase("0128C", fontArial6);
+                    Phrase phrasePrecinctNumberData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.PermanentPrecinctNumber, fontArial6);
                     Paragraph precinctNumberParagraph = new Paragraph { phrasePrecinctNumberLabel, phrasePrecinctNumberData };
 
                     Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;

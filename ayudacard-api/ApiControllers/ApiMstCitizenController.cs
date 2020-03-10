@@ -62,6 +62,7 @@ namespace ayudacard_api.ApiControllers
                                ResidentialProvinceId = d.ResidentialProvinceId,
                                ResidentialProvince = d.MstProvince.Province,
                                ResidentialZipCode = d.ResidentialZipCode,
+                               ResidentialPrecinctNumber = d.ResidentialPrecinctNumber,
                                PermanentNumber = d.PermanentNumber,
                                PermanentStreet = d.PermanentStreet,
                                PermanentVillage = d.PermanentVillage,
@@ -72,6 +73,7 @@ namespace ayudacard_api.ApiControllers
                                PermanentProvinceId = d.PermanentProvinceId,
                                PermanentProvince = d.MstProvince1.Province,
                                PermanentZipCode = d.PermanentZipCode,
+                               PermanentPrecinctNumber = d.PermanentPrecinctNumber,
                                TelephoneNumber = d.TelephoneNumber,
                                MobileNumber = d.MobileNumber,
                                EmailAddress = d.EmailAddress,
@@ -154,6 +156,7 @@ namespace ayudacard_api.ApiControllers
                               ResidentialProvinceId = d.ResidentialProvinceId,
                               ResidentialProvince = d.MstProvince.Province,
                               ResidentialZipCode = d.ResidentialZipCode,
+                              ResidentialPrecinctNumber = d.ResidentialPrecinctNumber,
                               PermanentNumber = d.PermanentNumber,
                               PermanentStreet = d.PermanentStreet,
                               PermanentVillage = d.PermanentVillage,
@@ -164,6 +167,7 @@ namespace ayudacard_api.ApiControllers
                               PermanentProvinceId = d.PermanentProvinceId,
                               PermanentProvince = d.MstProvince1.Province,
                               PermanentZipCode = d.PermanentZipCode,
+                              PermanentPrecinctNumber = d.PermanentPrecinctNumber,
                               TelephoneNumber = d.TelephoneNumber,
                               MobileNumber = d.MobileNumber,
                               EmailAddress = d.EmailAddress,
@@ -440,6 +444,7 @@ namespace ayudacard_api.ApiControllers
                     ResidentialCityId = city.FirstOrDefault().Id,
                     ResidentialProvinceId = province.FirstOrDefault().Id,
                     ResidentialZipCode = "",
+                    ResidentialPrecinctNumber = "",
                     PermanentNumber = "",
                     PermanentStreet = "",
                     PermanentVillage = "",
@@ -447,6 +452,7 @@ namespace ayudacard_api.ApiControllers
                     PermanentCityId = city.FirstOrDefault().Id,
                     PermanentProvinceId = province.FirstOrDefault().Id,
                     PermanentZipCode = "",
+                    PermanentPrecinctNumber = "",
                     TelephoneNumber = "",
                     MobileNumber = "",
                     EmailAddress = "",
@@ -621,6 +627,7 @@ namespace ayudacard_api.ApiControllers
                     saveCitizen.ResidentialCityId = objCitizen.ResidentialCityId;
                     saveCitizen.ResidentialProvinceId = objCitizen.ResidentialProvinceId;
                     saveCitizen.ResidentialZipCode = objCitizen.ResidentialZipCode;
+                    saveCitizen.ResidentialPrecinctNumber = objCitizen.ResidentialPrecinctNumber;
                     saveCitizen.PermanentNumber = objCitizen.PermanentNumber;
                     saveCitizen.PermanentStreet = objCitizen.PermanentStreet;
                     saveCitizen.PermanentVillage = objCitizen.PermanentVillage;
@@ -628,6 +635,7 @@ namespace ayudacard_api.ApiControllers
                     saveCitizen.PermanentCityId = objCitizen.PermanentCityId;
                     saveCitizen.PermanentProvinceId = objCitizen.PermanentProvinceId;
                     saveCitizen.PermanentZipCode = objCitizen.PermanentZipCode;
+                    saveCitizen.PermanentPrecinctNumber = objCitizen.PermanentPrecinctNumber;
                     saveCitizen.TelephoneNumber = objCitizen.TelephoneNumber;
                     saveCitizen.MobileNumber = objCitizen.MobileNumber;
                     saveCitizen.EmailAddress = objCitizen.EmailAddress;
@@ -806,6 +814,7 @@ namespace ayudacard_api.ApiControllers
                     lockCitizen.ResidentialCityId = objCitizen.ResidentialCityId;
                     lockCitizen.ResidentialProvinceId = objCitizen.ResidentialProvinceId;
                     lockCitizen.ResidentialZipCode = objCitizen.ResidentialZipCode;
+                    lockCitizen.ResidentialPrecinctNumber = objCitizen.ResidentialPrecinctNumber;
                     lockCitizen.PermanentNumber = objCitizen.PermanentNumber;
                     lockCitizen.PermanentStreet = objCitizen.PermanentStreet;
                     lockCitizen.PermanentVillage = objCitizen.PermanentVillage;
@@ -813,6 +822,7 @@ namespace ayudacard_api.ApiControllers
                     lockCitizen.PermanentCityId = objCitizen.PermanentCityId;
                     lockCitizen.PermanentProvinceId = objCitizen.PermanentProvinceId;
                     lockCitizen.PermanentZipCode = objCitizen.PermanentZipCode;
+                    lockCitizen.PermanentPrecinctNumber = objCitizen.PermanentPrecinctNumber;
                     lockCitizen.TelephoneNumber = objCitizen.TelephoneNumber;
                     lockCitizen.MobileNumber = objCitizen.MobileNumber;
                     lockCitizen.EmailAddress = objCitizen.EmailAddress;
@@ -976,6 +986,7 @@ namespace ayudacard_api.ApiControllers
                                ResidentialProvinceId = d.ResidentialProvinceId,
                                ResidentialProvince = d.MstProvince.Province,
                                ResidentialZipCode = d.ResidentialZipCode,
+                               ResidentialPrecinctNumber = d.ResidentialPrecinctNumber,
                                PermanentNumber = d.PermanentNumber,
                                PermanentStreet = d.PermanentStreet,
                                PermanentVillage = d.PermanentVillage,
@@ -986,6 +997,7 @@ namespace ayudacard_api.ApiControllers
                                PermanentProvinceId = d.PermanentProvinceId,
                                PermanentProvince = d.MstProvince1.Province,
                                PermanentZipCode = d.PermanentZipCode,
+                               PermanentPrecinctNumber = d.PermanentPrecinctNumber,
                                TelephoneNumber = d.TelephoneNumber,
                                MobileNumber = d.MobileNumber,
                                EmailAddress = d.EmailAddress,

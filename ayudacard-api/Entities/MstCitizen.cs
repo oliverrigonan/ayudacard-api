@@ -43,6 +43,7 @@ namespace ayudacard_api.Entities
         public Int32 ResidentialProvinceId { get; set; }
         public String ResidentialProvince { get; set; }
         public String ResidentialZipCode { get; set; }
+        public String ResidentialPrecinctNumber { get; set; }
         public String PermanentNumber { get; set; }
         public String PermanentStreet { get; set; }
         public String PermanentVillage { get; set; }
@@ -53,6 +54,7 @@ namespace ayudacard_api.Entities
         public Int32 PermanentProvinceId { get; set; }
         public String PermanentProvince { get; set; }
         public String PermanentZipCode { get; set; }
+        public String PermanentPrecinctNumber { get; set; }
         public String TelephoneNumber { get; set; }
         public String MobileNumber { get; set; }
         public String EmailAddress { get; set; }
