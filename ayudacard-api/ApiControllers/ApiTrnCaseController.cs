@@ -1458,5 +1458,147 @@ namespace ayudacard_api.ApiControllers
 
             return response;
         }
+
+
+        [HttpGet, Route("print/journalEntryVoucher/{id}")]
+        public HttpResponseMessage PrintJournalEntryVouchert(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+
+            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(30f, 30f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman15);
+                Phrase phraseGovernment = new Phrase("DANAO CITY GOVERNMENT\n", fontTimesNewRoman16Bold);
+                Phrase phraseCity = new Phrase("City of Danao\n", fontTimesNewRoman15);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseRepublic,
+                    phraseGovernment,
+                    phraseCity
+                };
+
+                headerParagraph.SetLeading(12f, 0);
+                headerParagraph.Alignment = Element.ALIGN_CENTER;
+
+                Phrase phraseTitle = new Phrase("JOURNAL ENTRY VOUCHER", fontTimesNewRoman16Bold);
+                Phrase phraseNo = new Phrase("No.            Date:  ", fontTimesNewRoman10);
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(2);
+                pdfTableHeaderDetail.SetWidths(new float[] { 86.25f, 28.75f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(phraseTitle) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(phraseNo) { PaddingBottom = 6f, PaddingTop = 6f });
+                document.Add(pdfTableHeaderDetail);
+
+                Phrase phraseCollection = new Phrase("Collection       ___ Check Disbursement   ___ Cash Disbursement     ___ Others", fontTimesNewRoman11);
+
+                PdfPTable pdfTableCollectionDetail = new PdfPTable(1);
+                pdfTableCollectionDetail.SetWidths(new float[] { 115f });
+                pdfTableCollectionDetail.WidthPercentage = 100;
+                pdfTableCollectionDetail.AddCell(new PdfPCell(phraseCollection) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
+                document.Add(pdfTableCollectionDetail);
+
+                PdfPTable pdfTableAccountingEntriesDetail = new PdfPTable(6);
+                pdfTableAccountingEntriesDetail.SetWidths(new float[] { 15f, 40.5f, 25.625f, 5.75f, 14.375f, 14.375f });
+                pdfTableAccountingEntriesDetail.WidthPercentage = 100;
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Resposibility Center", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 3 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("ACCOUNTING ENTRIES", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 5 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Accounting and Explanation", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Accounting Code", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("PR", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Rowspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Amount", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Debit", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Credit", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f, Colspan = 4 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 6 });
+
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Prepared By", fontTimesNewRoman11)) { PaddingBottom = 50f, Colspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Approved By", fontTimesNewRoman11)) { PaddingBottom = 50f, Colspan = 4 });
+                document.Add(pdfTableAccountingEntriesDetail);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=certificateOfEligibility.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
+        }
+
     }
 }
