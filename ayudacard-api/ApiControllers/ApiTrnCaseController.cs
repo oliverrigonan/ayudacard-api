@@ -645,10 +645,10 @@ namespace ayudacard_api.ApiControllers
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
-            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
-            Font fontTimesNewRoman12 = FontFactory.GetFont("Times New Roman", 12);
-            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Times New Roman", 12, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Arial", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            Font fontTimesNewRoman12 = FontFactory.GetFont("Arial", 12);
+            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Arial", 12, Font.BOLD);
 
             Document document = new Document(PageSize.LETTER, 25f, 25f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
@@ -829,10 +829,10 @@ namespace ayudacard_api.ApiControllers
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
-            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
-            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
-            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Arial", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Arial", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
             Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
@@ -970,20 +970,20 @@ namespace ayudacard_api.ApiControllers
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
-            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
-            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
-            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
-            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
-            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
-            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
-            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
-            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
-            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
-            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
-            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
-            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
-            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Arial", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Arial", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Arial", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Arial", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Arial", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Arial", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Arial", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Arial", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Arial", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Arial", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Arial", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
             Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
@@ -1221,20 +1221,20 @@ namespace ayudacard_api.ApiControllers
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
-            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
-            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
-            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
-            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
-            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
-            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
-            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
-            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
-            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
-            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
-            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
-            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
-            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Arial", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Arial", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Arial", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Arial", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Arial", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Arial", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Arial", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Arial", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Arial", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Arial", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Arial", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
             Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
@@ -1459,26 +1459,25 @@ namespace ayudacard_api.ApiControllers
             return response;
         }
 
-
         [HttpGet, Route("print/journalEntryVoucher/{id}")]
-        public HttpResponseMessage PrintJournalEntryVouchert(String id)
+        public HttpResponseMessage PrintJournalEntryVoucher(String id)
         {
             FontFactory.RegisterDirectories();
 
-            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
-            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
-            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
-            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
-            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
-            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
-            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
-            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
-            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
-            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
-            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
-            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
-            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
-            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Arial", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Arial", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Arial", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Arial", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Arial", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Arial", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Arial", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Arial", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Arial", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Arial", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Arial", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
             Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
@@ -1572,6 +1571,227 @@ namespace ayudacard_api.ApiControllers
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Prepared By", fontTimesNewRoman11)) { PaddingBottom = 50f, Colspan = 2 });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("Approved By", fontTimesNewRoman11)) { PaddingBottom = 50f, Colspan = 4 });
                 document.Add(pdfTableAccountingEntriesDetail);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=certificateOfEligibility.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
+        }
+
+        [HttpGet, Route("print/CSWDForm200/{id}")]
+        public HttpResponseMessage PrintCSWDForm200(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman09 = FontFactory.GetFont("Times New Roman", 9);
+            Font fontTimesNewRoman09Bold = FontFactory.GetFont("Times New Roman", 9, Font.BOLD);
+            Font fontTimesNewRoman10 = FontFactory.GetFont("Times New Roman", 10);
+            Font fontTimesNewRoman10Bold = FontFactory.GetFont("Times New Roman", 10, Font.BOLD);
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Times New Roman", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Times New Roman", 11, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Times New Roman", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Times New Roman", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Times New Roman", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Times New Roman", 14, Font.BOLD);
+            Font fontTimesNewRoman15 = FontFactory.GetFont("Times New Roman", 15);
+            Font fontTimesNewRoman15Bold = FontFactory.GetFont("Times New Roman", 15, Font.BOLD);
+            Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
+            Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
+
+            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(30f, 30f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseRepublic = new Phrase("Republic of the Philippines\n", fontTimesNewRoman11);
+                Phrase phraseDepartment = new Phrase("City Social Welfare & Development Office\n", fontTimesNewRoman11);
+                Phrase phraseCity = new Phrase("Danao City", fontTimesNewRoman11);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseRepublic,
+                    phraseDepartment,
+                    phraseCity
+                };
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(1);
+                pdfTableHeaderDetail.SetWidths(new float[] { 100f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1 });
+                document.Add(pdfTableHeaderDetail);
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableCSWDForm200Detail = new PdfPTable(5);
+                pdfTableCSWDForm200Detail.SetWidths(new float[] { 50f, 50f, 10f, 50f, 50f });
+                pdfTableCSWDForm200Detail.WidthPercentage = 100;
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("CSWD FORM 200", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Name of Disaster", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Material Aid", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Fire", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Labor Relief", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Typhoon", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Flood", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Earthquake", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Date of Occurence:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Name of Family Head:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Age:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Address:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Occupation:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Educational Attainment:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                document.Add(pdfTableCSWDForm200Detail);
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableDependentsDetail = new PdfPTable(4);
+                pdfTableDependentsDetail.SetWidths(new float[] { 50f, 35f, 20f, 50f });
+                pdfTableDependentsDetail.WidthPercentage = 100;
+                pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase("Dependents", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingRight = 3f, PaddingBottom = 6f });
+                pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase("Relationship", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingRight = 3f, PaddingBottom = 6f });
+                pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase("Age", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingRight = 3f, PaddingBottom = 6f });
+                pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase("Educational Attainment", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingRight = 3f, PaddingBottom = 6f });
+
+                for (int i = 0; i < 10; i++)
+                {
+                    pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                    pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                    pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                    pdfTableDependentsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                }
+
+                document.Add(pdfTableDependentsDetail);
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableOwnerDetail = new PdfPTable(5);
+                pdfTableOwnerDetail.SetWidths(new float[] { 25f, 50f, 15f, 30f, 50f });
+                pdfTableOwnerDetail.WidthPercentage = 100;
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase("House Owner:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase("Totally Damaged:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase("House Owner:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase("Partially Damaged:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableOwnerDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                document.Add(pdfTableOwnerDetail);
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableSignatureDetail = new PdfPTable(3);
+                pdfTableSignatureDetail.SetWidths(new float[] { 50f, 20f, 50f });
+                pdfTableSignatureDetail.WidthPercentage = 100;
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase("Signature over Printed Name of Client", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase("Signature over Printed Name of SWA", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                document.Add(pdfTableSignatureDetail);
+                document.Add(new Paragraph("\n"));
+
+                document.Add(new Paragraph(new Phrase("Registered _____________________________  20 _____", fontTimesNewRoman11)));
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableEmptyTablesDetail = new PdfPTable(3);
+                pdfTableEmptyTablesDetail.SetWidths(new float[] { 50f, 50f, 50f });
+                pdfTableEmptyTablesDetail.WidthPercentage = 100;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    pdfTableEmptyTablesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                    pdfTableEmptyTablesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                    pdfTableEmptyTablesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { PaddingLeft = 3f, PaddingRight = 3f });
+                }
+
+                document.Add(pdfTableEmptyTablesDetail);
+                document.Add(new Paragraph("\n"));
+
+                document.Add(new Paragraph(new Phrase("Recommendation:   The client is recommended to avail _______________________ assistance.", fontTimesNewRoman11)));
+                document.Add(new Paragraph(new Phrase("Remarks:   Worth _______________________ (5,000.00).", fontTimesNewRoman11)));
+                document.Add(new Paragraph("\n"));
+
+                PdfPTable pdfTableNotedDetail = new PdfPTable(3);
+                pdfTableNotedDetail.SetWidths(new float[] { 50f, 50f, 50f });
+                pdfTableNotedDetail.WidthPercentage = 100;
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase("Noted By:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase("Jesusa M. Delgado", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 10f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f });
+                pdfTableNotedDetail.AddCell(new PdfPCell(new Phrase("CSWDO", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = Rectangle.TOP_BORDER, PaddingLeft = 3f, PaddingRight = 3f });
+                document.Add(pdfTableNotedDetail);
             }
             else
             {
