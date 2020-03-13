@@ -24,6 +24,7 @@ namespace ayudacard_api.Entities
         public Int32 ServiceId { get; set; }
         public String Service { get; set; }
         public String ServiceGroup { get; set; }
+        public Decimal Amount { get; set; }
         public String Problem { get; set; }
         public String Background { get; set; }
         public String Recommendation { get; set; }

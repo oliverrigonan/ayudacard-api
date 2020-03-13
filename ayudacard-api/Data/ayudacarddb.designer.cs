@@ -514,6 +514,8 @@ namespace ayudacard_api.Data
 		
 		private int _ServiceId;
 		
+		private decimal _Amount;
+		
 		private string _Problem;
 		
 		private string _Background;
@@ -568,6 +570,8 @@ namespace ayudacard_api.Data
     partial void OnCitizenCardIdChanged();
     partial void OnServiceIdChanging(int value);
     partial void OnServiceIdChanged();
+    partial void OnAmountChanging(decimal value);
+    partial void OnAmountChanged();
     partial void OnProblemChanging(string value);
     partial void OnProblemChanged();
     partial void OnBackgroundChanging(string value);
@@ -733,6 +737,26 @@ namespace ayudacard_api.Data
 					this._ServiceId = value;
 					this.SendPropertyChanged("ServiceId");
 					this.OnServiceIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Amount", DbType="Decimal(18,5) NOT NULL")]
+		public decimal Amount
+		{
+			get
+			{
+				return this._Amount;
+			}
+			set
+			{
+				if ((this._Amount != value))
+				{
+					this.OnAmountChanging(value);
+					this.SendPropertyChanging();
+					this._Amount = value;
+					this.SendPropertyChanged("Amount");
+					this.OnAmountChanged();
 				}
 			}
 		}

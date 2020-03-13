@@ -15,6 +15,7 @@
       <Column Name="CitizenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CitizenCardId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="Problem" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Background" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Recommendation" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
