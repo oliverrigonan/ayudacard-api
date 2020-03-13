@@ -1128,8 +1128,8 @@ namespace ayudacard_api.ApiControllers
                 String amountInWords = "Three Thousand Five Hundred Pesos Only";
                 String explanationValue = "To Payment of Financial Assitance for " + service + " in the amount of " + amountInWords + " as per supporting papers hereto attached.";
 
-                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(explanationValue, fontTimesNewRoman11)) { PaddingTop = 10f, PaddingLeft = 10f, PaddingRight = 10f, PaddingBottom = 200f });
-                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(" ")) { PaddingBottom = 200f });
+                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(explanationValue, fontTimesNewRoman11)) { PaddingTop = 10f, PaddingLeft = 10f, PaddingRight = 10f, PaddingBottom = 100f });
+                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(" ")) { PaddingBottom = 100f });
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(amountInWords, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(" ")) { PaddingBottom = 6f });
                 document.Add(pdfTableExplanationDetail);
@@ -1501,12 +1501,12 @@ namespace ayudacard_api.ApiControllers
                 pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("ALLOTMENT", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("OBLIGATION", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase("BALANCE", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstService.Service.ToUpper(), fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 100f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
-                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 50f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstService.Service.ToUpper(), fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 50f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 50f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 50f });
+                pdfTableStatusObligationValueDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 50f });
                 document.Add(pdfTableStatusObligationValueDetail);
             }
             else
