@@ -732,7 +732,7 @@ namespace ayudacard_api.ApiControllers
                 String background = currentCase.FirstOrDefault().Background;
                 String recommendation = currentCase.FirstOrDefault().Recommendation;
                 String preparedBy = currentCase.FirstOrDefault().MstUser.Fullname;
-                String checkedBy = currentCase.FirstOrDefault().MstUser1.Fullname;
+                String notedBy = currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.OfficerInCharge;
 
                 PdfPTable pdfTableCaseDetail = new PdfPTable(4);
                 pdfTableCaseDetail.SetWidths(new float[] { 20f, 40f, 15f, 25f });
@@ -793,13 +793,29 @@ namespace ayudacard_api.ApiControllers
                 document.Add(line);
 
                 PdfPTable pdfTableUsers = new PdfPTable(4);
-                pdfTableUsers.SetWidths(new float[] { 15f, 25f, 15f, 45f });
+                pdfTableUsers.SetWidths(new float[] { 40f, 10f, 40f, 20f });
                 pdfTableUsers.WidthPercentage = 100;
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase("Prepared By: ", fontTimesNewRoman11Bold)) { Border = 0 });
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase(preparedBy, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase("Noted By: ", fontTimesNewRoman11Bold)) { Border = 0 });
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase(checkedBy, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(preparedBy, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(notedBy, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("SWA", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = 1 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("CSWDO", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = 1 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
 
                 document.Add(pdfTableUsers);
             }
@@ -908,6 +924,12 @@ namespace ayudacard_api.ApiControllers
 
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
                 String amountInWords = GetMoneyWord(amount);
+
+                if (currentCase.FirstOrDefault().Amount == 0)
+                {
+                    amountInWords = "Zero Pesos";
+                }
+
                 String service = currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup;
 
                 Phrase phrase3 = new Phrase("\nClient is recommended for assistance in the amount of " + amountInWords + " only for " + service + ".", fontTimesNewRoman15);
@@ -961,7 +983,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
 
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment, fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("CSWDO", fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
 
@@ -1119,7 +1141,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableAddressDetail.AddCell(new PdfPCell(phraseOfficeUnitProject) { PaddingBottom = 3f, Rowspan = 2 });
                 pdfTableAddressDetail.AddCell(new PdfPCell(passCodeParagraph) { PaddingBottom = 3f, Rowspan = 2 });
                 pdfTableAddressDetail.AddCell(new PdfPCell(phraseContactNumber) { HorizontalAlignment = 1, PaddingBottom = 6f });
-                pdfTableAddressDetail.AddCell(new PdfPCell(phraseContactNumberValue) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAddressDetail.AddCell(new PdfPCell(phraseContactNumberValue) { PaddingBottom = 6f });
                 document.Add(pdfTableAddressDetail);
 
                 Phrase phraseExplanation = new Phrase("EXPLANATION", fontTimesNewRoman11Bold);
@@ -1132,13 +1154,19 @@ namespace ayudacard_api.ApiControllers
                 pdfTableExplanationDetail.AddCell(new PdfPCell(phraseAmount) { HorizontalAlignment = 1, PaddingBottom = 6f });
 
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
+
                 String amountInWords = GetMoneyWord(amount);
+                if (currentCase.FirstOrDefault().Amount == 0)
+                {
+                    amountInWords = "Zero Pesos Only";
+                }
+
                 String service = currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup;
 
                 String explanationValue = "To Payment of Financial Assitance for " + service + " in the amount of " + amountInWords + " as per supporting papers hereto attached.";
 
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(explanationValue, fontTimesNewRoman11)) { PaddingTop = 10f, PaddingLeft = 10f, PaddingRight = 10f, PaddingBottom = 100f });
-                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().Amount.ToString("#,##0.00"), fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 100f });
+                pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().Amount.ToString("#,##0.00"), fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingLeft = 5f, PaddingRight = 5f, PaddingBottom = 100f });
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(amountInWords, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().Amount.ToString("#,##0.00"), fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 document.Add(pdfTableExplanationDetail);
@@ -1187,23 +1215,45 @@ namespace ayudacard_api.ApiControllers
                 pdfTableSignatureDetail.AddCell(new PdfPCell(new Phrase("")) { PaddingBottom = 12f });
                 document.Add(pdfTableSignatureDetail);
 
+                String cityAccoutant = "";
+                var getCityAccountant = from d in db.SysSettings
+                                        where d.Code == "CITYACCOUNTANT"
+                                        select d;
+
+                if (getCityAccountant.Any())
+                {
+                    cityAccoutant = getCityAccountant.FirstOrDefault().Value;
+                }
+
                 Phrase phrasePrintedNameA = new Phrase("Printed Name", fontTimesNewRoman11);
-                Phrase phrasePrintedNameValueA = new Phrase("", fontTimesNewRoman11);
+                Phrase phrasePrintedNameValueA = new Phrase(cityAccoutant, fontTimesNewRoman11Bold);
                 Phrase phrasePrintedDateA = new Phrase("Date", fontTimesNewRoman10);
 
+                String cityTreasurer = "";
+                var getCityTreasurer = from d in db.SysSettings
+                                       where d.Code == "CITYTREASURER"
+                                       select d;
+
+                if (getCityTreasurer.Any())
+                {
+                    cityTreasurer = getCityTreasurer.FirstOrDefault().Value;
+                }
+
                 Phrase phrasePrintedNameB = new Phrase("Printed Name", fontTimesNewRoman11);
-                Phrase phrasePrintedNameValueB = new Phrase("", fontTimesNewRoman11);
+                Phrase phrasePrintedNameValueB = new Phrase(cityTreasurer, fontTimesNewRoman11Bold);
                 Phrase phrasePrintedDateB = new Phrase("Date", fontTimesNewRoman10);
 
                 PdfPTable pdfTablePrintedDetail = new PdfPTable(6);
                 pdfTablePrintedDetail.SetWidths(new float[] { 15f, 32.5f, 10f, 15f, 32.5f, 10f });
                 pdfTablePrintedDetail.WidthPercentage = 100;
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueA) { PaddingLeft = 3f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedDateA) { PaddingLeft = 3f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueB) { PaddingLeft = 3f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedDateB) { PaddingLeft = 3f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f, Rowspan = 2 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueA) { PaddingTop = 5f, PaddingBottom = 7f, HorizontalAlignment = 1 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedDateA) { PaddingLeft = 3f, PaddingBottom = 12f, Rowspan = 2 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f, Rowspan = 2 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueB) { PaddingTop = 5f, PaddingBottom = 7f, HorizontalAlignment = 1 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedDateB) { PaddingLeft = 3f, PaddingBottom = 12f, Rowspan = 2 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(new Phrase("City Accountant", fontTimesNewRoman10)) { PaddingTop = 3f, HorizontalAlignment = 1 });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(new Phrase("OIC City Treasurer", fontTimesNewRoman10)) { PaddingTop = 3f, HorizontalAlignment = 1 });
                 document.Add(pdfTablePrintedDetail);
 
                 PdfPTable pdfTableApprovedAndReceivedDetail = new PdfPTable(4);
@@ -1386,7 +1436,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseFPP) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAccountCode) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAmount) { HorizontalAlignment = 1, PaddingBottom = 6f });
-                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment, fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("CSWDO", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("Assistamce for Indigent. " + currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup.ToUpper() + " \n\nTo payment for Financial Assitance.", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("200", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("7611", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
@@ -1395,6 +1445,11 @@ namespace ayudacard_api.ApiControllers
 
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
                 String amountInWords = GetMoneyWord(amount);
+
+                if (currentCase.FirstOrDefault().Amount == 0)
+                {
+                    amountInWords = "Zero Pesos Only.";
+                }
 
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase(amountInWords, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 4 });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
@@ -1467,16 +1522,16 @@ namespace ayudacard_api.ApiControllers
                 pdfTablePrintedDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
                 pdfTablePrintedDetail.WidthPercentage = 100;
                 pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 3f });
                 pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 12f });
-                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueB) { PaddingLeft = 3f, PaddingBottom = 12f });
+                pdfTablePrintedDetail.AddCell(new PdfPCell(phrasePrintedNameValueB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 3f });
                 document.Add(pdfTablePrintedDetail);
 
                 Phrase phrasePositionNameA = new Phrase("Position", fontTimesNewRoman11);
-                Phrase phrasePositionNameValueA = new Phrase(currentCase.FirstOrDefault().MstService.MstServiceGroup.MstServiceDepartment.ServiceDepartment, fontTimesNewRoman11);
+                Phrase phrasePositionNameValueA = new Phrase("CSWDO", fontTimesNewRoman11);
 
                 Phrase phrasePositionNameB = new Phrase("Position", fontTimesNewRoman11);
-                Phrase phrasePositionNameValueB = new Phrase(budgetOfficerPosition, fontTimesNewRoman11);
+                Phrase phrasePositionNameValueB = new Phrase("OIC City Budget Officer", fontTimesNewRoman11);
 
                 PdfPTable pdfTablePositionDetail = new PdfPTable(4);
                 pdfTablePositionDetail.SetWidths(new float[] { 15f, 42.5f, 15f, 42.5f });
@@ -1484,7 +1539,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 18f, Rowspan = 2 });
                 pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
                 pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingTop = 9f, PaddingBottom = 18f, Rowspan = 2 });
-                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueA) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
+                pdfTablePositionDetail.AddCell(new PdfPCell(phrasePositionNameValueB) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
                 pdfTablePositionDetail.AddCell(new PdfPCell(new Phrase("Head, Requesting Office / Authorized Representative", fontTimesNewRoman09)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
                 pdfTablePositionDetail.AddCell(new PdfPCell(new Phrase("Head, Unit/ Authorized Representative", fontTimesNewRoman09)) { HorizontalAlignment = 1, PaddingLeft = 3f, PaddingBottom = 6f });
                 document.Add(pdfTablePositionDetail);
@@ -1750,6 +1805,11 @@ namespace ayudacard_api.ApiControllers
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
                 String amountInWords = GetMoneyWord(amount);
 
+                if (currentCase.FirstOrDefault().Amount == 0)
+                {
+                    amountInWords = "Zero Pesos Only.";
+                }
+
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(amountInWords, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 3 });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().Amount.ToString("#,##0.00"), fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
@@ -1772,7 +1832,7 @@ namespace ayudacard_api.ApiControllers
 
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstUser.Username, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(cityAccoutant, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 4 });
-                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("JOB ORDER EMPLOYEE", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("SWA", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 2 });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("City Accountant", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f, Colspan = 4 });
                 document.Add(pdfTableAccountingEntriesDetail);
             }
@@ -1999,7 +2059,12 @@ namespace ayudacard_api.ApiControllers
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
                 String amountInWords = GetMoneyWord(amount);
 
-                document.Add(new Paragraph(new Phrase("Recommendation:   The client is recommended to avail " + currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup + " assistance.", fontTimesNewRoman11)));
+                if (currentCase.FirstOrDefault().Amount == 0)
+                {
+                    amountInWords = "Zero Pesos Only.";
+                }
+
+                document.Add(new Paragraph(new Phrase("Recommendation:   The client is recommended to avail " + currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup + ".", fontTimesNewRoman11)));
                 document.Add(new Paragraph(new Phrase("Remarks:   Worth " + amountInWords + " (" + currentCase.FirstOrDefault().Amount.ToString("#,##0.00") + ").", fontTimesNewRoman11)));
                 document.Add(new Paragraph("\n"));
 
