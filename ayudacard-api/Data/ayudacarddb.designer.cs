@@ -108,6 +108,9 @@ namespace ayudacard_api.Data
     partial void InsertMstStatus(MstStatus instance);
     partial void UpdateMstStatus(MstStatus instance);
     partial void DeleteMstStatus(MstStatus instance);
+    partial void InsertMstSupplier(MstSupplier instance);
+    partial void UpdateMstSupplier(MstSupplier instance);
+    partial void DeleteMstSupplier(MstSupplier instance);
     partial void InsertMstTypeOfCitizenship(MstTypeOfCitizenship instance);
     partial void UpdateMstTypeOfCitizenship(MstTypeOfCitizenship instance);
     partial void DeleteMstTypeOfCitizenship(MstTypeOfCitizenship instance);
@@ -354,6 +357,14 @@ namespace ayudacard_api.Data
 			get
 			{
 				return this.GetTable<MstStatus>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstSupplier> MstSuppliers
+		{
+			get
+			{
+				return this.GetTable<MstSupplier>();
 			}
 		}
 		
@@ -8529,6 +8540,462 @@ namespace ayudacard_api.Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstSupplier")]
+	public partial class MstSupplier : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Supplier;
+		
+		private string _Address;
+		
+		private bool _IsVAT;
+		
+		private decimal _VATRate;
+		
+		private bool _IsWithheld;
+		
+		private decimal _WithholdingRate;
+		
+		private bool _IsCityTax;
+		
+		private decimal _CityTaxRate;
+		
+		private bool _IsLocked;
+		
+		private int _CreatedByUserId;
+		
+		private System.DateTime _CreatedDateTime;
+		
+		private int _UpdatedByUserId;
+		
+		private System.DateTime _UpdatedDateTime;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+		private EntityRef<MstUser> _MstUser1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSupplierChanging(string value);
+    partial void OnSupplierChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnIsVATChanging(bool value);
+    partial void OnIsVATChanged();
+    partial void OnVATRateChanging(decimal value);
+    partial void OnVATRateChanged();
+    partial void OnIsWithheldChanging(bool value);
+    partial void OnIsWithheldChanged();
+    partial void OnWithholdingRateChanging(decimal value);
+    partial void OnWithholdingRateChanged();
+    partial void OnIsCityTaxChanging(bool value);
+    partial void OnIsCityTaxChanged();
+    partial void OnCityTaxRateChanging(decimal value);
+    partial void OnCityTaxRateChanged();
+    partial void OnIsLockedChanging(bool value);
+    partial void OnIsLockedChanged();
+    partial void OnCreatedByUserIdChanging(int value);
+    partial void OnCreatedByUserIdChanged();
+    partial void OnCreatedDateTimeChanging(System.DateTime value);
+    partial void OnCreatedDateTimeChanged();
+    partial void OnUpdatedByUserIdChanging(int value);
+    partial void OnUpdatedByUserIdChanged();
+    partial void OnUpdatedDateTimeChanging(System.DateTime value);
+    partial void OnUpdatedDateTimeChanged();
+    #endregion
+		
+		public MstSupplier()
+		{
+			this._MstUser = default(EntityRef<MstUser>);
+			this._MstUser1 = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Supplier", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Supplier
+		{
+			get
+			{
+				return this._Supplier;
+			}
+			set
+			{
+				if ((this._Supplier != value))
+				{
+					this.OnSupplierChanging(value);
+					this.SendPropertyChanging();
+					this._Supplier = value;
+					this.SendPropertyChanged("Supplier");
+					this.OnSupplierChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsVAT", DbType="Bit NOT NULL")]
+		public bool IsVAT
+		{
+			get
+			{
+				return this._IsVAT;
+			}
+			set
+			{
+				if ((this._IsVAT != value))
+				{
+					this.OnIsVATChanging(value);
+					this.SendPropertyChanging();
+					this._IsVAT = value;
+					this.SendPropertyChanged("IsVAT");
+					this.OnIsVATChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VATRate", DbType="Decimal(18,5) NOT NULL")]
+		public decimal VATRate
+		{
+			get
+			{
+				return this._VATRate;
+			}
+			set
+			{
+				if ((this._VATRate != value))
+				{
+					this.OnVATRateChanging(value);
+					this.SendPropertyChanging();
+					this._VATRate = value;
+					this.SendPropertyChanged("VATRate");
+					this.OnVATRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithheld", DbType="Bit NOT NULL")]
+		public bool IsWithheld
+		{
+			get
+			{
+				return this._IsWithheld;
+			}
+			set
+			{
+				if ((this._IsWithheld != value))
+				{
+					this.OnIsWithheldChanging(value);
+					this.SendPropertyChanging();
+					this._IsWithheld = value;
+					this.SendPropertyChanged("IsWithheld");
+					this.OnIsWithheldChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WithholdingRate", DbType="Decimal(18,5) NOT NULL")]
+		public decimal WithholdingRate
+		{
+			get
+			{
+				return this._WithholdingRate;
+			}
+			set
+			{
+				if ((this._WithholdingRate != value))
+				{
+					this.OnWithholdingRateChanging(value);
+					this.SendPropertyChanging();
+					this._WithholdingRate = value;
+					this.SendPropertyChanged("WithholdingRate");
+					this.OnWithholdingRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCityTax", DbType="Bit NOT NULL")]
+		public bool IsCityTax
+		{
+			get
+			{
+				return this._IsCityTax;
+			}
+			set
+			{
+				if ((this._IsCityTax != value))
+				{
+					this.OnIsCityTaxChanging(value);
+					this.SendPropertyChanging();
+					this._IsCityTax = value;
+					this.SendPropertyChanged("IsCityTax");
+					this.OnIsCityTaxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CityTaxRate", DbType="Decimal(18,5) NOT NULL")]
+		public decimal CityTaxRate
+		{
+			get
+			{
+				return this._CityTaxRate;
+			}
+			set
+			{
+				if ((this._CityTaxRate != value))
+				{
+					this.OnCityTaxRateChanging(value);
+					this.SendPropertyChanging();
+					this._CityTaxRate = value;
+					this.SendPropertyChanged("CityTaxRate");
+					this.OnCityTaxRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
+		public bool IsLocked
+		{
+			get
+			{
+				return this._IsLocked;
+			}
+			set
+			{
+				if ((this._IsLocked != value))
+				{
+					this.OnIsLockedChanging(value);
+					this.SendPropertyChanging();
+					this._IsLocked = value;
+					this.SendPropertyChanged("IsLocked");
+					this.OnIsLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByUserId", DbType="Int NOT NULL")]
+		public int CreatedByUserId
+		{
+			get
+			{
+				return this._CreatedByUserId;
+			}
+			set
+			{
+				if ((this._CreatedByUserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCreatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedByUserId = value;
+					this.SendPropertyChanged("CreatedByUserId");
+					this.OnCreatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDateTime
+		{
+			get
+			{
+				return this._CreatedDateTime;
+			}
+			set
+			{
+				if ((this._CreatedDateTime != value))
+				{
+					this.OnCreatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDateTime = value;
+					this.SendPropertyChanged("CreatedDateTime");
+					this.OnCreatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedByUserId", DbType="Int NOT NULL")]
+		public int UpdatedByUserId
+		{
+			get
+			{
+				return this._UpdatedByUserId;
+			}
+			set
+			{
+				if ((this._UpdatedByUserId != value))
+				{
+					if (this._MstUser1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUpdatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedByUserId = value;
+					this.SendPropertyChanged("UpdatedByUserId");
+					this.OnUpdatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime UpdatedDateTime
+		{
+			get
+			{
+				return this._UpdatedDateTime;
+			}
+			set
+			{
+				if ((this._UpdatedDateTime != value))
+				{
+					this.OnUpdatedDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedDateTime = value;
+					this.SendPropertyChanged("UpdatedDateTime");
+					this.OnUpdatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier", Storage="_MstUser", ThisKey="CreatedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstSuppliers.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstSuppliers.Add(this);
+						this._CreatedByUserId = value.Id;
+					}
+					else
+					{
+						this._CreatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier1", Storage="_MstUser1", ThisKey="UpdatedByUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser1
+		{
+			get
+			{
+				return this._MstUser1.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser1.Entity = null;
+						previousValue.MstSuppliers1.Remove(this);
+					}
+					this._MstUser1.Entity = value;
+					if ((value != null))
+					{
+						value.MstSuppliers1.Add(this);
+						this._UpdatedByUserId = value.Id;
+					}
+					else
+					{
+						this._UpdatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstTypeOfCitizenship")]
 	public partial class MstTypeOfCitizenship : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -8675,6 +9142,10 @@ namespace ayudacard_api.Data
 		
 		private EntitySet<MstService> _MstServices1;
 		
+		private EntitySet<MstSupplier> _MstSuppliers;
+		
+		private EntitySet<MstSupplier> _MstSuppliers1;
+		
 		private EntityRef<AspNetUser> _AspNetUser;
 		
     #region Extensibility Method Definitions
@@ -8703,6 +9174,8 @@ namespace ayudacard_api.Data
 			this._MstCitizens1 = new EntitySet<MstCitizen>(new Action<MstCitizen>(this.attach_MstCitizens1), new Action<MstCitizen>(this.detach_MstCitizens1));
 			this._MstServices = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices), new Action<MstService>(this.detach_MstServices));
 			this._MstServices1 = new EntitySet<MstService>(new Action<MstService>(this.attach_MstServices1), new Action<MstService>(this.detach_MstServices1));
+			this._MstSuppliers = new EntitySet<MstSupplier>(new Action<MstSupplier>(this.attach_MstSuppliers), new Action<MstSupplier>(this.detach_MstSuppliers));
+			this._MstSuppliers1 = new EntitySet<MstSupplier>(new Action<MstSupplier>(this.attach_MstSuppliers1), new Action<MstSupplier>(this.detach_MstSuppliers1));
 			this._AspNetUser = default(EntityRef<AspNetUser>);
 			OnCreated();
 		}
@@ -8915,6 +9388,32 @@ namespace ayudacard_api.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier", Storage="_MstSuppliers", ThisKey="Id", OtherKey="CreatedByUserId")]
+		public EntitySet<MstSupplier> MstSuppliers
+		{
+			get
+			{
+				return this._MstSuppliers;
+			}
+			set
+			{
+				this._MstSuppliers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier1", Storage="_MstSuppliers1", ThisKey="Id", OtherKey="UpdatedByUserId")]
+		public EntitySet<MstSupplier> MstSuppliers1
+		{
+			get
+			{
+				return this._MstSuppliers1;
+			}
+			set
+			{
+				this._MstSuppliers1.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetUser_MstUser", Storage="_AspNetUser", ThisKey="AspNetUserId", OtherKey="Id", IsForeignKey=true)]
 		public AspNetUser AspNetUser
 		{
@@ -9060,6 +9559,30 @@ namespace ayudacard_api.Data
 		}
 		
 		private void detach_MstServices1(MstService entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = null;
+		}
+		
+		private void attach_MstSuppliers(MstSupplier entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstSuppliers(MstSupplier entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_MstSuppliers1(MstSupplier entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = this;
+		}
+		
+		private void detach_MstSuppliers1(MstSupplier entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstUser1 = null;

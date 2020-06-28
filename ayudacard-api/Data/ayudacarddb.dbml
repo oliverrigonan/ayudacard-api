@@ -366,6 +366,26 @@
       <Association Name="MstStatus_MstService" Member="MstServices" ThisKey="Id" OtherKey="StatusId" Type="MstService" />
     </Type>
   </Table>
+  <Table Name="dbo.MstSupplier" Member="MstSuppliers">
+    <Type Name="MstSupplier">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Supplier" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="IsVAT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="VATRate" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="IsWithheld" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WithholdingRate" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="IsCityTax" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CityTaxRate" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_MstSupplier" Member="MstUser" ThisKey="CreatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstSupplier1" Member="MstUser1" ThisKey="UpdatedByUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.MstTypeOfCitizenship" Member="MstTypeOfCitizenships">
     <Type Name="MstTypeOfCitizenship">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -388,6 +408,8 @@
       <Association Name="MstUser_MstCitizen1" Member="MstCitizens1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstCitizen" />
       <Association Name="MstUser_MstService" Member="MstServices" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstService" />
       <Association Name="MstUser_MstService1" Member="MstServices1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstService" />
+      <Association Name="MstUser_MstSupplier" Member="MstSuppliers" ThisKey="Id" OtherKey="CreatedByUserId" Type="MstSupplier" />
+      <Association Name="MstUser_MstSupplier1" Member="MstSuppliers1" ThisKey="Id" OtherKey="UpdatedByUserId" Type="MstSupplier" />
       <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
     </Type>
   </Table>
