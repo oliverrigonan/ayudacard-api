@@ -2575,5 +2575,178 @@ namespace ayudacard_api.ApiControllers
 
             return word;
         }
+
+
+        [HttpPost, Route("add/new/citizen/card")]
+        public HttpResponseMessage AddCitizen(Entities.MstCitizen objCitizen)
+        {
+            try
+            {
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+                var sex = from d in db.MstSexes select d;
+                if (sex.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sex not found!");
+                }
+
+                var civilStatus = from d in db.MstCivilStatus select d;
+                if (civilStatus.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
+                }
+
+                var bloodType = from d in db.MstBloodTypes select d;
+                if (bloodType.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Blood type not found!");
+                }
+
+                var citizenship = from d in db.MstCitizenships select d;
+                if (citizenship.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizenship not found!");
+                }
+
+                var barangay = from d in db.MstBarangays where d.Id == objCitizen.ResidentialBarangayId select d;
+                if (barangay.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Barangay not found!");
+                }
+
+                var city = from d in db.MstCities select d;
+                if (city.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "City not found!");
+                }
+
+                var province = from d in db.MstProvinces select d;
+                if (province.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Province not found!");
+                }
+
+                var occupation = from d in db.MstOccupations select d;
+                if (occupation.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Occupation not found!");
+                }
+
+                var status = from d in db.MstStatus
+                             where d.Category.Equals("Citizen")
+                             select d;
+
+                if (status.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Status not found!");
+                }
+
+                Data.MstCitizen newCitizen = new Data.MstCitizen()
+                {
+                    Surname = objCitizen.Surname,
+                    Firstname = objCitizen.Firstname,
+                    Middlename = objCitizen.Middlename,
+                    Extensionname = objCitizen.Extensionname,
+                    DateOfBirth = DateTime.Today,
+                    PlaceOfBirth = "",
+                    SexId = sex.FirstOrDefault().Id,
+                    CivilStatusId = civilStatus.FirstOrDefault().Id,
+                    Height = 0,
+                    Weight = 0,
+                    BloodTypeId = bloodType.FirstOrDefault().Id,
+                    GSISNumber = "",
+                    HDMFNumber = "",
+                    PhilHealthNumber = "",
+                    SSSNumber = "",
+                    TINNumber = "",
+                    AgencyEmployeeNumber = "",
+                    CitizenshipId = citizenship.FirstOrDefault().Id,
+                    TypeOfCitizenshipId = null,
+                    DualCitizenshipCountry = "",
+                    ResidentialNumber = "",
+                    ResidentialStreet = "",
+                    ResidentialVillage = "",
+                    ResidentialBarangayId = barangay.FirstOrDefault().Id,
+                    ResidentialCityId = city.FirstOrDefault().Id,
+                    ResidentialProvinceId = province.FirstOrDefault().Id,
+                    ResidentialZipCode = "",
+                    ResidentialPrecinctNumber = "",
+                    PermanentNumber = "",
+                    PermanentStreet = "",
+                    PermanentVillage = "",
+                    PermanentBarangayId = barangay.FirstOrDefault().Id,
+                    PermanentCityId = city.FirstOrDefault().Id,
+                    PermanentProvinceId = province.FirstOrDefault().Id,
+                    PermanentZipCode = "",
+                    PermanentPrecinctNumber = "",
+                    TelephoneNumber = "",
+                    MobileNumber = "",
+                    EmailAddress = "",
+                    OccupationId = occupation.FirstOrDefault().Id,
+                    EmployerName = "",
+                    EmployerAddress = "",
+                    EmployerTelephoneNumber = "",
+                    SpouseSurname = "",
+                    SpouseFirstname = "",
+                    SpouseMiddlename = "",
+                    SpouseExtensionname = "",
+                    SpouseOccupationId = occupation.FirstOrDefault().Id,
+                    SpouseEmployerName = "",
+                    SpouseEmployerAddress = "",
+                    FatherSurname = "",
+                    FatherFirstname = "",
+                    FatherMiddlename = "",
+                    FatherExtensionname = "",
+                    MotherSurname = "",
+                    MotherFirstname = "",
+                    MotherMiddlename = "",
+                    MotherExtensionname = "",
+                    PictureURL = "",
+                    StatusId = status.FirstOrDefault().Id,
+                    IsLocked = false,
+                    CreatedByUserId = currentUser.FirstOrDefault().Id,
+                    CreatedDateTime = DateTime.Now,
+                    UpdatedByUserId = currentUser.FirstOrDefault().Id,
+                    UpdatedDateTime = DateTime.Now
+                };
+
+                db.MstCitizens.InsertOnSubmit(newCitizen);
+                db.SubmitChanges();
+
+                var cardStatus = from d in db.MstStatus
+                                 where d.Category.Equals("Card")
+                                 select d;
+
+                if (cardStatus.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Card status not found!");
+                }
+
+                String cardNumber = "0000000001";
+                var lastCard = from d in db.MstCitizensCards.OrderByDescending(d => d.Id) select d;
+                if (lastCard.Any())
+                {
+                    Int32 newCardNumber = Convert.ToInt32(lastCard.FirstOrDefault().CardNumber) + 1;
+                    cardNumber = FillLeadingZeroes(newCardNumber, 10);
+                }
+
+                Data.MstCitizensCard newCitizensCard = new Data.MstCitizensCard()
+                {
+                    CitizenId = newCitizen.Id,
+                    CardNumber = cardNumber,
+                    TotalBalance = 0,
+                    StatusId = cardStatus.FirstOrDefault().Id
+                };
+
+                db.MstCitizensCards.InsertOnSubmit(newCitizensCard);
+                db.SubmitChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK, newCitizensCard.Id.ToString());
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
     }
 }
