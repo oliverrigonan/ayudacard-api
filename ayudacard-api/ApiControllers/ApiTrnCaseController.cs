@@ -2748,5 +2748,18 @@ namespace ayudacard_api.ApiControllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
             }
         }
+
+        [HttpGet, Route("barangay/dropdown/list")]
+        public List<Entities.MstBarangay> BarangayDropdownList()
+        {
+            var barangays = from d in db.MstBarangays
+                            select new Entities.MstBarangay
+                            {
+                                Id = d.Id,
+                                Barangay = d.Barangay
+                            };
+
+            return barangays.OrderByDescending(d => d.Id).ToList();
+        }
     }
 }
