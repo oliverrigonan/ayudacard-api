@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ayudacard_api.Azure.AzureStorage;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNet.Identity;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace ayudacard_api.ApiControllers
 {
@@ -2576,7 +2581,6 @@ namespace ayudacard_api.ApiControllers
             return word;
         }
 
-
         [HttpPost, Route("add/new/citizen/card")]
         public HttpResponseMessage AddCitizen(Entities.MstCitizen objCitizen)
         {
@@ -2701,9 +2705,9 @@ namespace ayudacard_api.ApiControllers
                     MotherFirstname = "",
                     MotherMiddlename = "",
                     MotherExtensionname = "",
-                    PictureURL = "",
+                    PictureURL = objCitizen.PictureURL,
                     StatusId = status.FirstOrDefault().Id,
-                    IsLocked = false,
+                    IsLocked = true,
                     CreatedByUserId = currentUser.FirstOrDefault().Id,
                     CreatedDateTime = DateTime.Now,
                     UpdatedByUserId = currentUser.FirstOrDefault().Id,
@@ -2746,6 +2750,42 @@ namespace ayudacard_api.ApiControllers
             catch (Exception e)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPost, Route("uploadPhoto")]
+        public async Task<IHttpActionResult> UploadPhotoCitizen()
+        {
+            try
+            {
+                if (!Request.Content.IsMimeMultipartContent("form-data"))
+                {
+                    throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                }
+
+                String cloudStorageConnectionString = ConfigurationManager.AppSettings["CloudStorageConnectionString"];
+                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(cloudStorageConnectionString);
+
+                String cloudStorageContainerName = ConfigurationManager.AppSettings["CloudStorageContainerName"];
+                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(cloudStorageContainerName);
+
+                AzureStorageMultipartFormDataStreamProvider provider = new AzureStorageMultipartFormDataStreamProvider(cloudBlobContainer);
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                String fileName = provider.FileData.FirstOrDefault()?.LocalFileName;
+                if (String.IsNullOrEmpty(fileName))
+                {
+                    return BadRequest("An error has occured while uploading your file. Please try again.");
+                }
+
+                String imageURI = Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName);
+
+                return Ok(imageURI);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error has occured. Details: {ex.Message}");
             }
         }
 

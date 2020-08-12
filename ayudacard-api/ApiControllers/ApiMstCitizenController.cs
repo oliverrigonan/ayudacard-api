@@ -658,7 +658,7 @@ namespace ayudacard_api.ApiControllers
                     saveCitizen.MotherFirstname = objCitizen.MotherFirstname;
                     saveCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
                     saveCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
-                    //saveCitizen.PictureURL = objCitizen.PictureURL;
+                    saveCitizen.PictureURL = objCitizen.PictureURL;
                     saveCitizen.StatusId = objCitizen.StatusId;
                     saveCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
                     saveCitizen.UpdatedDateTime = DateTime.Now;
@@ -845,7 +845,7 @@ namespace ayudacard_api.ApiControllers
                     lockCitizen.MotherFirstname = objCitizen.MotherFirstname;
                     lockCitizen.MotherMiddlename = objCitizen.MotherMiddlename;
                     lockCitizen.MotherExtensionname = objCitizen.MotherExtensionname;
-                    //lockCitizen.PictureURL = objCitizen.PictureURL;
+                    lockCitizen.PictureURL = objCitizen.PictureURL;
                     lockCitizen.StatusId = objCitizen.StatusId;
                     lockCitizen.IsLocked = true;
                     lockCitizen.UpdatedByUserId = currentUser.FirstOrDefault().Id;
@@ -1037,8 +1037,8 @@ namespace ayudacard_api.ApiControllers
             return citizens.OrderByDescending(d => d.Id).ToList();
         }
 
-        [HttpPost, Route("uploadPhoto/{citizenId}")]
-        public async Task<IHttpActionResult> UploadPhotoCitizen(String citizenId)
+        [HttpPost, Route("uploadPhoto")]
+        public async Task<IHttpActionResult> UploadPhotoCitizen()
         {
             try
             {
@@ -1065,50 +1065,11 @@ namespace ayudacard_api.ApiControllers
 
                 String imageURI = Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName);
 
-                var citizen = from d in db.MstCitizens
-                              where d.Id == Convert.ToInt32(citizenId)
-                              select d;
-
-                if (citizen.Any())
-                {
-                    var updateCitizen = citizen.FirstOrDefault();
-                    updateCitizen.PictureURL = imageURI;
-                    db.SubmitChanges();
-                }
-
                 return Ok(imageURI);
             }
             catch (Exception ex)
             {
                 return BadRequest($"An error has occured. Details: {ex.Message}");
-            }
-        }
-
-        [HttpPut, Route("clearPhoto/{citizenId}")]
-        public HttpResponseMessage ClearPhotoCitizen(String citizenId)
-        {
-            try
-            {
-                var citizen = from d in db.MstCitizens
-                              where d.Id == Convert.ToInt32(citizenId)
-                              select d;
-
-                if (citizen.Any())
-                {
-                    var updateCitizen = citizen.FirstOrDefault();
-                    updateCitizen.PictureURL = "";
-                    db.SubmitChanges();
-
-                    return Request.CreateResponse(HttpStatusCode.OK);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Citizen not found!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }
