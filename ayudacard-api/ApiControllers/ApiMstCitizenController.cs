@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using ayudacard_api.Azure.AzureStorage;
 using Microsoft.AspNet.Identity;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json;
 
 namespace ayudacard_api.ApiControllers
 {
@@ -1038,38 +1043,95 @@ namespace ayudacard_api.ApiControllers
         }
 
         [HttpPost, Route("uploadPhoto")]
-        public async Task<IHttpActionResult> UploadPhotoCitizen()
+        public async Task<HttpResponseMessage> UploadPhotoCitizen()
         {
             try
             {
-                if (!Request.Content.IsMimeMultipartContent("form-data"))
+                app_configuration app_config;
+                using (StreamReader r = new StreamReader(HttpContext.Current.Server.MapPath("~/app_configuration.json")))
+                {
+                    string json = r.ReadToEnd();
+                    app_config = JsonConvert.DeserializeObject<app_configuration>(json);
+                }
+
+                String StoragePath = app_config.PhotosBackUpStoragePath;
+
+                if (!Request.Content.IsMimeMultipartContent())
                 {
                     throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
                 }
 
-                String cloudStorageConnectionString = ConfigurationManager.AppSettings["CloudStorageConnectionString"];
-                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(cloudStorageConnectionString);
+                String root = HttpContext.Current.Server.MapPath("~/Uploads/Photos");
+                MultipartFormDataStreamProvider provider = new MultipartFormDataStreamProvider(root);
 
-                String cloudStorageContainerName = ConfigurationManager.AppSettings["CloudStorageContainerName"];
-                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(cloudStorageContainerName);
-
-                AzureStorageMultipartFormDataStreamProvider provider = new AzureStorageMultipartFormDataStreamProvider(cloudBlobContainer);
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-                String fileName = provider.FileData.FirstOrDefault()?.LocalFileName;
-                if (String.IsNullOrEmpty(fileName))
+                MultipartFileData fileData = provider.FileData.FirstOrDefault();
+                if (fileData != null)
                 {
-                    return BadRequest("An error has occured while uploading your file. Please try again.");
+                    Trace.WriteLine(fileData.Headers.ContentDisposition.FileName);
+                    Trace.WriteLine("Server file path: " + fileData.LocalFileName);
+
+                    if (String.IsNullOrEmpty(fileData.Headers.ContentDisposition.FileName))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
+                    }
+
+                    String fileName = fileData.Headers.ContentDisposition.FileName;
+                    if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
+                    {
+                        fileName = fileName.Trim('"');
+                    }
+
+                    if (fileName.Contains(@"/") || fileName.Contains(@"\"))
+                    {
+                        fileName = Path.GetFileName(fileName);
+                    }
+
+                    var file = Path.Combine(StoragePath, fileName) + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
+                    if (File.Exists(file))
+                    {
+                        File.Delete(file);
+                    }
+
+                    File.Copy(fileData.LocalFileName, file);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, Url.Content(string.Format("~/Uploads/Photos/{0}", Path.GetFileName(fileData.LocalFileName))));
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Image provider not found.");
                 }
 
-                String imageURI = Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName);
+                //if (!Request.Content.IsMimeMultipartContent("form-data"))
+                //{
+                //    throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                //}
 
-                return Ok(imageURI);
+                //String cloudStorageConnectionString = ConfigurationManager.AppSettings["CloudStorageConnectionString"];
+                //CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(cloudStorageConnectionString);
+
+                //String cloudStorageContainerName = ConfigurationManager.AppSettings["CloudStorageContainerName"];
+                //CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+                //CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(cloudStorageContainerName);
+
+                //AzureStorageMultipartFormDataStreamProvider provider = new AzureStorageMultipartFormDataStreamProvider(cloudBlobContainer);
+                //await Request.Content.ReadAsMultipartAsync(provider);
+
+                //String fileName = provider.FileData.FirstOrDefault()?.LocalFileName;
+                //if (String.IsNullOrEmpty(fileName))
+                //{
+                //    return BadRequest("An error has occured while uploading your file. Please try again.");
+                //}
+
+                //String imageURI = Azure.BlobStorage.BlobContainer.GetCloudBlockBlobImageURI(fileName);
+
+                //return Ok(imageURI);
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has occured. Details: {ex.Message}");
+                //return BadRequest($"An error has occured. Details: {ex.Message}");
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

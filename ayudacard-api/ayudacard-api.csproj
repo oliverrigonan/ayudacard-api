@@ -244,6 +244,7 @@
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="ApiControllers\ApiMstUserController.cs" />
     <Compile Include="ApiControllers\ApiTrnCaseController.cs" />
+    <Compile Include="app_configuration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -365,6 +366,7 @@
       <LastGenOutput>ayudacarddb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="app_configuration.json" />
     <None Include="Properties\PublishProfiles\ayudacard-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ayudacard-api - FTP1.pubxml" />
     <None Include="Properties\PublishProfiles\ayudacard-api - ReadOnly - FTP.pubxml" />
@@ -398,6 +400,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\Photos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
