@@ -249,6 +249,19 @@ namespace ayudacard_api.ApiControllers
             return statuses.OrderByDescending(d => d.Id).ToList();
         }
 
+        [HttpGet, Route("supplier/dropdown/list")]
+        public List<Entities.MstSupplier> SupplierDropdownList()
+        {
+            var suppliers = from d in db.MstSuppliers
+                            select new Entities.MstSupplier
+                            {
+                                Id = d.Id,
+                                Supplier = d.Supplier
+                            };
+
+            return suppliers.OrderByDescending(d => d.Id).ToList();
+        }
+
         [HttpGet, Route("citizensCard/list")]
         public List<Entities.MstCitizensCard> CitizensCardList()
         {
