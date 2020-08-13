@@ -42,6 +42,13 @@ namespace ayudacard_api.ApiControllers
         [HttpGet, Route("serviceDepartment/dropdown/list")]
         public List<Entities.MstServiceDepartment> ServiceDepartmentDropdownList()
         {
+            List<Entities.MstServiceDepartment> serviceDepartmentList = new List<Entities.MstServiceDepartment>();
+            serviceDepartmentList.Add(new Entities.MstServiceDepartment()
+            {
+                Id = 0,
+                ServiceDepartment = "ALL SERVICE DEPARTMENTS"
+            });
+
             var serviceDepartments = from d in db.MstServiceDepartments
                                      select new Entities.MstServiceDepartment
                                      {
@@ -49,62 +56,125 @@ namespace ayudacard_api.ApiControllers
                                          ServiceDepartment = d.ServiceDepartment
                                      };
 
-            return serviceDepartments.OrderByDescending(d => d.Id).ToList();
+            if (serviceDepartments.Any())
+            {
+                foreach (var serviceDepartment in serviceDepartments)
+                {
+                    serviceDepartmentList.Add(serviceDepartment);
+                }
+            }
+
+            return serviceDepartmentList.OrderBy(d => d.Id).ToList();
         }
 
         [HttpGet, Route("list/{serviceDepartmentId}/{startDate}/{endDate}")]
         public List<Entities.TrnCase> CasesList(String serviceDepartmentId, String startDate, String endDate)
         {
-            var cases = from d in db.TrnCases
-                        where d.MstService.MstServiceGroup.ServiceDepartmentId == Convert.ToInt32(serviceDepartmentId)
-                        && d.CaseDate >= Convert.ToDateTime(startDate)
-                        && d.CaseDate <= Convert.ToDateTime(endDate)
-                        select new Entities.TrnCase
-                        {
-                            Id = d.Id,
-                            CaseNumber = d.CaseNumber,
-                            CaseDate = d.CaseDate.ToShortDateString(),
-                            CitizenId = d.CitizenId,
-                            Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
-                            CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
-                            CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
-                            CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
-                            CitizenEducationalAttainment = "None",
-                            CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
-                            CitizenReligion = "None",
-                            CitizenAddress = d.MstCitizen.PermanentNumber + " " +
-                                             d.MstCitizen.PermanentStreet + " " +
-                                             d.MstCitizen.PermanentVillage + " " +
-                                             d.MstCitizen.MstBarangay.Barangay + " " +
-                                             d.MstCitizen.MstCity.City + " " +
-                                             d.MstCitizen.MstProvince.Province + " " +
-                                             d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
-                                             d.MstCitizen.PermanentZipCode,
-                            CitizenCardId = d.CitizenCardId,
-                            CitizenCardNumber = d.MstCitizensCard.CardNumber,
-                            ServiceId = d.ServiceId,
-                            Service = d.MstService.Service,
-                            ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
-                            Amount = d.Amount,
-                            Problem = d.Problem,
-                            Background = d.Background,
-                            Recommendation = d.Recommendation,
-                            PreparedById = d.PreparedById,
-                            PreparedBy = d.MstUser.Fullname,
-                            CheckedById = d.CheckedById,
-                            CheckedBy = d.MstUser1.Fullname,
-                            StatusId = d.StatusId,
-                            Status = d.MstStatus.Status,
-                            IsLocked = d.IsLocked,
-                            CreatedByUserId = d.CreatedByUserId,
-                            CreatedByUser = d.MstUser2.Fullname,
-                            CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
-                            UpdatedByUserId = d.UpdatedByUserId,
-                            UpdatedByUser = d.MstUser3.Fullname,
-                            UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
-                        };
+            if (Convert.ToInt32(serviceDepartmentId) == 0)
+            {
+                var cases = from d in db.TrnCases
+                            where d.CaseDate >= Convert.ToDateTime(startDate)
+                            && d.CaseDate <= Convert.ToDateTime(endDate)
+                            select new Entities.TrnCase
+                            {
+                                Id = d.Id,
+                                CaseNumber = d.CaseNumber,
+                                CaseDate = d.CaseDate.ToShortDateString(),
+                                CitizenId = d.CitizenId,
+                                Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                                CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                                CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
+                                CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
+                                CitizenEducationalAttainment = "None",
+                                CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
+                                CitizenReligion = "None",
+                                CitizenAddress = d.MstCitizen.PermanentNumber + " " +
+                                                 d.MstCitizen.PermanentStreet + " " +
+                                                 d.MstCitizen.PermanentVillage + " " +
+                                                 d.MstCitizen.MstBarangay.Barangay + " " +
+                                                 d.MstCitizen.MstCity.City + " " +
+                                                 d.MstCitizen.MstProvince.Province + " " +
+                                                 d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                                 d.MstCitizen.PermanentZipCode,
+                                CitizenCardId = d.CitizenCardId,
+                                CitizenCardNumber = d.MstCitizensCard.CardNumber,
+                                ServiceId = d.ServiceId,
+                                Service = d.MstService.Service,
+                                ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
+                                Amount = d.Amount,
+                                Problem = d.Problem,
+                                Background = d.Background,
+                                Recommendation = d.Recommendation,
+                                PreparedById = d.PreparedById,
+                                PreparedBy = d.MstUser.Fullname,
+                                CheckedById = d.CheckedById,
+                                CheckedBy = d.MstUser1.Fullname,
+                                StatusId = d.StatusId,
+                                Status = d.MstStatus.Status,
+                                IsLocked = d.IsLocked,
+                                CreatedByUserId = d.CreatedByUserId,
+                                CreatedByUser = d.MstUser2.Fullname,
+                                CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                                UpdatedByUserId = d.UpdatedByUserId,
+                                UpdatedByUser = d.MstUser3.Fullname,
+                                UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+                            };
 
-            return cases.OrderByDescending(d => d.Id).ToList();
+                return cases.OrderByDescending(d => d.Id).ToList();
+            }
+            else
+            {
+                var cases = from d in db.TrnCases
+                            where d.MstService.MstServiceGroup.ServiceDepartmentId == Convert.ToInt32(serviceDepartmentId)
+                            && d.CaseDate >= Convert.ToDateTime(startDate)
+                            && d.CaseDate <= Convert.ToDateTime(endDate)
+                            select new Entities.TrnCase
+                            {
+                                Id = d.Id,
+                                CaseNumber = d.CaseNumber,
+                                CaseDate = d.CaseDate.ToShortDateString(),
+                                CitizenId = d.CitizenId,
+                                Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                                CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                                CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
+                                CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
+                                CitizenEducationalAttainment = "None",
+                                CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
+                                CitizenReligion = "None",
+                                CitizenAddress = d.MstCitizen.PermanentNumber + " " +
+                                                 d.MstCitizen.PermanentStreet + " " +
+                                                 d.MstCitizen.PermanentVillage + " " +
+                                                 d.MstCitizen.MstBarangay.Barangay + " " +
+                                                 d.MstCitizen.MstCity.City + " " +
+                                                 d.MstCitizen.MstProvince.Province + " " +
+                                                 d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                                 d.MstCitizen.PermanentZipCode,
+                                CitizenCardId = d.CitizenCardId,
+                                CitizenCardNumber = d.MstCitizensCard.CardNumber,
+                                ServiceId = d.ServiceId,
+                                Service = d.MstService.Service,
+                                ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
+                                Amount = d.Amount,
+                                Problem = d.Problem,
+                                Background = d.Background,
+                                Recommendation = d.Recommendation,
+                                PreparedById = d.PreparedById,
+                                PreparedBy = d.MstUser.Fullname,
+                                CheckedById = d.CheckedById,
+                                CheckedBy = d.MstUser1.Fullname,
+                                StatusId = d.StatusId,
+                                Status = d.MstStatus.Status,
+                                IsLocked = d.IsLocked,
+                                CreatedByUserId = d.CreatedByUserId,
+                                CreatedByUser = d.MstUser2.Fullname,
+                                CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                                UpdatedByUserId = d.UpdatedByUserId,
+                                UpdatedByUser = d.MstUser3.Fullname,
+                                UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+                            };
+
+                return cases.OrderByDescending(d => d.Id).ToList();
+            }
         }
 
         [HttpGet, Route("detail/{id}")]
@@ -2804,7 +2874,8 @@ namespace ayudacard_api.ApiControllers
                         return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
                     }
 
-                    String fileName = fileData.Headers.ContentDisposition.FileName;
+                    String fileName = fileData.LocalFileName;
+
                     if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
                     {
                         fileName = fileName.Trim('"');
@@ -2815,7 +2886,7 @@ namespace ayudacard_api.ApiControllers
                         fileName = Path.GetFileName(fileName);
                     }
 
-                    var file = Path.Combine(StoragePath, fileName) + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
+                    var file = Path.Combine(StoragePath, fileName);
                     if (File.Exists(file))
                     {
                         File.Delete(file);
@@ -2872,7 +2943,7 @@ namespace ayudacard_api.ApiControllers
                                 Barangay = d.Barangay
                             };
 
-            return barangays.OrderByDescending(d => d.Id).ToList();
+            return barangays.OrderBy(d => d.Barangay).ToList();
         }
     }
 }

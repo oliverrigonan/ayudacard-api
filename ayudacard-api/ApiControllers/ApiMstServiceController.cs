@@ -29,6 +29,7 @@ namespace ayudacard_api.ApiControllers
                                DateEncoded = d.DateEncoded.ToShortDateString(),
                                DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : null,
                                LimitAmount = d.LimitAmount,
+                               BudgetAmount = d.BudgetAmount,
                                IsMultipleUse = d.IsMultipleUse,
                                StatusId = d.StatusId,
                                Status = d.MstStatus.Status,
@@ -61,6 +62,7 @@ namespace ayudacard_api.ApiControllers
                               DateEncoded = d.DateEncoded.ToShortDateString(),
                               DateExpiry = d.DateExpiry != null ? Convert.ToDateTime(d.DateExpiry).ToShortDateString() : null,
                               LimitAmount = d.LimitAmount,
+                              BudgetAmount = d.BudgetAmount,
                               IsMultipleUse = d.IsMultipleUse,
                               StatusId = d.StatusId,
                               Status = d.MstStatus.Status,
@@ -153,6 +155,7 @@ namespace ayudacard_api.ApiControllers
                     DateEncoded = DateTime.Today,
                     DateExpiry = DateTime.Today.AddYears(1),
                     LimitAmount = 0,
+                    BudgetAmount = 0,
                     IsMultipleUse = false,
                     StatusId = status.FirstOrDefault().Id,
                     IsLocked = false,
@@ -221,6 +224,7 @@ namespace ayudacard_api.ApiControllers
                     saveService.DateEncoded = Convert.ToDateTime(objService.DateEncoded);
                     saveService.DateExpiry = dateExpiry;
                     saveService.LimitAmount = objService.LimitAmount;
+                    saveService.BudgetAmount = objService.BudgetAmount;
                     saveService.IsMultipleUse = objService.IsMultipleUse;
                     saveService.StatusId = objService.StatusId;
                     saveService.UpdatedByUserId = currentUser.FirstOrDefault().Id;
@@ -293,6 +297,7 @@ namespace ayudacard_api.ApiControllers
                     lockService.DateEncoded = Convert.ToDateTime(objService.DateEncoded);
                     lockService.DateExpiry = dateExpiry;
                     lockService.LimitAmount = objService.LimitAmount;
+                    lockService.BudgetAmount = objService.BudgetAmount;
                     lockService.IsMultipleUse = objService.IsMultipleUse;
                     lockService.StatusId = objService.StatusId;
                     lockService.IsLocked = true;

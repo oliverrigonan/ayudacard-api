@@ -17,6 +17,7 @@ namespace ayudacard_api.Entities
         public String DateEncoded { get; set; }
         public String DateExpiry { get; set; }
         public Decimal LimitAmount { get; set; }
+        public Decimal BudgetAmount { get; set; }
         public Boolean IsMultipleUse { get; set; }
         public Int32 StatusId { get; set; }
         public String Status { get; set; }

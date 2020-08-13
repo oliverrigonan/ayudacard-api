@@ -1077,7 +1077,8 @@ namespace ayudacard_api.ApiControllers
                         return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
                     }
 
-                    String fileName = fileData.Headers.ContentDisposition.FileName;
+                    String fileName = fileData.LocalFileName;
+
                     if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
                     {
                         fileName = fileName.Trim('"');
@@ -1088,7 +1089,7 @@ namespace ayudacard_api.ApiControllers
                         fileName = Path.GetFileName(fileName);
                     }
 
-                    var file = Path.Combine(StoragePath, fileName) + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
+                    var file = Path.Combine(StoragePath, fileName);
                     if (File.Exists(file))
                     {
                         File.Delete(file);
