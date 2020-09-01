@@ -801,13 +801,13 @@ namespace ayudacard_api.ApiControllers
                 String birthDate = currentCase.FirstOrDefault().MstCitizen.DateOfBirth.ToShortDateString();
                 String caseDate = currentCase.FirstOrDefault().CaseDate.ToShortDateString();
                 Int32 age = DateTime.Today.Year - currentCase.FirstOrDefault().MstCitizen.DateOfBirth.Year;
-                String service = currentCase.FirstOrDefault().MstService.MstServiceGroup.ServiceGroup;
+                String service = currentCase.FirstOrDefault().MstService.Service;
                 String sex = currentCase.FirstOrDefault().MstCitizen.MstSex.Sex;
                 String civilStatus = currentCase.FirstOrDefault().MstCitizen.MstCivilStatus.CivilStatus;
                 String educationalAttainment = "None";
                 if (currentCase.FirstOrDefault().MstCitizen.MstCitizensEducations.Any())
                 {
-                    educationalAttainment = currentCase.FirstOrDefault().MstCitizen.MstCitizensEducations.OrderByDescending(d => d.Id).FirstOrDefault().Degree;
+                    educationalAttainment = currentCase.FirstOrDefault().MstCitizen.MstCitizensEducations.OrderByDescending(d => d.Id).FirstOrDefault().MstEducationLevel.EducationLevel;
                 }
                 String occupation = currentCase.FirstOrDefault().MstCitizen.MstOccupation.Occupation;
                 String address = currentCase.FirstOrDefault().MstCitizen.PermanentNumber + " " +
@@ -840,8 +840,8 @@ namespace ayudacard_api.ApiControllers
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(caseDate, fontTimesNewRoman11)) { Border = 0 });
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Age: ", fontTimesNewRoman11)) { Border = 0 });
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(age.ToString(), fontTimesNewRoman11)) { Border = 0 });
-                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Service: ", fontTimesNewRoman11)) { Border = 0 });
-                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(service, fontTimesNewRoman11)) { Border = 0 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Service: ", fontTimesNewRoman11)) { Border = 0, Rowspan = 7 });
+                pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(service, fontTimesNewRoman11)) { Border = 0, Rowspan = 7 });
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Sex: ", fontTimesNewRoman11)) { Border = 0 });
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase(sex, fontTimesNewRoman11)) { Colspan = 3, Border = 0 });
                 pdfTableCaseDetail.AddCell(new PdfPCell(new Phrase("Civil Status: ", fontTimesNewRoman11)) { Border = 0 });
@@ -1080,9 +1080,9 @@ namespace ayudacard_api.ApiControllers
 
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman15)) { Colspan = 3, Border = 0 });
 
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 30f });
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 30f });
-                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Approved By:", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 30f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 50f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 50f });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("Approved By:", fontTimesNewRoman15Bold)) { Border = 0, PaddingBottom = 50f });
 
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
                 pdfTableUsers.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman15Bold)) { HorizontalAlignment = 1, Border = 0, PaddingTop = 3f });
