@@ -231,6 +231,7 @@
     <Compile Include="ApiControllers\ApiMstCountryController.cs" />
     <Compile Include="ApiControllers\ApiMstProvinceController.cs" />
     <Compile Include="ApiControllers\ApiMstRegionController.cs" />
+    <Compile Include="ApiControllers\ApiMstReligionController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceDepartmentController.cs" />
     <Compile Include="ApiControllers\ApiMstServiceGroupController.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Entities\MstCitizensChildren.cs" />
     <Compile Include="Entities\MstCitizensEducation.cs" />
     <Compile Include="Entities\MstCountry.cs" />
+    <Compile Include="Entities\MstReligion.cs" />
     <Compile Include="Entities\MstService.cs" />
     <Compile Include="Entities\MstServiceDepartment.cs" />
     <Compile Include="Entities\MstServiceGroup.cs" />

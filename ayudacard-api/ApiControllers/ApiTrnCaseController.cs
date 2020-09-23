@@ -818,7 +818,7 @@ namespace ayudacard_api.ApiControllers
                                  currentCase.FirstOrDefault().MstCitizen.MstProvince.Province + " " +
                                  currentCase.FirstOrDefault().MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
                                  currentCase.FirstOrDefault().MstCitizen.PermanentZipCode;
-                String religion = "None";
+                String religion = currentCase.FirstOrDefault().MstCitizen.ReligionId != null ? currentCase.FirstOrDefault().MstCitizen.MstReligion.Religion : "None";
                 String problem = currentCase.FirstOrDefault().Problem;
                 String background = currentCase.FirstOrDefault().Background;
                 String recommendation = currentCase.FirstOrDefault().Recommendation;

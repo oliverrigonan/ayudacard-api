@@ -42,6 +42,8 @@ namespace ayudacard_api.ApiControllers
                                Sex = d.MstSex.Sex,
                                CivilStatusId = d.CivilStatusId,
                                CivilStatus = d.MstCivilStatus.CivilStatus,
+                               ReligionId = d.ReligionId,
+                               Religion = d.MstReligion.Religion,
                                Height = d.Height,
                                Weight = d.Weight,
                                BloodTypeId = d.BloodTypeId,
@@ -136,6 +138,8 @@ namespace ayudacard_api.ApiControllers
                               Sex = d.MstSex.Sex,
                               CivilStatusId = d.CivilStatusId,
                               CivilStatus = d.MstCivilStatus.CivilStatus,
+                              ReligionId = d.ReligionId,
+                              Religion = d.MstReligion.Religion,
                               Height = d.Height,
                               Weight = d.Weight,
                               BloodTypeId = d.BloodTypeId,
@@ -236,6 +240,19 @@ namespace ayudacard_api.ApiControllers
                               };
 
             return civilStatus.OrderByDescending(d => d.Id).ToList();
+        }
+
+        [HttpGet, Route("religion/dropdown/list")]
+        public List<Entities.MstReligion> ReligionDropdownList()
+        {
+            var sexes = from d in db.MstReligions
+                        select new Entities.MstReligion
+                        {
+                            Id = d.Id,
+                            Religion = d.Religion
+                        };
+
+            return sexes.OrderByDescending(d => d.Id).ToList();
         }
 
         [HttpGet, Route("bloodType/dropdown/list")]
@@ -375,6 +392,12 @@ namespace ayudacard_api.ApiControllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
                 }
 
+                var religion = from d in db.MstReligions select d;
+                if (religion.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Religion not found!");
+                }
+
                 var bloodType = from d in db.MstBloodTypes select d;
                 if (bloodType.Any() == false)
                 {
@@ -430,6 +453,7 @@ namespace ayudacard_api.ApiControllers
                     PlaceOfBirth = "",
                     SexId = sex.FirstOrDefault().Id,
                     CivilStatusId = civilStatus.FirstOrDefault().Id,
+                    ReligionId = religion.FirstOrDefault().Id,
                     Height = 0,
                     Weight = 0,
                     BloodTypeId = bloodType.FirstOrDefault().Id,
@@ -517,6 +541,12 @@ namespace ayudacard_api.ApiControllers
                 if (civilStatus.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
+                }
+
+                var religion = from d in db.MstReligions where d.Id == objCitizen.ReligionId select d;
+                if (religion.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Religion not found!");
                 }
 
                 var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
@@ -613,6 +643,7 @@ namespace ayudacard_api.ApiControllers
                     saveCitizen.PlaceOfBirth = objCitizen.PlaceOfBirth;
                     saveCitizen.SexId = objCitizen.SexId;
                     saveCitizen.CivilStatusId = objCitizen.CivilStatusId;
+                    saveCitizen.ReligionId = objCitizen.ReligionId;
                     saveCitizen.Height = objCitizen.Height;
                     saveCitizen.Weight = objCitizen.Weight;
                     saveCitizen.BloodTypeId = objCitizen.BloodTypeId;
@@ -699,6 +730,12 @@ namespace ayudacard_api.ApiControllers
                 if (civilStatus.Any() == false)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Civil status not found!");
+                }
+
+                var religion = from d in db.MstReligions where d.Id == objCitizen.ReligionId select d;
+                if (religion.Any() == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Religion not found!");
                 }
 
                 var bloodType = from d in db.MstBloodTypes where d.Id == objCitizen.BloodTypeId select d;
@@ -800,6 +837,7 @@ namespace ayudacard_api.ApiControllers
                     lockCitizen.PlaceOfBirth = objCitizen.PlaceOfBirth;
                     lockCitizen.SexId = objCitizen.SexId;
                     lockCitizen.CivilStatusId = objCitizen.CivilStatusId;
+                    lockCitizen.ReligionId = objCitizen.ReligionId;
                     lockCitizen.Height = objCitizen.Height;
                     lockCitizen.Weight = objCitizen.Weight;
                     lockCitizen.BloodTypeId = objCitizen.BloodTypeId;
@@ -966,6 +1004,8 @@ namespace ayudacard_api.ApiControllers
                                Sex = d.MstSex.Sex,
                                CivilStatusId = d.CivilStatusId,
                                CivilStatus = d.MstCivilStatus.CivilStatus,
+                               ReligionId = d.ReligionId,
+                               Religion = d.MstReligion.Religion,
                                Height = d.Height,
                                Weight = d.Weight,
                                BloodTypeId = d.BloodTypeId,

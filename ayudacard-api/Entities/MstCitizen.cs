@@ -18,6 +18,8 @@ namespace ayudacard_api.Entities
         public String Sex { get; set; }
         public Int32 CivilStatusId { get; set; }
         public String CivilStatus { get; set; }
+        public Int32? ReligionId { get; set; }
+        public String Religion { get; set; }
         public Decimal Height { get; set; }
         public Decimal Weight { get; set; }
         public Int32 BloodTypeId { get; set; }
