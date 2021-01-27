@@ -177,6 +177,59 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
+        [HttpGet, Route("list/byCitizen/{citizenId}")]
+        public List<Entities.TrnCase> CasesListByCitizen(String citizenId)
+        {
+            var cases = from d in db.TrnCases
+                        where d.CitizenId == Convert.ToInt32(citizenId)
+                        select new Entities.TrnCase
+                        {
+                            Id = d.Id,
+                            CaseNumber = d.CaseNumber,
+                            CaseDate = d.CaseDate.ToShortDateString(),
+                            CitizenId = d.CitizenId,
+                            Citizen = d.MstCitizen.Surname + ", " + d.MstCitizen.Firstname + " " + d.MstCitizen.Middlename,
+                            CitizenDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
+                            CitizenAge = DateTime.Today.Year - d.MstCitizen.DateOfBirth.Year,
+                            CitizenCivilStatus = d.MstCitizen.MstCivilStatus.CivilStatus,
+                            CitizenEducationalAttainment = "None",
+                            CitizenOccupation = d.MstCitizen.MstOccupation.Occupation,
+                            CitizenReligion = "None",
+                            CitizenAddress = d.MstCitizen.PermanentNumber + " " +
+                                             d.MstCitizen.PermanentStreet + " " +
+                                             d.MstCitizen.PermanentVillage + " " +
+                                             d.MstCitizen.MstBarangay.Barangay + " " +
+                                             d.MstCitizen.MstCity.City + " " +
+                                             d.MstCitizen.MstProvince.Province + " " +
+                                             d.MstCitizen.MstProvince.MstRegion.MstCountry.Country + " " +
+                                             d.MstCitizen.PermanentZipCode,
+                            CitizenCardId = d.CitizenCardId,
+                            CitizenCardNumber = d.MstCitizensCard.CardNumber,
+                            ServiceId = d.ServiceId,
+                            Service = d.MstService.Service,
+                            ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
+                            Amount = d.Amount,
+                            Problem = d.Problem,
+                            Background = d.Background,
+                            Recommendation = d.Recommendation,
+                            PreparedById = d.PreparedById,
+                            PreparedBy = d.MstUser.Fullname,
+                            CheckedById = d.CheckedById,
+                            CheckedBy = d.MstUser1.Fullname,
+                            StatusId = d.StatusId,
+                            Status = d.MstStatus.Status,
+                            IsLocked = d.IsLocked,
+                            CreatedByUserId = d.CreatedByUserId,
+                            CreatedByUser = d.MstUser2.Fullname,
+                            CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                            UpdatedByUserId = d.UpdatedByUserId,
+                            UpdatedByUser = d.MstUser3.Fullname,
+                            UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+                        };
+
+            return cases.OrderByDescending(d => d.Id).ToList();
+        }
+
         [HttpGet, Route("detail/{id}")]
         public Entities.TrnCase CaseDetail(String id)
         {
@@ -373,7 +426,8 @@ namespace ayudacard_api.ApiControllers
                                     CitizensDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
                                     TotalBalance = d.TotalBalance,
                                     StatusId = d.StatusId,
-                                    Status = d.MstStatus.Status
+                                    Status = d.MstStatus.Status,
+                                    LastCaseDate = d.TrnCases.Any() == true ? d.TrnCases.OrderByDescending(x => x.Id).FirstOrDefault().CaseDate.ToShortDateString() : ""
                                 };
 
             return citizensCards.OrderByDescending(d => d.Id).ToList();
@@ -1415,7 +1469,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(cityMayorParagraph) { HorizontalAlignment = 1, PaddingTop = 15f, PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman11)) { PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Printed Name", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
-                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
+                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("OR/Other Documents", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("JEV No.", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
@@ -1641,7 +1695,9 @@ namespace ayudacard_api.ApiControllers
                     BusinessTax = currentCase.FirstOrDefault().Amount * (cityTaxRate / 100);
                 }
 
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String middleInitial = currentCase.FirstOrDefault().MstCitizen.Middlename != "" || currentCase.FirstOrDefault().MstCitizen.Middlename != null ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
+
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
                 String service = currentCase.FirstOrDefault().MstService.Service;
 
                 String explanationValue = "To Payment of Financial Assistance of " + citizensName + " for " + service + " in the amount of " + amountInWords + " as per supporting papers here to attached.\n\n"
@@ -1787,7 +1843,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(cityMayorParagraph) { HorizontalAlignment = 1, PaddingTop = 15f, PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman11)) { PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Printed Name", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
-                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
+                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("OR/Other Documents", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("JEV No.", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
@@ -1883,7 +1939,9 @@ namespace ayudacard_api.ApiControllers
                 pdfTableHeaderDetail.AddCell(new PdfPCell(phraseNo) { PaddingBottom = 6f, PaddingTop = 6f });
                 document.Add(pdfTableHeaderDetail);
 
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String middleInitial = currentCase.FirstOrDefault().MstCitizen.Middlename != "" || currentCase.FirstOrDefault().MstCitizen.Middlename != null ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
+
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
                 String citizensAddress = currentCase.FirstOrDefault().MstCitizen.MstBarangay1.Barangay + ", " + currentCase.FirstOrDefault().MstCitizen.MstCity1.City;
 
                 Phrase phrasePayee = new Phrase("Payee", fontTimesNewRoman11);
@@ -2221,7 +2279,8 @@ namespace ayudacard_api.ApiControllers
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
 
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String middleInitial = currentCase.FirstOrDefault().MstCitizen.Middlename != "" || currentCase.FirstOrDefault().MstCitizen.Middlename != null ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
 
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("RE: " + citizensName, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
