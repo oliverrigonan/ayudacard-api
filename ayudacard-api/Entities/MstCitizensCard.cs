@@ -15,5 +15,6 @@ namespace ayudacard_api.Entities
         public Decimal TotalBalance { get; set; }
         public Int32 StatusId { get; set; }
         public String Status { get; set; }
+        public String LastCaseDate { get; set; }
     }
 }

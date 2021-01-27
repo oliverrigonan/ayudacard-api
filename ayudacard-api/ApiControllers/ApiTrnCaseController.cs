@@ -348,7 +348,8 @@ namespace ayudacard_api.ApiControllers
                                     CitizensDateOfBirth = d.MstCitizen.DateOfBirth.ToShortDateString(),
                                     TotalBalance = d.TotalBalance,
                                     StatusId = d.StatusId,
-                                    Status = d.MstStatus.Status
+                                    Status = d.MstStatus.Status,
+                                    LastCaseDate = d.TrnCases.Any() == true ? d.TrnCases.OrderByDescending(x => x.Id).FirstOrDefault().CaseDate.ToShortDateString() : ""
                                 };
 
             return citizensCards.OrderByDescending(d => d.Id).ToList();
@@ -746,7 +747,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman12 = FontFactory.GetFont("Arial", 12);
             Font fontTimesNewRoman12Bold = FontFactory.GetFont("Arial", 12, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 25f, 25f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 25f, 25f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -951,7 +952,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -1141,7 +1142,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -1193,8 +1194,10 @@ namespace ayudacard_api.ApiControllers
                 pdfTableModeOfPaymentDetail.AddCell(new PdfPCell(phrasePayments) { HorizontalAlignment = 1, PaddingBottom = 6f, PaddingTop = 3f });
                 document.Add(pdfTableModeOfPaymentDetail);
 
+                String middleInitial = currentCase.FirstOrDefault().MstCitizen.Middlename != "" || currentCase.FirstOrDefault().MstCitizen.Middlename != null ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
+
                 Phrase phrasePayee = new Phrase("Payee", fontTimesNewRoman11);
-                Phrase phrasePayeeName = new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman11Bold);
+                Phrase phrasePayeeName = new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman11Bold);
                 Phrase phraseTINEmployeeNo = new Phrase("TIN/Employee No.", fontTimesNewRoman10);
                 Phrase phraseObligation = new Phrase("Obligation Request No.", fontTimesNewRoman10);
 
@@ -1206,6 +1209,16 @@ namespace ayudacard_api.ApiControllers
                 pdfTablePayeeDetail.AddCell(new PdfPCell(phraseTINEmployeeNo) { PaddingBottom = 20f });
                 pdfTablePayeeDetail.AddCell(new PdfPCell(phraseObligation) { PaddingBottom = 20f });
                 document.Add(pdfTablePayeeDetail);
+
+                String disbursementVoucherCode = "";
+                var getDisbursementVoucherCode = from d in db.SysSettings
+                                                 where d.Code == "DISBURSEMENTVOUCHERCODE"
+                                                 select d;
+
+                if (getDisbursementVoucherCode.Any())
+                {
+                    disbursementVoucherCode = getDisbursementVoucherCode.FirstOrDefault().Value;
+                }
 
                 Phrase phraseAddress = new Phrase("Address", fontTimesNewRoman11);
                 Phrase phraseContactNumber = new Phrase("Contact No.", fontTimesNewRoman11);
@@ -1223,7 +1236,7 @@ namespace ayudacard_api.ApiControllers
                 };
 
                 Phrase phraseCode = new Phrase("Code\n", fontTimesNewRoman10);
-                Phrase phraseCodeValue = new Phrase("Code", fontTimesNewRoman11Bold);
+                Phrase phraseCodeValue = new Phrase(disbursementVoucherCode, fontTimesNewRoman11Bold);
 
                 Paragraph passCodeParagraph = new Paragraph
                 {
@@ -1262,7 +1275,7 @@ namespace ayudacard_api.ApiControllers
 
                 String service = currentCase.FirstOrDefault().MstService.Service;
 
-                String explanationValue = "To Payment of Financial Assitance for " + service + " in the amount of " + amountInWords + " as per supporting papers here to attached.";
+                String explanationValue = "To Payment of Financial Assistance for " + service + " in the amount of " + amountInWords + " as per supporting papers here to attached.";
 
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(explanationValue, fontTimesNewRoman11)) { PaddingTop = 10f, PaddingLeft = 10f, PaddingRight = 10f, PaddingBottom = 70f });
                 pdfTableExplanationDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().Amount.ToString("#,##0.00"), fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingLeft = 5f, PaddingRight = 5f, PaddingBottom = 70f });
@@ -1456,7 +1469,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -1547,6 +1560,16 @@ namespace ayudacard_api.ApiControllers
                 pdfTablePayeeDetail.AddCell(new PdfPCell(phraseObligation) { PaddingBottom = 20f });
                 document.Add(pdfTablePayeeDetail);
 
+                String disbursementVoucherCode = "";
+                var getDisbursementVoucherCode = from d in db.SysSettings
+                                                 where d.Code == "DISBURSEMENTVOUCHERCODE"
+                                                 select d;
+
+                if (getDisbursementVoucherCode.Any())
+                {
+                    disbursementVoucherCode = getDisbursementVoucherCode.FirstOrDefault().Value;
+                }
+
                 Phrase phraseAddress = new Phrase("Address", fontTimesNewRoman11);
                 Phrase phraseContactNumber = new Phrase("Contact No.", fontTimesNewRoman11);
                 Phrase phraseContactNumberValue = new Phrase("", fontTimesNewRoman11);
@@ -1563,7 +1586,7 @@ namespace ayudacard_api.ApiControllers
                 };
 
                 Phrase phraseCode = new Phrase("Code\n", fontTimesNewRoman10);
-                Phrase phraseCodeValue = new Phrase("Code", fontTimesNewRoman11Bold);
+                Phrase phraseCodeValue = new Phrase(disbursementVoucherCode, fontTimesNewRoman11Bold);
 
                 Paragraph passCodeParagraph = new Paragraph
                 {
@@ -1621,7 +1644,7 @@ namespace ayudacard_api.ApiControllers
                 String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
                 String service = currentCase.FirstOrDefault().MstService.Service;
 
-                String explanationValue = "To Payment of Financial Assitance of " + citizensName + " for " + service + " in the amount of " + amountInWords + " as per supporting papers here to attached.\n\n"
+                String explanationValue = "To Payment of Financial Assistance of " + citizensName + " for " + service + " in the amount of " + amountInWords + " as per supporting papers here to attached.\n\n"
                     + "LESS VAT: " + currentCase.FirstOrDefault().Amount.ToString("#,##0.00") + " x " + VATRate.ToString("#,##0.00") + "% = " + LessVAT.ToString("#,##0.00") + "\n"
                     + "LESS VAT: CITW = " + currentCase.FirstOrDefault().Amount.ToString("#,##0.00") + " x " + withholdingRate.ToString("#,##0.00") + "% = " + LessVATCITW.ToString("#,##0.00") + "\n"
                     + "BUSINESS TAX: " + currentCase.FirstOrDefault().Amount.ToString("#,##0.00") + " x " + cityTaxRate.ToString("#,##0.00") + "% = " + BusinessTax.ToString("#,##0.00");
@@ -1818,7 +1841,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Arial", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Arial", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -1898,7 +1921,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAccountCode) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(phraseAmount) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("CSWDO", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
-                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("Assistance for Indigent. " + currentCase.FirstOrDefault().MstService.Service.ToUpper() + " \n\nTo payment for Financial Assitance.", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
+                pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("Assistance for Indigent. " + currentCase.FirstOrDefault().MstService.Service.ToUpper() + " \n\nTo payment for Financial Assistance.", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("200", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("7611", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
                 pdfTableResponsibilityCenterDetail.AddCell(new PdfPCell(new Phrase("5-02-99-990", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingTop = 10f, PaddingBottom = 50f });
@@ -2087,7 +2110,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
@@ -2185,7 +2208,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
 
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
-                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("To Record Payment for financial Assitance", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
+                pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("To Record Payment for financial Assistance", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
@@ -2344,7 +2367,7 @@ namespace ayudacard_api.ApiControllers
             Font fontTimesNewRoman16 = FontFactory.GetFont("Times New Roman", 16);
             Font fontTimesNewRoman16Bold = FontFactory.GetFont("Times New Roman", 16, Font.BOLD);
 
-            Document document = new Document(PageSize.LETTER, 50f, 50f, 25f, 25f);
+            Document document = new Document(PageSize.LEGAL, 50f, 50f, 25f, 25f);
             MemoryStream workStream = new MemoryStream();
 
             PdfWriter.GetInstance(document, workStream).CloseStream = false;
