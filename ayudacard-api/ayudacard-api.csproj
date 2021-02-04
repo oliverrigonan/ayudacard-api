@@ -244,6 +244,7 @@
     <Compile Include="ApiControllers\ApiMstSupplierController.cs" />
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiRepUtilizationReportController.cs" />
     <Compile Include="ApiControllers\ApiTrnCaseController.cs" />
     <Compile Include="app_configuration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -314,6 +315,7 @@
     <Compile Include="Entities\MstSupplier.cs" />
     <Compile Include="Entities\MstTypeOfCitizenship.cs" />
     <Compile Include="Entities\MstUser.cs" />
+    <Compile Include="Entities\RepUtilizationReport.cs" />
     <Compile Include="Entities\TrnCase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

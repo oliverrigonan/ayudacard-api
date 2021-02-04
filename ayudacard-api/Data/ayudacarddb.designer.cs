@@ -560,6 +560,10 @@ namespace ayudacard_api.Data
 		
 		private System.DateTime _UpdatedDateTime;
 		
+		private string _PersonApplied;
+		
+		private string _PersonOfInterest;
+		
 		private EntityRef<MstCitizen> _MstCitizen;
 		
 		private EntityRef<MstCitizensCard> _MstCitizensCard;
@@ -616,6 +620,10 @@ namespace ayudacard_api.Data
     partial void OnUpdatedByUserIdChanged();
     partial void OnUpdatedDateTimeChanging(System.DateTime value);
     partial void OnUpdatedDateTimeChanged();
+    partial void OnPersonAppliedChanging(string value);
+    partial void OnPersonAppliedChanged();
+    partial void OnPersonOfInterestChanging(string value);
+    partial void OnPersonOfInterestChanged();
     #endregion
 		
 		public TrnCase()
@@ -1019,6 +1027,46 @@ namespace ayudacard_api.Data
 					this._UpdatedDateTime = value;
 					this.SendPropertyChanged("UpdatedDateTime");
 					this.OnUpdatedDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonApplied", DbType="NVarChar(255)")]
+		public string PersonApplied
+		{
+			get
+			{
+				return this._PersonApplied;
+			}
+			set
+			{
+				if ((this._PersonApplied != value))
+				{
+					this.OnPersonAppliedChanging(value);
+					this.SendPropertyChanging();
+					this._PersonApplied = value;
+					this.SendPropertyChanged("PersonApplied");
+					this.OnPersonAppliedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonOfInterest", DbType="NVarChar(255)")]
+		public string PersonOfInterest
+		{
+			get
+			{
+				return this._PersonOfInterest;
+			}
+			set
+			{
+				if ((this._PersonOfInterest != value))
+				{
+					this.OnPersonOfInterestChanging(value);
+					this.SendPropertyChanging();
+					this._PersonOfInterest = value;
+					this.SendPropertyChanged("PersonOfInterest");
+					this.OnPersonOfInterestChanged();
 				}
 			}
 		}

@@ -41,5 +41,7 @@ namespace ayudacard_api.Entities
         public Int32 UpdatedByUserId { get; set; }
         public String UpdatedByUser { get; set; }
         public String UpdatedDateTime { get; set; }
+        public String PersonApplied { get; set; }
+        public String PersonOfInterest { get; set; }
     }
 }

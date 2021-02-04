@@ -27,6 +27,8 @@
       <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PersonApplied" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PersonOfInterest" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="MstCitizen_TrnCase" Member="MstCitizen" ThisKey="CitizenId" OtherKey="Id" Type="MstCitizen" IsForeignKey="true" />
       <Association Name="MstCitizensCard_TrnCase" Member="MstCitizensCard" ThisKey="CitizenCardId" OtherKey="Id" Type="MstCitizensCard" IsForeignKey="true" />
       <Association Name="MstService_TrnCase" Member="MstService" ThisKey="ServiceId" OtherKey="Id" Type="MstService" IsForeignKey="true" />
