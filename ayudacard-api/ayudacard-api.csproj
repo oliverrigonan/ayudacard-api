@@ -244,6 +244,7 @@
     <Compile Include="ApiControllers\ApiMstSupplierController.cs" />
     <Compile Include="ApiControllers\ApiMstTypeOfCitizenshipController.cs" />
     <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiRepCitizensReportController.cs" />
     <Compile Include="ApiControllers\ApiRepUtilizationReportController.cs" />
     <Compile Include="ApiControllers\ApiTrnCaseController.cs" />
     <Compile Include="app_configuration.cs" />

@@ -1066,7 +1066,7 @@ namespace ayudacard_api.ApiControllers
                 document.Add(pdfTableHeaderDetail);
 
                 Data.MstCitizen citizen = currentCase.FirstOrDefault().MstCitizen;
-                String citizensFullname = citizen.Surname + ", " + citizen.Firstname;
+                String citizensFullname = citizen.Surname + ", " + citizen.Firstname + " " + citizen.Extensionname;
                 String citizensAddress = citizen.MstBarangay.Barangay + ", " + citizen.MstCity.City;
 
                 Phrase phrase1 = new Phrase("\nThis is to certify that " + citizensFullname + " of " + citizensAddress + " has been eligible for Financial Assistance under the Bureau of Assistance after interview and case study has been made.", fontTimesNewRoman15);
@@ -1265,7 +1265,7 @@ namespace ayudacard_api.ApiControllers
                 String middleInitial = String.IsNullOrEmpty(currentCase.FirstOrDefault().MstCitizen.Middlename) == false ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
 
                 Phrase phrasePayee = new Phrase("Payee", fontTimesNewRoman11);
-                Phrase phrasePayeeName = new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman11Bold);
+                Phrase phrasePayeeName = new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname, fontTimesNewRoman11Bold);
                 Phrase phraseTINEmployeeNo = new Phrase("TIN/Employee No.", fontTimesNewRoman10);
                 Phrase phraseObligation = new Phrase("Obligation Request No.", fontTimesNewRoman10);
 
@@ -1483,7 +1483,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(cityMayorParagraph) { HorizontalAlignment = 1, PaddingTop = 15f, PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Date", fontTimesNewRoman11)) { PaddingLeft = 3f, Rowspan = 2 });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("Printed Name", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
-                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
+                pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname, fontTimesNewRoman09Bold)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("OR/Other Documents", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
                 pdfTableMayorSignatureAndCheckSignatureDetail.AddCell(new PdfPCell(new Phrase("JEV No.", fontTimesNewRoman09)) { PaddingLeft = 3f, PaddingBottom = 15f });
@@ -1705,7 +1705,7 @@ namespace ayudacard_api.ApiControllers
 
                 String middleInitial = String.IsNullOrEmpty(currentCase.FirstOrDefault().MstCitizen.Middlename) == false ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
 
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname;
                 String service = currentCase.FirstOrDefault().MstService.Service;
                 String personApplied = currentCase.FirstOrDefault().PersonApplied;
                 String personOfInterest = currentCase.FirstOrDefault().PersonOfInterest;
@@ -1961,7 +1961,7 @@ namespace ayudacard_api.ApiControllers
 
                 String middleInitial = String.IsNullOrEmpty(currentCase.FirstOrDefault().MstCitizen.Middlename) == false ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
 
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname;
                 String citizensAddress = currentCase.FirstOrDefault().MstCitizen.MstBarangay1.Barangay + ", " + currentCase.FirstOrDefault().MstCitizen.MstCity1.City;
 
                 Phrase phrasePayee = new Phrase("Payee", fontTimesNewRoman11);
@@ -2300,7 +2300,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 2, PaddingBottom = 6f });
 
                 String middleInitial = String.IsNullOrEmpty(currentCase.FirstOrDefault().MstCitizen.Middlename) == false ? currentCase.FirstOrDefault().MstCitizen.Middlename[0] + "." : "";
-                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname;
+                String citizensName = currentCase.FirstOrDefault().MstCitizen.Firstname + " " + middleInitial + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname;
 
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { HorizontalAlignment = 1, PaddingBottom = 6f });
                 pdfTableAccountingEntriesDetail.AddCell(new PdfPCell(new Phrase("RE: " + citizensName, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, PaddingBottom = 6f });
@@ -2515,7 +2515,7 @@ namespace ayudacard_api.ApiControllers
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Name of Family Head:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
-                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname, fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
+                pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(currentCase.FirstOrDefault().MstCitizen.Firstname + " " + currentCase.FirstOrDefault().MstCitizen.Middlename + " " + currentCase.FirstOrDefault().MstCitizen.Surname + " " + currentCase.FirstOrDefault().MstCitizen.Extensionname, fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase("Age:", fontTimesNewRoman11)) { Border = 0, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
                 pdfTableCSWDForm200Detail.AddCell(new PdfPCell(new Phrase((DateTime.Now.Year - currentCase.FirstOrDefault().MstCitizen.DateOfBirth.Year).ToString(), fontTimesNewRoman11)) { Border = Rectangle.BOTTOM_BORDER, PaddingLeft = 3f, PaddingRight = 3f, PaddingTop = 0, PaddingBottom = 0 });
