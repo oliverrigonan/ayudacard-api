@@ -302,7 +302,7 @@ namespace ayudacard_api.ApiControllers
                     Phrase phraseBirthDateData = new Phrase(citizensCard.FirstOrDefault().MstCitizen.DateOfBirth.ToString("MMMM dd, yyyy") + "\n", fontArial7);
 
                     Phrase phraseAddressLabel = new Phrase("Address: ", fontArial7Bold);
-                    String address = citizensCard.FirstOrDefault().MstCitizen.PermanentNumber + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentStreet + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentVillage + " " + citizensCard.FirstOrDefault().MstCitizen.MstCity.City + " " + citizensCard.FirstOrDefault().MstCitizen.MstProvince.Province + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentZipCode + "\n";
+                    String address = citizensCard.FirstOrDefault().MstCitizen.PermanentNumber + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentStreet + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentVillage + " " + citizensCard.FirstOrDefault().MstCitizen.MstBarangay.Barangay + " " + citizensCard.FirstOrDefault().MstCitizen.MstCity.City + " " + citizensCard.FirstOrDefault().MstCitizen.MstProvince.Province + " " + citizensCard.FirstOrDefault().MstCitizen.PermanentZipCode + "\n";
                     Phrase phraseAddressData = new Phrase(address.TrimStart(), fontArial7);
 
                     Phrase phraseIDNumberLabel = new Phrase("ID No.: ", fontArial6Bold);
