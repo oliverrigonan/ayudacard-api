@@ -1083,7 +1083,7 @@ namespace ayudacard_api.ApiControllers
                 document.Add(paragraph2);
 
                 String amount = Convert.ToString(Math.Round(currentCase.FirstOrDefault().Amount * 100) / 100);
-                String amountInWords = GetMoneyWord(amount);
+                String amountInWords = GetMoneyWord(Convert.ToDecimal(amount).ToString("###0.00"));
 
                 if (currentCase.FirstOrDefault().Amount == 0)
                 {
