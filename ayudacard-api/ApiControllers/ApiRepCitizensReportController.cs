@@ -260,7 +260,9 @@ namespace ayudacard_api.ApiControllers
                                 UpdatedByUser = d.MstUser3.Fullname,
                                 UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                                 PersonApplied = d.PersonApplied,
-                                PersonOfInterest = d.PersonOfInterest
+                                PersonOfInterest = d.PersonOfInterest,
+                                EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                                EndorsementPharmacyName = d.EndorsementPharmacyName
                             };
 
                 return cases.OrderByDescending(d => d.Id).ToList();
@@ -317,7 +319,9 @@ namespace ayudacard_api.ApiControllers
                                 UpdatedByUser = d.MstUser3.Fullname,
                                 UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                                 PersonApplied = d.PersonApplied,
-                                PersonOfInterest = d.PersonOfInterest
+                                PersonOfInterest = d.PersonOfInterest,
+                                EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                                EndorsementPharmacyName = d.EndorsementPharmacyName
                             };
 
                 return cases.OrderByDescending(d => d.Id).ToList();

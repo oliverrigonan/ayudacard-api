@@ -46,5 +46,7 @@ namespace ayudacard_api.Entities
         public String UpdatedDateTime { get; set; }
         public String PersonApplied { get; set; }
         public String PersonOfInterest { get; set; }
+        public String EndorsementPharmacyCode { get; set; }
+        public String EndorsementPharmacyName { get; set; }
     }
 }

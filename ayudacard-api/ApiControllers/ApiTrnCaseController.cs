@@ -119,7 +119,9 @@ namespace ayudacard_api.ApiControllers
                                 UpdatedByUser = d.MstUser3.Fullname,
                                 UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                                 PersonApplied = d.PersonApplied,
-                                PersonOfInterest = d.PersonOfInterest
+                                PersonOfInterest = d.PersonOfInterest,
+                                EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                                EndorsementPharmacyName = d.EndorsementPharmacyName
                             };
 
                 return cases.OrderByDescending(d => d.Id).ToList();
@@ -174,7 +176,9 @@ namespace ayudacard_api.ApiControllers
                                 UpdatedByUser = d.MstUser3.Fullname,
                                 UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                                 PersonApplied = d.PersonApplied,
-                                PersonOfInterest = d.PersonOfInterest
+                                PersonOfInterest = d.PersonOfInterest,
+                                EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                                EndorsementPharmacyName = d.EndorsementPharmacyName
                             };
 
                 return cases.OrderByDescending(d => d.Id).ToList();
@@ -230,7 +234,9 @@ namespace ayudacard_api.ApiControllers
                             UpdatedByUser = d.MstUser3.Fullname,
                             UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                             PersonApplied = d.PersonApplied,
-                            PersonOfInterest = d.PersonOfInterest
+                            PersonOfInterest = d.PersonOfInterest,
+                            EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                            EndorsementPharmacyName = d.EndorsementPharmacyName
                         };
 
             return cases.OrderByDescending(d => d.Id).ToList();
@@ -285,7 +291,9 @@ namespace ayudacard_api.ApiControllers
                                  UpdatedByUser = d.MstUser3.Fullname,
                                  UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(),
                                  PersonApplied = d.PersonApplied,
-                                 PersonOfInterest = d.PersonOfInterest
+                                 PersonOfInterest = d.PersonOfInterest,
+                                 EndorsementPharmacyCode = d.EndorsementPharmacyCode,
+                                 EndorsementPharmacyName = d.EndorsementPharmacyName
                              };
 
             return detailCase.FirstOrDefault();
@@ -508,7 +516,9 @@ namespace ayudacard_api.ApiControllers
                     UpdatedByUserId = currentUser.FirstOrDefault().Id,
                     UpdatedDateTime = DateTime.Now,
                     PersonApplied = citizensCard.FirstOrDefault().MstCitizen.Firstname + " " + citizensCard.FirstOrDefault().MstCitizen.Middlename + " " + citizensCard.FirstOrDefault().MstCitizen.Surname,
-                    PersonOfInterest = ""
+                    PersonOfInterest = "",
+                    EndorsementPharmacyCode = "",
+                    EndorsementPharmacyName = ""
                 };
 
                 db.TrnCases.InsertOnSubmit(newCase);
@@ -613,6 +623,8 @@ namespace ayudacard_api.ApiControllers
                     saveCase.UpdatedDateTime = DateTime.Now;
                     saveCase.PersonApplied = objCase.PersonApplied;
                     saveCase.PersonOfInterest = objCase.PersonOfInterest;
+                    saveCase.EndorsementPharmacyCode = objCase.EndorsementPharmacyCode;
+                    saveCase.EndorsementPharmacyName = objCase.EndorsementPharmacyName;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, "");
@@ -720,6 +732,8 @@ namespace ayudacard_api.ApiControllers
                     lockCase.UpdatedDateTime = DateTime.Now;
                     lockCase.PersonApplied = objCase.PersonApplied;
                     lockCase.PersonOfInterest = objCase.PersonOfInterest;
+                    lockCase.EndorsementPharmacyCode = objCase.EndorsementPharmacyCode;
+                    lockCase.EndorsementPharmacyName = objCase.EndorsementPharmacyName;
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, "");
@@ -1092,7 +1106,7 @@ namespace ayudacard_api.ApiControllers
 
                 String service = currentCase.FirstOrDefault().MstService.Service;
 
-                Phrase phrase3 = new Phrase("\nClient is recommended for assistance in the amount of " + amountInWords + " only for " + service + ".", fontTimesNewRoman15);
+                Phrase phrase3 = new Phrase("\nClient is recommended for assistance in the amount of " + amountInWords + " for " + service + ".", fontTimesNewRoman15);
                 Paragraph paragraph3 = new Paragraph { phrase3 };
                 paragraph3.SetLeading(20f, 0);
                 document.Add(paragraph3);
@@ -2673,6 +2687,210 @@ namespace ayudacard_api.ApiControllers
 
             return response;
         }
+
+        [HttpGet, Route("print/endorsmenetLetter/{id}")]
+        public HttpResponseMessage PrintEndorsementLetter(String id)
+        {
+            FontFactory.RegisterDirectories();
+
+            Font fontTimesNewRoman11 = FontFactory.GetFont("Arial", 11);
+            Font fontTimesNewRoman11Bold = FontFactory.GetFont("Arial", 11, Font.BOLD);
+            Font fontTimesNewRoman12 = FontFactory.GetFont("Arial", 12);
+            Font fontTimesNewRoman12Bold = FontFactory.GetFont("Arial", 12, Font.BOLD);
+            Font fontTimesNewRoman13 = FontFactory.GetFont("Arial", 13);
+            Font fontTimesNewRoman13Bold = FontFactory.GetFont("Arial", 13, Font.BOLD);
+            Font fontTimesNewRoman14 = FontFactory.GetFont("Arial", 14);
+            Font fontTimesNewRoman14Bold = FontFactory.GetFont("Arial", 14, Font.BOLD);
+
+            Document document = new Document(PageSize.LEGAL, 25f, 25f, 25f, 25f);
+            MemoryStream workStream = new MemoryStream();
+
+            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            document.SetMargins(30f, 30f, 30f, 30f);
+
+            document.Open();
+
+            var currentCase = from d in db.TrnCases
+                              where d.Id == Convert.ToInt32(id)
+                              && d.IsLocked == true
+                              select d;
+
+            if (currentCase.Any())
+            {
+                Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+
+                Phrase phraseAyudaProgram = new Phrase("AYUDA PROGRAM\n", fontTimesNewRoman14Bold);
+                Phrase phraseDanaoCityGov = new Phrase("DANAO CITY GOVERNMENT\n", fontTimesNewRoman12);
+                Phrase phraseCity = new Phrase("DANAO CITY CEBU\n", fontTimesNewRoman12);
+                Phrase phraseContact = new Phrase("CONTACT #: ", fontTimesNewRoman11Bold);
+                Phrase phraseNumber = new Phrase("(032) 255-5373/096687046236/09776418466\n\n", fontTimesNewRoman11);
+                Phrase phraseEndorsementLetter = new Phrase("ENDORSEMENT LETTER\n", fontTimesNewRoman14Bold);
+                Phrase phraseAPCode = new Phrase("AP-" + currentCase.FirstOrDefault().EndorsementPharmacyCode + "-" + currentCase.FirstOrDefault().CaseNumber + "-2021", fontTimesNewRoman11Bold);
+
+                Paragraph headerParagraph = new Paragraph
+                {
+                    phraseAyudaProgram,
+                    phraseDanaoCityGov,
+                    phraseCity,
+                    phraseContact,
+                    phraseNumber,
+                    phraseEndorsementLetter,
+                    phraseAPCode
+                };
+
+                headerParagraph.SetLeading(15f, 0);
+                headerParagraph.Alignment = Element.ALIGN_CENTER;
+
+                String logoPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\Logo\danaocitylogo.png";
+                Image imageLogo = Image.GetInstance(logoPath);
+                imageLogo.ScaleToFit(1000f, 60f);
+
+                String ayudalogoPath = AppDomain.CurrentDomain.BaseDirectory + @"Images\Logo\ayudalogo.png";
+                Image ayudaimageLogo = Image.GetInstance(ayudalogoPath);
+                ayudaimageLogo.ScaleToFit(1000f, 60f);
+
+                PdfPTable pdfTableHeaderDetail = new PdfPTable(3);
+                pdfTableHeaderDetail.SetWidths(new float[] { 20f, 60, 20f });
+                pdfTableHeaderDetail.WidthPercentage = 100;
+                pdfTableHeaderDetail.AddCell(new PdfPCell(imageLogo) { Border = 0, HorizontalAlignment = 2, PaddingRight = 15f });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(headerParagraph) { Border = 0, HorizontalAlignment = 1 });
+                pdfTableHeaderDetail.AddCell(new PdfPCell(ayudaimageLogo) { Border = 0, HorizontalAlignment = 0, PaddingLeft = 15f });
+
+                document.Add(pdfTableHeaderDetail);
+
+                Phrase phraseDate = new Phrase("\n\n\nDATE: " + currentCase.FirstOrDefault().CaseDate.ToShortDateString(), fontTimesNewRoman11);
+                Paragraph phraseDateParagraph = new Paragraph
+                {
+                    phraseDate
+                };
+
+                phraseDateParagraph.SetLeading(15f, 0);
+                document.Add(phraseDateParagraph);
+
+                Phrase phraseToPharmacy = new Phrase("TO: ", fontTimesNewRoman11);
+                Phrase phrasePharmacy = new Phrase(currentCase.FirstOrDefault().EndorsementPharmacyName, fontTimesNewRoman11Bold);
+                Paragraph phrasePharmacyParagraph = new Paragraph
+                {
+                    phraseToPharmacy,
+                    phrasePharmacy,
+                };
+
+                phrasePharmacyParagraph.SetLeading(15f, 0);
+                document.Add(phrasePharmacyParagraph);
+
+                String citizenName = currentCase.FirstOrDefault().MstCitizen.Surname + ", " +
+                                     currentCase.FirstOrDefault().MstCitizen.Firstname + " " +
+                                     currentCase.FirstOrDefault().MstCitizen.Middlename + " " +
+                                     currentCase.FirstOrDefault().MstCitizen.Extensionname;
+
+                String barangay = currentCase.FirstOrDefault().MstCitizen.MstBarangay1.Barangay;
+
+                Phrase phraseLetter = new Phrase("\n\n" + citizenName + ", a resident of " + barangay + ", Danao City is suffering from a lingering ailment which necessities immediate medication. Upon thorough screening, interview and data gathering the client deserves to avail medicine assistance.\n\n", fontTimesNewRoman11);
+                Paragraph phraseLetterParagraph = new Paragraph
+                {
+                    phraseLetter,
+                };
+
+                phraseLetterParagraph.SetLeading(15f, 0);
+                document.Add(phraseLetterParagraph);
+
+                PdfPTable pdfTableEndorsementMedsDetail = new PdfPTable(4);
+                pdfTableEndorsementMedsDetail.SetWidths(new float[] { 35f, 20f, 20f, 25f });
+                pdfTableEndorsementMedsDetail.WidthPercentage = 100;
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("PRESCRIBED MEDICINE/S", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("QTY", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("PRICE", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, HorizontalAlignment = 1 });
+
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("TOTAL", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, PaddingTop = 6f, HorizontalAlignment = 0, Border = 0 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, PaddingTop = 6f, HorizontalAlignment = 1, Border = 0 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase(" ", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, PaddingTop = 6f, HorizontalAlignment = 1, Border = 0 });
+                pdfTableEndorsementMedsDetail.AddCell(new PdfPCell(new Phrase("___________________", fontTimesNewRoman12Bold)) { PaddingBottom = 6f, PaddingTop = 6f, HorizontalAlignment = 1, Border = 0 });
+
+                document.Add(pdfTableEndorsementMedsDetail);
+
+                String preparedBy = currentCase.FirstOrDefault().MstUser.Fullname;
+
+                PdfPTable pdfTableUsers = new PdfPTable(4);
+                pdfTableUsers.SetWidths(new float[] { 40f, 10f, 40f, 20f });
+                pdfTableUsers.WidthPercentage = 100;
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("ENDORSED BY: ", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("\n", fontTimesNewRoman11)) { Colspan = 4, Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase(preparedBy, fontTimesNewRoman11Bold)) { HorizontalAlignment = 1, Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("STAFF, AYUDA PROGRAM", fontTimesNewRoman11)) { HorizontalAlignment = 1, Border = 1 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11)) { Border = 0 });
+                pdfTableUsers.AddCell(new PdfPCell(new Phrase("", fontTimesNewRoman11Bold)) { Border = 0 });
+
+                document.Add(pdfTableUsers);
+            }
+            else
+            {
+                Paragraph emptyParagraph = new Paragraph("\n");
+                document.Add(emptyParagraph);
+            }
+
+            document.Close();
+
+            byte[] byteInfo = workStream.ToArray();
+
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StreamContent(workStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentLength = byteInfo.Length;
+
+            if (ContentDispositionHeaderValue.TryParse("inline; filename=case.pdf", out ContentDispositionHeaderValue contentDisposition))
+            {
+                response.Content.Headers.ContentDisposition = contentDisposition;
+            }
+
+            return response;
+        }
+
+
 
         public static String GetMoneyWord(String input)
         {
