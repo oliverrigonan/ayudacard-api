@@ -24,6 +24,7 @@ namespace ayudacard_api.Entities
         public String CitizenMobileNumber { get; set; }
         public Int32 CitizenCardId { get; set; }
         public String CitizenCardNumber { get; set; }
+        public String CitizenPermanentBarangay { get; set; }
         public Int32 ServiceId { get; set; }
         public String Service { get; set; }
         public String ServiceGroup { get; set; }

@@ -206,13 +206,15 @@ namespace ayudacard_api.ApiControllers
             }
         }
 
-        [HttpGet, Route("list/byBarangay/{barangayId}")]
-        public List<Entities.TrnCase> CasesListByBarangay(Int32 barangayId)
+        [HttpGet, Route("list/byBarangay/{barangayId}/{startDate}/{endDate}")]
+        public List<Entities.TrnCase> CasesListByBarangay(Int32 barangayId, String startDate, String endDate)
         {
             if (barangayId == 0)
             {
                 var cases = from d in db.TrnCases
-                            where d.IsLocked == true
+                            where d.CaseDate >= Convert.ToDateTime(startDate)
+                            && d.CaseDate <= Convert.ToDateTime(endDate)
+                            && d.IsLocked == true
                             select new Entities.TrnCase
                             {
                                 Id = d.Id,
@@ -239,6 +241,7 @@ namespace ayudacard_api.ApiControllers
                                 CitizenMobileNumber = d.MstCitizen.MobileNumber,
                                 CitizenCardId = d.CitizenCardId,
                                 CitizenCardNumber = d.MstCitizensCard.CardNumber,
+                                CitizenPermanentBarangay = d.MstCitizen.MstBarangay1.Barangay,
                                 ServiceId = d.ServiceId,
                                 Service = d.MstService.Service,
                                 ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
@@ -270,7 +273,9 @@ namespace ayudacard_api.ApiControllers
             else
             {
                 var cases = from d in db.TrnCases
-                            where d.MstCitizen.PermanentBarangayId == Convert.ToInt32(barangayId)
+                            where d.CaseDate >= Convert.ToDateTime(startDate)
+                            && d.CaseDate <= Convert.ToDateTime(endDate)
+                            && d.MstCitizen.PermanentBarangayId == Convert.ToInt32(barangayId)
                             && d.IsLocked == true
                             select new Entities.TrnCase
                             {
@@ -298,6 +303,7 @@ namespace ayudacard_api.ApiControllers
                                 CitizenMobileNumber = d.MstCitizen.MobileNumber,
                                 CitizenCardId = d.CitizenCardId,
                                 CitizenCardNumber = d.MstCitizensCard.CardNumber,
+                                CitizenPermanentBarangay = d.MstCitizen.MstBarangay1.Barangay,
                                 ServiceId = d.ServiceId,
                                 Service = d.MstService.Service,
                                 ServiceGroup = d.MstService.MstServiceGroup.ServiceGroup,
